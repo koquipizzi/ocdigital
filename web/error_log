@@ -1,0 +1,1307 @@
+[28-Nov-2017 13:14:43 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:14:43 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:26:39 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:26:39 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:27:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:27:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:27:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:27:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:28:10 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:28:10 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:30:41 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:30:41 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:31:37 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:31:37 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:31:43 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[28-Nov-2017 13:31:43 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:06:50 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:06:50 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:07:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:07:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:08:09 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:08:09 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:20:53 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:20:53 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:32:26 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:32:26 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:32:27 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:32:27 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:55:54 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:55:54 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:00 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:00 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:00 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:00 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:56:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:56:02 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:56:02 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:56:02 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:56:04 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:56:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:56:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 14:56:22 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:56:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:56:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:59:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:59:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 14:59:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:59:50 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:59:53 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 14:59:54 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:00:03 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:00:03 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:00:03 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:00:03 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:13 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:14 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:16 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:16 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:16 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:00:16 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:00:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:52 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:00:53 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:00:53 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:00:57 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:01:57 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:01:57 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:02:02 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:02:03 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:03:44 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:03:44 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:03:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:03:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:03:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:03:49 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:03:53 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:03:57 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:03:58 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:04:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:04:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:04:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:04:01 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:04:11 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:05:16 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:05:16 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/betheme/woocommerce/archive-product.php'), woocommerce_product_subcategories, get_categories, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:05:26 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, do_action_ref_array, WP_Hook->do_action, WP_Hook->apply_filters, call_user_func_array, WC_Query->pre_get_posts, WP_Query->is_tax, WP_Query->get_queried_object, get_term_by, get_terms, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:05:26 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:05:26 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta  SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (
+				SELECT term_id FROM pros_term_taxonomy WHERE taxonomy = 'product_cat' AND term_id NOT IN (SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE meta_key = '_wc_restrictions')
+				UNION ALL 
+				SELECT pros_woocommerce_termmeta.woocommerce_term_id FROM pros_woocommerce_termmeta WHERE ( (meta_key ='_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator') ) ) ) realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, WP_Tax_Query->get_sql, WP_Tax_Query->get_sql_clauses, WP_Tax_Query->get_sql_for_query, WP_Tax_Query->get_sql_for_clause, WP_Tax_Query->clean_query, WP_Tax_Query->transform_query, WP_Term_Query->query, WP_Term_Query->get_terms, apply_filters('get_terms_args'), WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->taxonomy_filter
+[11-Dec-2017 15:05:26 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:05:38 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:05:42 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:05:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:06:08 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:06:10 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:07:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:07:44 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:09:41 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:10:14 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:10:51 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:11:08 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:11:11 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:11:23 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:12:08 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:13:08 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:13:28 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:18:43 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:09 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:12 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:17 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:17 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:19:17 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:19:19 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:35 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','customer'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','customer')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:19:39 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','customer'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','customer')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:20:29 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:20:46 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:21:05 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:21:08 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:21:12 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:21:33 UTC] Error Table 'prospfq1_prospero.pros_woocommerce_termmeta' doesn't exist de la base de datos de WordPress para la consulta 
+        SELECT DISTINCT pros_posts.ID FROM pros_posts INNER JOIN (
+            SELECT DISTINCT post_id FROM pros_postmeta 
+                    WHERE post_id NOT IN (SELECT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+                    AND post_id NOT IN(SELECT DISTINCT tr.object_id FROM pros_woocommerce_termmeta 
+                        INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                        INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                        WHERE tt.taxonomy = 'product_cat' AND meta_key='_wc_restrictions')
+                UNION ALL
+            SELECT  post_id FROM pros_postmeta 
+                    WHERE (meta_key = '_wc_restrictions' AND meta_value = 'public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator'))
+                UNION ALL 
+            SELECT  tr.object_id FROM pros_woocommerce_termmeta 
+                    INNER JOIN pros_term_taxonomy tt on pros_woocommerce_termmeta.woocommerce_term_id = tt.term_id
+                    INNER JOIN pros_term_relationships tr on tt.term_taxonomy_id = tr.term_taxonomy_id
+                    WHERE tt.taxonomy = 'product_cat' 
+                    AND ( (meta_key='_wc_restrictions' AND meta_value='public') OR (meta_key = '_wc_restrictions_allowed' AND meta_value IN ('guest','administrator')) )
+                    AND tr.object_id NOT IN (SELECT DISTINCT post_id FROM pros_postmeta WHERE meta_key = '_wc_restrictions')
+            ) as rfilter on pros_posts.ID = rfilter.post_id WHERE post_type = 'product' realizada por require('wp-blog-header.php'), wp, WP->main, WP->query_posts, WP_Query->query, WP_Query->get_posts, apply_filters_ref_array, WP_Hook->apply_filters, call_user_func_array, WC_Catalog_Restrictions_Query->posts_where, WC_Catalog_Restrictions_Query->query_allowed_product_ids_by_role
+[11-Dec-2017 15:26:07 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:26:07 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:50:30 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:50:30 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:50:47 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 15:50:47 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 16:00:10 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[11-Dec-2017 16:00:10 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:38:26 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:38:26 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:47:13 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:47:13 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:57:36 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 17:57:36 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:09:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:09:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:12:58 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:12:58 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:13:32 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:13:32 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:34:45 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:34:45 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:35:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:35:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:36:17 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:36:17 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:37:30 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:37:30 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:38:32 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:38:32 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[12-Dec-2017 18:52:16 UTC] Error Unknown column 'pros_postmeta.meta_value' in 'order clause' de la base de datos de WordPress para la consulta SELECT SQL_CALC_FOUND_ROWS  pros_posts.ID FROM pros_posts  LEFT JOIN pros_term_relationships ON (pros_posts.ID = pros_term_relationships.object_id) WHERE 1=1  AND ( 
+  pros_term_relationships.term_taxonomy_id IN (17,18)
+) AND pros_posts.post_type = 'product' AND ((pros_posts.post_status = 'publish')) GROUP BY pros_posts.ID ORDER BY pros_postmeta.meta_value+0 DESC, pros_posts.post_date DESC LIMIT 0, 10 realizada por require('wp-blog-header.php'), require_once('wp-includes/template-loader.php'), include('/themes/enfold/template-builder.php'), apply_filters('the_content'), WP_Hook->apply_filters, call_user_func_array, do_shortcode, preg_replace_callback, do_shortcode_tag, call_user_func, aviaShortcodeTemplate->shortcode_handler_prepare, avia_sc_section->shortcode_handler, ShortcodeHelper::avia_remove_autop, do_shortcode, preg_replace_callback, do_shortcode_tag, call_user_func, aviaShortcodeTemplate->shortcode_handler_prepare, avia_sc_productlist->shortcode_handler, avia_product_slider->query_entries, query_posts, WP_Query->query, WP_Query->get_posts
+[13-Dec-2017 15:15:40 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:15:40 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:16:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:16:19 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:16:39 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:16:39 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:22:20 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:22:20 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:24:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 15:24:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 16:01:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[13-Dec-2017 16:01:01 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:30:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:30:04 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:30:52 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:30:52 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:36:05 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.
+[14-Dec-2017 11:36:05 UTC] The WC_Cart::get_cart_url function is deprecated since version 2.5. Replace with wc_get_cart_url.

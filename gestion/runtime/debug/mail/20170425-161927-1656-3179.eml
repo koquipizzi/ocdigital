@@ -1,0 +1,38 @@
+Message-ID: <18879a97fc70be9c729d570cf53adc4e@localhost>
+Date: Tue, 25 Apr 2017 16:19:22 +0100
+Subject: Message subject
+From: alejandra@qwavee.com
+To: alejandra@qwavee.com
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="_=_swift_v4_1493133562_57a05af7d0aa84fb8ab59b5302291437_=_"
+
+
+--_=_swift_v4_1493133562_57a05af7d0aa84fb8ab59b5302291437_=_
+Content-Type: multipart/alternative;
+ boundary="_=_swift_v4_1493133562_d88cb9e6a3cdc024dffcb0b5fce6da6c_=_"
+
+
+--_=_swift_v4_1493133562_d88cb9e6a3cdc024dffcb0b5fce6da6c_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Plain text content
+
+--_=_swift_v4_1493133562_d88cb9e6a3cdc024dffcb0b5fce6da6c_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<b>HTML content</b>
+
+--_=_swift_v4_1493133562_d88cb9e6a3cdc024dffcb0b5fce6da6c_=_--
+
+
+--_=_swift_v4_1493133562_57a05af7d0aa84fb8ab59b5302291437_=_
+Content-Type: application/pdf; name="Invoice #.pdf"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="Invoice #.pdf"
+
+
+
+--_=_swift_v4_1493133562_57a05af7d0aa84fb8ab59b5302291437_=_--

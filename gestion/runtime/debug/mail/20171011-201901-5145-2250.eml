@@ -1,0 +1,23 @@
+Message-ID: <164a4c6c6363f9a4b8e4500abff4ad5f@localhost>
+Date: Wed, 11 Oct 2017 20:18:55 +0000
+Subject: Message subject
+From: alejandra@qwavee.com
+To: alejandra@qwavee.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_v4_1507753135_8c060806982430b017fcde430b4441f0_=_"
+
+
+--_=_swift_v4_1507753135_8c060806982430b017fcde430b4441f0_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Plain text content
+
+--_=_swift_v4_1507753135_8c060806982430b017fcde430b4441f0_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<b>HTML content</b>
+
+--_=_swift_v4_1507753135_8c060806982430b017fcde430b4441f0_=_--
