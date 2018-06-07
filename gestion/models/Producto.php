@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $categoria_id
  * @property string $precio_unitario
  * @property integer $web_id
+ * @property string $codigo
+ * @property string $codigo_nombre_producto
  *
  * @property ComandaDetalle[] $comandaDetalles
  * @property PedidoDetalle[] $pedidoDetalles
@@ -37,6 +39,7 @@ class Producto extends \yii\db\ActiveRecord
             [[ 'categoria_id', 'web_id','maxirest_id'], 'integer'],
             [['precio_unitario','web_id'], 'number'],
             [['nombre'], 'string', 'max' => 255],
+            [['codigo','codigo_nombre_producto'], 'string'],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_id' => 'id']],
         ];
     }
@@ -53,6 +56,7 @@ class Producto extends \yii\db\ActiveRecord
             'precio_unitario' => Yii::t('app', 'Precio Unitario'),
             'web_id' => Yii::t('app', 'Web ID'),
             'maxirest_id' => Yii::t('app', 'Maxirest ID'),
+            'codigo' => Yii::t('app', 'Código'),
         ];
     }
 
