@@ -33,11 +33,13 @@ class PedidoDetalle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pedido_id', 'producto_id','cantidad'], 'required'],
-            [['pedido_id', 'producto_id', 'cantidad'], 'integer'],
+            [['pedido_id', 'producto_id', 'cantidad', 'precio_linea', 'unidad_id'], 'required'],
+            [['pedido_id', 'producto_id', 'cantidad', 'unidad_id'], 'integer'],
             [['precio_linea'], 'number'],
             [['pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pedido::className(), 'targetAttribute' => ['pedido_id' => 'id']],
             [['producto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Producto::className(), 'targetAttribute' => ['producto_id' => 'id']],
+            [['unidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unidad::className(), 'targetAttribute' => ['unidad_id' => 'id']],
+            [['unidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unidad::className(), 'targetAttribute' => ['unidad_id' => 'id']],
         ];
     }
 
@@ -52,6 +54,8 @@ class PedidoDetalle extends \yii\db\ActiveRecord
             'producto_id' => Yii::t('app', 'Producto'),
             'cantidad' => Yii::t('app', 'Cantidad'),
             'precio_linea' => Yii::t('app', 'SubTotal'),
+            'unidad_id' => Yii::t('app', 'Unidad'),
+            'precio_unitario' => Yii::t('app', 'Precio Unitario'),
         ];
     }
 

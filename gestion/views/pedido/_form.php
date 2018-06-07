@@ -10,6 +10,7 @@ use kartik\select2\Select2;
 use app\models\Cliente;
 use yii\web\JsExpression;
 use yii\helpers\Url;
+use \app\models\Unidad;
 
 
 /* @var $this yii\web\View */
@@ -108,7 +109,7 @@ JS;
 
 $updatePedido = <<<JS
   $( document ).ready(function() {
-    let id = 0;
+    var id = 0;
     id = $('#pedido-cliente_id').val();
     $("#clienteID").val(id);
   });
@@ -157,9 +158,15 @@ $this->registerJs($set_date);
                                                                         id = this.value;
                                                                         aux = ajaxurl + "&id=" + id;
                                                                         $.get( aux , function( data ) {
-                                                                           jQuery("#pedido-ship_address_1").val(data);
-                                                                        });
-                                                                         ',
+                                                                            console.log(data.rta);
+                                                                            if (data.rta){
+                                                                                console.log(data.results);
+                                                                                jQuery("#pedido-ship_address_1").val(data.results.direccion);
+                                                                                jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
+                                                                                jQuery("#pedido-telefono").val(data.results.telefono);
+                                                                                jQuery("#pedido-hora_de_recepción").val(data.results.hora_reparto);
+                                                                            }
+                                                                        });',
                                                                   'placeholder' => 'Seleccione un Cliente...'],
                                                                 'pluginOptions' => [
                                                                    'allowClear' => false
@@ -195,13 +202,25 @@ $this->registerJs($set_date);
         </div>
   </div>
   <div class="row">
-      <div class="col-sm-6">
-
+      <div class="col-sm-8">
+          <?= $form->field($model, 'cond_venta')->textarea(['maxlength' => true,]) ?>
       </div>
-      <div class="col-sm-6">
-
+      
+      <div class="col-sm-4">
+          <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
       </div>
   </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $form->field($model, 'notas')->textInput(['maxlength' => true,]) ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $form->field($model, 'hora_de_recepción')->textInput(['maxlength' => true,]) ?>
+        </div>
+    </div>
         <?php DynamicFormWidget::begin([
             'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
             'widgetBody' => '.container-items', // required: css class selector
@@ -242,12 +261,11 @@ $this->registerJs($set_date);
                           }
                       ?>
                       <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <?php
                             $productos = Producto::find()->all();
                             $listData = ArrayHelper::map($productos,'id', 'nombre');
                             $url = Url::toRoute('pedido/productos-por-cliente');
-                        //    var_dump($modelPedidoDetalle); die();
                             echo $form->field ($modelPedidoDetalle, "[{$index}]producto_id", ['template' => "{label} {input} {hint} {error}"]
                                               )->widget(select2::classname(),
                                               [
@@ -270,9 +288,22 @@ $this->registerJs($set_date);
                                               ]);
                           ?>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-2">
                               <?= $form->field($modelPedidoDetalle, "[{$index}]cantidad")->textInput(['type' => 'number','integerOnly'=>true,]) ?>
                           </div>
+                          <div class="col-sm-2">
+                          <?php
+                              $clientes = Unidad::find()->all();
+                              $listData = ArrayHelper::map($clientes,'id', 'nombre_unidad');
+                              echo $form->field ($modelPedidoDetalle, "[{$index}]unidad_id")->widget(select2::classname(), [
+                                  'data' => $listData ,
+                              ]);
+                          ?>
+                          </div>
+                          <div class="col-sm-2">
+                              <?= $form->field($modelPedidoDetalle, "[{$index}]precio_unitario")->textInput(['type' => 'number','integerOnly'=>false,]) ?>
+                          </div>
+                        
                       </div>
                     </div>
                   </div>

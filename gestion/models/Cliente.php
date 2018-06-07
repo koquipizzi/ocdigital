@@ -52,7 +52,7 @@ class Cliente extends \yii\db\ActiveRecord
             [['nombre', 'apellido'], 'required'],
             [['web_customer_id', 'maxirest_id'], 'integer'],
             [['ultima_modificacion'], 'safe'],
-            [['razon_social', 'nombre', 'apellido', 'email', 'direccion', 'contacto', 'telefono', 'hora_reparto'], 'string', 'max' => 255],
+            [['razon_social', 'nombre', 'apellido', 'email', 'direccion', 'contacto', 'telefono', 'hora_reparto','hora_reparto'], 'string', 'max' => 255],
             [['usuario_web', 'password_web'], 'string', 'max' => 45],
         ];
     }

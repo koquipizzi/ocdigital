@@ -943,13 +943,17 @@ class PedidoController extends Controller
 
     public function actionGetClienteDireccion()
     {
+        $response = ['rta' => false];
         $id = (int) Yii::$app->request->getQueryParam('id');
-        $cliente = Cliente::find()->select('direccion')->where(['id' => $id])->one();
-        $response = $cliente->direccion;
-        if (empty($response)) {
-            $response = ' ';
+        $cliente = Cliente::find()->where(['id' => $id])->asArray()->one();
+    
+        if (!empty($cliente)){
+            $response = ['rta' => true, 'results'=>$cliente];
         }
-        echo  $response;
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+
     }
 
 
