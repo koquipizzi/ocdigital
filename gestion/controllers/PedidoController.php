@@ -528,13 +528,12 @@ class PedidoController extends Controller
       ];
       return $data;
     }
-	
-	
-	/**
-	 * @param      $clienteId
-	 * @param null $q
-	 */
-	public function actionProductosPorCliente($clienteId, $q=null)
+    
+    /**
+     * @param      $clienteId
+     * @param null $q
+     */
+    public function actionProductosPorCliente($clienteId, $q=null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
@@ -553,19 +552,19 @@ class PedidoController extends Controller
             }
             if (!is_null($q)) {
                 $productos = Producto::find()->Where(['in','id', $pr])
-                                            ->andFilterWhere(['like', 'nombre', $q])->all();
+                 ->andFilterWhere(['like', 'codigo_nombre_producto', $q])->all();
             }
             else {
                 $productos = Producto::find()->Where(['in','id', $pr])->all();
             }
             foreach ($productos as $producto){
-                $out[] = ['id' => $producto->id, 'text' => $producto->nombre];
+                $out[] = ['id' => $producto->id, 'text' => $producto->codigo_nombre_producto];
             }
         }
         echo  json_encode(['results'=>$out]);
         die();
     }
-	
+
 	/**
 	 * @param $id
 	 * @throws NotFoundHttpException
