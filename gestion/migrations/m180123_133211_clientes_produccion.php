@@ -12,6 +12,7 @@ class m180123_133211_clientes_produccion extends Migration
      */
     public function safeUp()
     {
+        return true;
       $clients = "
       INSERT INTO comandas.cliente
 (id, razon_social, nombre, apellido, usuario_web, password_web, web_customer_id, maxirest_id, ultima_modificacion, email, direccion)

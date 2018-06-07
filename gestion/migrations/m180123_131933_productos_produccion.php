@@ -12,6 +12,7 @@ class m180123_131933_productos_produccion extends Migration
      */
     public function safeUp()
     {
+        return true;
         $insertsSinWebId = "
         INSERT INTO comandas.producto (id, nombre, categoria_id, precio_unitario, web_id, maxirest_id, ultima_modificacion, baja_logica) VALUES (31, 'Muffin Arandanos', 2, null, null, 1, null, null);
 		INSERT INTO comandas.producto (id, nombre, categoria_id, precio_unitario, web_id, maxirest_id, ultima_modificacion, baja_logica) VALUES (32, 'Muffin Frambuesa', 2, null, null, 12, null, null);
