@@ -77,12 +77,13 @@ $config = [
         ]
     ],
     'components' => [
-
             'formatter' => [
                 'class' => 'yii\i18n\Formatter',
                 'decimalSeparator' => ',',
                 'thousandSeparator' => '.',
-                'currencyCode' => '$',
+                'numberFormatterSymbols' => [
+                    NumberFormatter::CURRENCY_SYMBOL => '$',
+                ],
                 'nullDisplay' => '',
             ],
             'assetManager' => [
@@ -95,22 +96,6 @@ $config = [
                     ],
                 ],
             ],
-            /*'view' => [
-                'theme' => [
-                    'pathMap' => [
-                        '@vendor/dektrium/rbac/views' => '@vendor/cinghie/yii2-user-extended/views',
-                        '@vendor/dektrium/user/views' => '@vendor/cinghie/yii2-user-extended/views',
-                    ],
-                ],
-            ],*/
-            // setup Krajee Pdf component
-         /*   'pdf' => [
-                'class' => Pdf::classname(),
-                'format' => Pdf::FORMAT_A4,
-                'orientation' => Pdf::ORIENT_PORTRAIT,
-                'destination' => Pdf::DEST_BROWSER,
-                // refer settings section for all configuration options
-            ],*/
             'woocomponent' => [
                 'class' => 'app\components\WooComponent',
                 // ... you can configure more properties of the component here
