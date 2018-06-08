@@ -1,3 +1,4 @@
+
 <?php
 
 use yii\helpers\Html;
@@ -164,7 +165,7 @@ $this->registerJs($set_date);
                                                                                 jQuery("#pedido-ship_address_1").val(data.results.direccion);
                                                                                 jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
                                                                                 jQuery("#pedido-telefono").val(data.results.telefono);
-                                                                                jQuery("#pedido-hora_de_recepción").val(data.results.hora_reparto);
+                                                                                jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
                                                                             }
                                                                         });',
                                                                   'placeholder' => 'Seleccione un Cliente...'],
@@ -218,7 +219,7 @@ $this->registerJs($set_date);
             <?= $form->field($model, 'notas')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
-            <?= $form->field($model, 'hora_de_recepción')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) ?>
         </div>
     </div>
         <?php DynamicFormWidget::begin([
@@ -264,13 +265,14 @@ $this->registerJs($set_date);
                         <div class="col-sm-4">
                         <?php
                             $productos = Producto::find()->all();
-                            $listData = ArrayHelper::map($productos,'id', 'nombre');
+                            $listData =ArrayHelper::map($productos,'id', 'nombre');
+         //      var_dump($productos);die;
                             $url = Url::toRoute('pedido/productos-por-cliente');
                             echo $form->field ($modelPedidoDetalle, "[{$index}]producto_id", ['template' => "{label} {input} {hint} {error}"]
                                               )->widget(select2::classname(),
                                               [
                                               'data' => $listData,
-                                              'language' => 'es',
+                                           //   'language' => 'es',
                                               'options' => ['placeholder' => 'Seleccione Producto...'],
                                               'pluginOptions' => [
                                                     'allowClear' => false,
@@ -283,10 +285,10 @@ $this->registerJs($set_date);
                                                         }'),
                                                         'processResults' => new JsExpression($resultsJs),
                                                         'results' => new JsExpression($resultsJs),
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                    //    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                                                   ],
                                               ]       ,
-                                              'options' => [
+                                                'options' => [
                                                     'onchange' => "
                                                         var idProducto = $(this).val();
                                                         url = ajaxurlp+'&id='+idProducto;

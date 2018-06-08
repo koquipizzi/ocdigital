@@ -16,7 +16,7 @@ class m180607_150736_pedido_add_colums_condicion extends Migration
         $this->addColumn("pedido", "cond_venta", $this->string()->null());
         $this->addColumn("pedido", "telefono", $this->string()->null());
         $this->addColumn("pedido", "responsable_recepcion", $this->string()->null());
-        $this->addColumn("pedido", "hora_de_recepción", $this->string()->null());
+        $this->addColumn("pedido", "hora_de_recepcion", $this->string()->null());
         $this->addColumn("pedido", "gestor_id", $this->integer()->null());
         $this->addForeignKey('fk_pedido_user_gestor_id','pedido','gestor_id','user','id');
     }
@@ -31,7 +31,7 @@ class m180607_150736_pedido_add_colums_condicion extends Migration
         $this->dropColumn("pedido", "cond_venta", $this->string()->null());
         $this->dropColumn("pedido", "telefono", $this->string()->null());
         $this->dropColumn("pedido", "responsable_recepcion", $this->string()->null());
-        $this->dropColumn("pedido", "hora_de_recepción", $this->string()->null());
+        $this->dropColumn("pedido", "hora_de_recepcion", $this->string()->null());
         $this->dropColumn("pedido", "gestor_id", $this->integer()->null());
         $this->dropForeignKey('fk_pedido_user_gestor_id','pedido');
 

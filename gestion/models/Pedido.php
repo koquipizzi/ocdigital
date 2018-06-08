@@ -64,7 +64,7 @@ class Pedido extends \yii\db\ActiveRecord
             [['web_id', 'cliente_id', 'comanda_id', 'orden_reparto', 'confirmado', 'facturable', 'flete_bonificado', 'sync', 'gestor_id'], 'integer'],
             [['cliente_id'], 'required'],
             [['precio_total', 'flete_valor'], 'number'],
-            [['ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'cond_venta', 'notas', 'telefono', 'responsable_recepcion', 'hora_de_recepción'], 'string', 'max' => 255],
+            [['ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'cond_venta', 'notas', 'telefono', 'responsable_recepcion', 'hora_de_recepcion'], 'string', 'max' => 255],
             [['estado'], 'string', 'max' => 100],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['comanda_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comanda::className(), 'targetAttribute' => ['comanda_id' => 'id']],
@@ -103,7 +103,7 @@ class Pedido extends \yii\db\ActiveRecord
             'notas' => Yii::t('app', 'Notas'),
             'telefono' => Yii::t('app', 'Telefono'),
             'responsable_recepcion' => Yii::t('app', 'Responsable Recepcion'),
-            'hora_de_recepción' => Yii::t('app', 'Hora De Recepción'),
+            'hora_de_recepcion' => Yii::t('app', 'Hora De Recepción'),
             'gestor_id' => Yii::t('app', 'Gestor ID'),
         ];
     }
