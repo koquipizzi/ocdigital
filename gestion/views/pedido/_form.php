@@ -18,9 +18,9 @@ use \app\models\Unidad;
 /* @var $form yii\widgets\ActiveForm */
 
 $js = <<<JS
-
+  
   jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
-    var linea;
+    
     jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
         jQuery(this).html("Producto: " + (index + 1));
         linea = index;
@@ -117,6 +117,8 @@ JS;
 $this->registerJs($updatePedido);
 
 $this->registerJs('var ajaxurl = "' .Url::to(['pedido/get-cliente-direccion']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var ajaxurlp = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var linea = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
 
 $set_date = <<<JS
  $( document ).ready(function() {
@@ -158,9 +160,7 @@ $this->registerJs($set_date);
                                                                         id = this.value;
                                                                         aux = ajaxurl + "&id=" + id;
                                                                         $.get( aux , function( data ) {
-                                                                            console.log(data.rta);
                                                                             if (data.rta){
-                                                                                console.log(data.results);
                                                                                 jQuery("#pedido-ship_address_1").val(data.results.direccion);
                                                                                 jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
                                                                                 jQuery("#pedido-telefono").val(data.results.telefono);
@@ -277,31 +277,45 @@ $this->registerJs($set_date);
                                                     'ajax' => [
                                                         'url' => $url,
                                                         'dataType' => 'json',
-                                                        'data' => new JsExpression('function(params) {  var data; data = jQuery("#clienteID").val(); return {clienteId:data, q:params.term}; }'),
+                                                        'data' => new JsExpression('function(params) {
+                                                            var data; data = jQuery("#clienteID").val();
+                                                            return {clienteId:data, q:params.term};
+                                                        }'),
                                                         'processResults' => new JsExpression($resultsJs),
                                                         'results' => new JsExpression($resultsJs),
                                                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                     //   'templateResult' => new JsExpression('formatPenerima'),
-                                                     //   'templateSelection' => new JsExpression('formatPenerimaSelection'),
                                                   ],
-                                                ]
+                                              ]       ,
+                                              'options' => [
+                                                    'onchange' => "
+                                                        var idProducto = $(this).val();
+                                                        url = ajaxurlp+'&id='+idProducto;
+                                                        $.get( url , function( data ) {
+                                                            if (data.rta){
+                                                                $('#pedidodetalle-'+linea+'-precio_unitario').val(data.data.precio_unitario);
+                                                                $('#pedidodetalle-'+linea+'-unidad_id').val(data.data.unidad_id);
+                                                            }
+                                                        });"
+                                              ],
                                               ]);
                           ?>
                           </div>
                           <div class="col-sm-2">
                               <?= $form->field($modelPedidoDetalle, "[{$index}]cantidad")->textInput(['type' => 'number','integerOnly'=>true,]) ?>
                           </div>
-                          <div class="col-sm-2">
+                          <div class="col-sm-3">
                           <?php
                               $clientes = Unidad::find()->all();
                               $listData = ArrayHelper::map($clientes,'id', 'nombre_unidad');
-                              echo $form->field ($modelPedidoDetalle, "[{$index}]unidad_id")->widget(select2::classname(), [
+                              echo $form->field($modelPedidoDetalle, "[{$index}]unidad_id")->dropDownList($listData, ['prompt' => 'Seleccione Unidad' ]);
+                             /* echo $form->field ($modelPedidoDetalle, "[{$index}]unidad_id")->widget(select2::classname(), [
                                   'data' => $listData ,
-                              ]);
+                                  'options' => ['placeholder' => 'Seleccione Unidad...'],
+                              ]);*/
                           ?>
                           </div>
                           <div class="col-sm-2">
-                              <?= $form->field($modelPedidoDetalle, "[{$index}]precio_unitario")->textInput(['type' => 'number','integerOnly'=>false,]) ?>
+                              <?= $form->field($modelPedidoDetalle, "[{$index}]precio_unitario")->textInput(['type' => 'float']) ?>
                           </div>
                         
                       </div>

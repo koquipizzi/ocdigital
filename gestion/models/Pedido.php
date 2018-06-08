@@ -218,5 +218,15 @@ class Pedido extends \yii\db\ActiveRecord
         
         return $total;
     }
+    
+    public function getGestorPedidoName(){
+        $gestorid = $this->gestor_id;
+        $usuario = User::find()->where(['id' => $gestorid ])->one();
+        if (!empty($usuario)){
+            $clienteNombre = $usuario->username;
+            return $clienteNombre;
+        }
+        return null;
+    }
 
 }
