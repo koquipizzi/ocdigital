@@ -19,6 +19,8 @@ class m180607_132956_producto_add_columns_detalle extends Migration
         $this->addColumn("producto", "unidad_id", $this->integer()->null());
         
         $this->createIndex('idx_unidad_id','unidad','id');
+
+        $this->alterColumn('unidad', 'id', $this->integer(8).' NOT NULL AUTO_INCREMENT');
         $this->addPrimaryKey('pk_unidad_id','unidad','id');
         
         $this->addColumn("pedido_detalle", "unidad_id", $this->integer()->null());

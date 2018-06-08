@@ -11,26 +11,26 @@ $this->title = Yii::t('app', 'Unidads');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="unidad-index">
+    <div class="box box-warning with-border">
+        <div class="box-header">
+        <?= Html::encode(Yii::t('app', 'Listado de Unidades')) ?>
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Create Unidad'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+        </div>
+        <div class="box-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?php Pjax::begin(); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    'nombre_unidad',
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Unidad'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'nombre_unidad',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-    <?php Pjax::end(); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+            <?php Pjax::end(); ?>
+        </div>
+    </div>
 </div>

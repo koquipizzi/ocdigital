@@ -12,12 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
-
     <?= $form->field($model, 'nombre_unidad')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
+    <div class="form-group" style="float:right;">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

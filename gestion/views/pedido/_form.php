@@ -55,49 +55,7 @@ $js = <<<JS
   return true;
   });
 
-  var formatPenerima = function (penerima) {
-      if (penerima.loading) {
-          return penerima.nombre;
-      }
-      var markup =
-      '<div class="row">' +
-          '<div class="col-sm-5">' +
-              '<b style="margin-left:5px">' + penerima.nombre + '</b>' +
-          '</div>' +
-          '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + penerima.nombre + '</div>' +
-          '<div class="col-sm-3"><i class="fa fa-star"></i> ' + penerima.id + '</div>' +
-      '</div>';
-      return '<div style="overflow:hidden;">' + markup + '</div>';
-  };
-
-  var formatPenerimaSelection = function (penerima) {
-      return penerima.nombre || penerima.id;
-  }
 JS;
-
-$this->registerJs($js);
-
-$js2 = <<<JS
-  var formatPenerima = function (penerima) {
-      if (penerima.loading) {
-          return penerima.nombre;
-      }
-      var markup =
-      '<div class="row">' +
-          '<div class="col-sm-5">' +
-              '<b style="margin-left:5px">' + penerima.nombre + '</b>' +
-          '</div>' +
-          '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + penerima.nombre + '</div>' +
-          '<div class="col-sm-3"><i class="fa fa-star"></i> ' + penerima.id + '</div>' +
-      '</div>';
-      return '<div style="overflow:hidden;">' + markup + '</div>';
-  };
-  var formatPenerimaSelection = function (penerima) {
-      return penerima.nombre || penerima.id;
-  }
-JS;
-
-$this->registerJs($js2, \yii\web\View::POS_HEAD);
 
 $resultsJs = <<< JS
   function (data, params) {
@@ -175,54 +133,57 @@ $this->registerJs($set_date);
                                                             ]);
         ?>
     </div>
-      <div class="col-md-6">
-        <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
-        [
-            'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
-            'value' => $model->fecha_produccion,
-            'type'=>DateControl::FORMAT_DATE,
-            'language' => 'es',
-            'pluginOptions' => [
-                'autoclose'=>true,
-                'convertFormat' => true,
-                'format' => 'dd-m-yyyy hh:ii',
-                'todayHighlight' => true,
-            ]
-        ]); ?>
+        <div class="col-md-6">
+            <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
+            [
+                'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
+                'value' => $model->fecha_produccion,
+                'type'=>DateControl::FORMAT_DATE,
+                'language' => 'es',
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'convertFormat' => true,
+                    'format' => 'dd-m-yyyy hh:ii',
+                    'todayHighlight' => true,
+                ]
+            ]); ?>
+        </div>
     </div>
-  </div>
-  <div class="row">
-        <div class="col-sm-4">
-            <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true,'value' => 'Buenos Aires']) ?>
-        </div>
-        <div class="col-sm-4">
-            <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true,'value' => 'C1010']) ?>
-        </div>
-         <div class="col-sm-4">
-            <?= $form->field($model, 'ship_address_1')->textInput(['maxlength' => true]) ?>
-        </div>
-  </div>
-  <div class="row">
-      <div class="col-sm-8">
-          <?= $form->field($model, 'cond_venta')->textarea(['maxlength' => true,]) ?>
-      </div>
-      
-      <div class="col-sm-4">
-          <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
-      </div>
-  </div>
     <div class="row">
+            <div class="col-sm-4">
+                <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true,'value' => 'Buenos Aires']) ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true,'value' => 'C1010']) ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $form->field($model, 'ship_address_1')->textInput(['maxlength' => true]) ?>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
+        </div>
         <div class="col-sm-4">
             <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
-            <?= $form->field($model, 'notas')->textInput(['maxlength' => true,]) ?>
-        </div>
-        <div class="col-sm-4">
             <?= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) ?>
         </div>
+
     </div>
-        <?php DynamicFormWidget::begin([
+
+    <div class="row">
+        <div class="col-sm-8">
+            <?= $form->field($model, 'cond_venta')->textarea(['maxlength' => true,]) ?>
+        </div>
+        
+        <div class="col-sm-4">
+            <?= $form->field($model, 'notas')->textarea(['maxlength' => true,]) ?>
+        </div>
+    </div>
+
+    <?php DynamicFormWidget::begin([
             'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
             'widgetBody' => '.container-items', // required: css class selector
             'widgetItem' => '.item', // required: css class
@@ -236,15 +197,15 @@ $this->registerJs($set_date);
                 'nombre',
                 'cantidad'
             ],
-        ]); ?>
+    ]); ?>
 
-  <div class="panel panel-default">
-      <div class="panel-heading">
-          <i class="fa fa-list-ul"></i> Productos
-          <button type="button" class="pull-right add-item btn btn-success btn-xs">
-          <i class="fa fa-plus"></i> Agregar Producto</button>
-          <div class="clearfix"></div>
-      </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-list-ul"></i> Productos
+            <button type="button" class="pull-right add-item btn btn-success btn-xs">
+            <i class="fa fa-plus"></i> Agregar Producto</button>
+            <div class="clearfix"></div>
+            </div>
 
       <div class="panel-body container-items"><!-- widgetContainer -->
           <?php foreach ($modelsPedidoDetalle as $index => $modelPedidoDetalle): ?>

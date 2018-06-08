@@ -6,18 +6,20 @@ use yii\helpers\Html;
 /* @var $model app\models\Unidad */
 
 $this->title = Yii::t('app', 'Update Unidad: {nameAttribute}', [
-    'nameAttribute' => $model->id,
+    'nameAttribute' => $model->nombre_unidad,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Unidads'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre_unidad, 'url' => ['view', 'id' => $model->nombre_unidad]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
+
+
 <div class="unidad-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+  <div class="box box-warning with-border">
+    <div class="box-body">
+      <?= $this->render('_form', [
+          'model' => $model,
+      ]) ?>
+    </div>
+  </div>
 </div>

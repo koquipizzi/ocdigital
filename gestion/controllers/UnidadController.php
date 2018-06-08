@@ -67,8 +67,15 @@ class UnidadController extends Controller
         $model = new Unidad();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $searchModel = new UnidadSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         }
+       // var_dump($model->getErrors()); die();
 
         return $this->render('create', [
             'model' => $model,
