@@ -43,7 +43,7 @@ use mdm\admin\components\Helper;
                         [
                             ['label' => 'Mails de Alertas', 'icon' => 'envelope-o', 'url' => ['/mail/index']],
                             ['label' => 'Auditoría', 'icon' => 'check-circle', 'url' => ['/pedido/audit']],
-                            ['label' => 'Agregar Unidades', 'icon' => 'fa fa-add', 'url' => ['/unidad/agregar']],
+                            ['label' => 'Agregar Unidades', 'icon' => 'fa fa-add', 'url' => ['/unidad/create']],
                         ],
                     ],
                 ]
