@@ -14,8 +14,8 @@ use app\models\Categoria;
 <div class="producto-form">
 
       <?php $form = ActiveForm::begin(); ?>
-
-
+    
+        <?= $form->field($model, 'codigo')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
         <?php
