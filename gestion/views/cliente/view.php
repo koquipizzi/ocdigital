@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="pull-right">
         <?= Html::a('<i class="fa fa-arrow-left"></i> Volver', ['cliente/index'], ['class'=>'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Sincronizar Web'), ['create-web', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
       </div>
     </div>
 

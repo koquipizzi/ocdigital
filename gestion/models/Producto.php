@@ -36,7 +36,7 @@ class Producto extends \yii\db\ActiveRecord
     {
         return [
             [ 'categoria_id', 'required'],
-            [[ 'categoria_id', 'web_id','maxirest_id','unidad_id'], 'integer'],
+            [[ 'categoria_id', 'web_id','maxirest_id'], 'integer'],
             [['precio_unitario','web_id'], 'number'],
             [['nombre'], 'string', 'max' => 255],
             [['codigo','codigo_nombre_producto'], 'string'],
@@ -57,7 +57,6 @@ class Producto extends \yii\db\ActiveRecord
             'web_id' => Yii::t('app', 'Web ID'),
             'maxirest_id' => Yii::t('app', 'Maxirest ID'),
             'codigo' => Yii::t('app', 'Código'),
-            'unidad_id' => Yii::t('app', 'Unidad'),
         ];
     }
 
@@ -67,20 +66,6 @@ class Producto extends \yii\db\ActiveRecord
     public function getComandaDetalles()
     {
         return $this->hasMany(ComandaDetalle::className(), ['producto_id' => 'id']);
-    }
-    
-    public function getUnidad()
-    {
-        return $this->hasOne(Unidad::className(), ['id' => 'unidad_id']);
-    }
-    
-    public function getUnidadName()
-    {
-        $unidad = Unidad::find()->where(['id' => $this->unidad_id])->one();
-        if (!empty($unidad)){
-            return $unidad->nombre_unidad;
-        }
-        return null;
     }
 
     /**
