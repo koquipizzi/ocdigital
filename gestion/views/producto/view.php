@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'precio_unitario',
                 'format' => ['currency'],
               ],
-              ['label' => 'Unidad', 'value' => $model->getUnidadName()],
           ],
       ]) ?>
     </div>
