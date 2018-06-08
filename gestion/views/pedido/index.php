@@ -86,12 +86,12 @@ if(!empty($info))
   <div class="box box-warning with-border">
     <div class="box-header">
       <?= Html::encode(Yii::t('app', 'Listado de Pedidos')) ?>
-      <div class="pull-right">
-        <?= Html::beginForm(['comanda/get-action'],'post');?>
-        <?= Html::submitButton('Agregar Última Comanda', ['name'=> 'alter-comanda','class' => 'btn btn-success']);?>
-        <?= Html::submitButton('Nueva Comanda', ['name'=> 'new-comanda', 'class' => 'btn btn-success']);?>
+     <!-- <div class="pull-right">
+        <?/*= Html::beginForm(['comanda/get-action'],'post');*/?>
+        <?/*= Html::submitButton('Agregar Última Comanda', ['name'=> 'alter-comanda','class' => 'btn btn-success']);*/?>
+        <?/*= Html::submitButton('Nueva Comanda', ['name'=> 'new-comanda', 'class' => 'btn btn-success']);*/?>
         <?php
-          $url = Url::toRoute('sync');
+/*          $url = Url::toRoute('sync');
           echo Html::a('Sincronizar Pedidos', '#', [
             'class' => 'btn btn-success nspinner',
             'title' => Yii::t('yii', 'Close'),
@@ -103,13 +103,13 @@ if(!empty($info))
                 $(".nspinner").show();
               });
                 ',                         ]);
-        ?>
+        */?>
         <?php
-          echo '<button style="display:none;" class="btn btn-success wspinner"';
+/*          echo '<button style="display:none;" class="btn btn-success wspinner"';
           echo Spinner::widget(['preset' => 'tiny', 'align' => 'left', 'caption' => 'Sincronizando Pedidos &hellip;']);
           echo '</button>';
-        ?>
-    </div>
+        */?>
+    </div>-->
     <div class="box-body">
          <?= GridView::widget([
                 'dataProvider' => $dataProvider,
