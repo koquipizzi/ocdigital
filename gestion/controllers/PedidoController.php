@@ -238,6 +238,8 @@ class PedidoController extends Controller
         $error = null;
 
         if ($modelPedido->load(Yii::$app->request->post())) {
+            $modelPedido->gestor_id = Yii::$app->user->id;
+            $modelPedido->save();
 
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
@@ -300,7 +302,8 @@ class PedidoController extends Controller
         $total = 0; //Cálculo de total de pedido
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-
+            
+            
             $oldIDs = ArrayHelper::map($modelsPedidoDetalle, 'id', 'id');
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle);
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
@@ -320,8 +323,11 @@ class PedidoController extends Controller
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
+                            
+                             //Actualmente no calculamos el total del pedido
                             $modelPedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$modelPedidoDetalle->cantidad) ;
                             $total = $modelPedidoDetalle->precio_linea + $total;
+                            
 
                             if (! ($flag = $modelPedidoDetalle->save())) {
                                 $transaction->rollBack();
@@ -329,6 +335,8 @@ class PedidoController extends Controller
                             }
                         }
                         $modelPedido->precio_total = $total;
+                        
+                       
                         $modelPedido->save();
                     }
                     if ($flag) {

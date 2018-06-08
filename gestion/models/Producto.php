@@ -123,8 +123,7 @@ class Producto extends \yii\db\ActiveRecord
         return Producto::find()->count();
     }
 
-    public static function getProductosActivos()
-    {
+    public static function getProductosActivos(){
         $productosPendientes = ProductoRol::find()->all();
         $pd = [];
         foreach ($productosPendientes as $productoPendiente) {
@@ -133,4 +132,7 @@ class Producto extends \yii\db\ActiveRecord
         $productos = Producto::find()->where(['in', 'id' , $pd])->all();
         return $productos;
     }
+    
+   
+    
 }

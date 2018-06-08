@@ -17,6 +17,7 @@ class m180607_132956_producto_add_columns_detalle extends Migration
             'nombre_unidad' =>  $this->string()->notNull()
         ]);
         
+        $this->createIndex('idx_unidad_id','unidad','id');
         $this->addPrimaryKey('pk_unidad_id','unidad','id');
         
         $this->addColumn("pedido_detalle", "unidad_id", $this->integer()->null());
@@ -32,9 +33,19 @@ class m180607_132956_producto_add_columns_detalle extends Migration
      */
     public function safeDown()
     {
-        echo "m180607_132956_producto_add_columns_detalle cannot be reverted.\n";
+    
+        $this->dropIndex('idx_unidad_id','unidad');
+        $this->dropPrimaryKey('pk_unidad_id','unidad');
+    
+        $this->dropColumn("pedido_detalle", "unidad_id", $this->integer()->null());
+        $this->dropColumn("pedido_detalle", "precio_unitario", $this->float(2)->null());
+    
+        $this->dropColumn("producto", "unidad_id", $this->integer()->null());
+        
+        $this->dropTable('unidad');
 
-        return false;
+
+        return true;
     }
 
     /*
