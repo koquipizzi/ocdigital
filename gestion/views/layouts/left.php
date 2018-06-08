@@ -25,28 +25,28 @@ use mdm\admin\components\Helper;
             [
                 'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                 'items' =>
-                  [
-
+                [
                     ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                     ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
                     ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index']],
                     ['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/hindex']],
                     ['label' => 'Pedido Manual', 'icon' =>  'plus', 'url' => ['/pedido/create']],
-                    ['label' => 'Comandas', 'icon' => 'cutlery', 'url' => ['/comanda/index']],
+                    //['label' => 'Comandas', 'icon' => 'cutlery', 'url' => ['/comanda/index']],
                     ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
                     ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
                     ['label' => 'Productos Pendientes', 'icon' => 'clock-o', 'url' => ['/producto/pindex']],
-                    
                     [
-                     'label' => 'Configuración',
-                     'icon' => 'cogs',
-                     'url' => '#',
-                     'items' => [
+                    'label' => 'Configuración',
+                    'icon' => 'cogs',
+                    'url' => '#',
+                    'items' =>
+                        [
                             ['label' => 'Mails de Alertas', 'icon' => 'envelope-o', 'url' => ['/mail/index']],
                             ['label' => 'Auditoría', 'icon' => 'check-circle', 'url' => ['/pedido/audit']],
-                      ],
+                            ['label' => 'Agregar Unidades', 'icon' => 'fa fa-add', 'url' => ['/unidad/agregar']],
+                        ],
                     ],
-                  ]
+                ]
             ]
         ) ?>
 
