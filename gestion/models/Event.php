@@ -12,6 +12,7 @@ use Yii;
  * @property string $allDay
  * @property string $start
  * @property string $end
+ * @property string $entrega
  * @property string $url
  * @property string $className
  * @property string $editable
@@ -39,8 +40,8 @@ class Event extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['start', 'end'], 'required'],
-            [['start', 'end'], 'safe'],
+            [['start', 'end', 'entrega'], 'required'],
+            [['start', 'end', 'entrega'], 'safe'],
             [['title', 'allDay', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'string', 'max' => 255],
         ];
     }
@@ -56,6 +57,7 @@ class Event extends \yii\db\ActiveRecord
             'allDay' => Yii::t('app', 'All Day'),
             'start' => Yii::t('app', 'Start'),
             'end' => Yii::t('app', 'End'),
+            'entrega' => Yii::t('app', 'Entrega'),
             'url' => Yii::t('app', 'Url'),
             'className' => Yii::t('app', 'Class Name'),
             'editable' => Yii::t('app', 'Editable'),

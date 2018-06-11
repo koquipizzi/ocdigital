@@ -26,6 +26,7 @@ use Empathy\Validators\DateTimeCompareValidator;
  * @property string $ship_postcode
  * @property string $ship_country
  * @property string $estado
+ * @property string $cond_venta
  *
  * @property Cliente $cliente
  * @property Comanda $comanda
@@ -99,7 +100,8 @@ class Pedido extends \yii\db\ActiveRecord
             'facturable' => Yii::t('app', 'Facturable'),
             'flete_bonificado' => Yii::t('app', 'Flete Bonificado'),
             'flete_valor' => Yii::t('app', 'Valor del Flete'),
-            'sync' => Yii::t('app','Sincronizado'), 'cond_venta' => Yii::t('app', 'Cond Venta'),
+            'sync' => Yii::t('app','Sincronizado'), 
+            'cond_venta' => Yii::t('app', 'Cond Venta'),
             'notas' => Yii::t('app', 'Notas'),
             'telefono' => Yii::t('app', 'Telefono'),
             'responsable_recepcion' => Yii::t('app', 'Responsable Recepcion'),

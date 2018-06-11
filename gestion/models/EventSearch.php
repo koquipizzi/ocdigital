@@ -19,7 +19,7 @@ class EventSearch extends Event
     {
         return [
             [['id'], 'integer'],
-            [['title', 'allDay', 'start', 'end', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'safe'],
+            [['title', 'allDay', 'start', 'end', 'entrega', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class EventSearch extends Event
             'id' => $this->id,
             'start' => $this->start,
             'end' => $this->end,
+            'entrega' => $this->entrega,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
