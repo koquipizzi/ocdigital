@@ -14,9 +14,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 <div class="pedido-update">
   <div class="box box-warning with-border">
     <div class="box-body">
-      <?= $this->render('_form', [
+      <?php
+        if ($vista == 'form_aceptar') 
+          echo $this->render('_form_aceptar', [
           'model' => $model,'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
-          ]); ?>
+          ]);
+        else 
+          echo $this->render('_form', [
+          'model' => $model,'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
+          ]);
+      ?>
     </div>
   </div>
 </div>
