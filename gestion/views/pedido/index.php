@@ -151,8 +151,14 @@ if(!empty($info))
                     'headerOptions' => ['style' => 'width:13%'],
                     'contentOptions' => ['style' => 'width:13px;'],
                     'buttons' => [
-                      'confirm' => function ($url) {
-                          return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                      'confirm' => function ($url, $model) {
+                        if (Yii::$app->user->getId() == 7)
+                            {
+                                $url =  Url::toRoute(['pedido/update', 'id' => $model->id, 'proceso' => 'aceptar']);
+                                return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                            }
+                        else      
+                            return "";
                       },
                     ]
                 ],
