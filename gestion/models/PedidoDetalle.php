@@ -82,6 +82,14 @@ class PedidoDetalle extends \yii\db\ActiveRecord
             return $producto->nombre;
         return '';
     }
+    
+    public function getCodigoproducto()
+    {
+        $producto = $this->hasOne(Producto::className(), ['id' => 'producto_id'])->one();
+        if ($producto)
+            return $producto->codigo;
+        return '';
+    }
 
     public function getDescripcioncliente()
     {

@@ -28,6 +28,8 @@ use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
 
+use kartik\mpdf\Pdf;
+
 use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
 use bedezign\yii2\audit\models\AuditTrail;
@@ -997,5 +999,42 @@ class PedidoController extends Controller
             'submodelo' => $submodelo,
         ]);
    }
-
+    private function crearPdf($model,$form,$css=null)
+    {
+        $pedido_id = $model->id;
+        $date = new \DateTime();
+        $fecha =   $date->format('d-m-Y');
+        $pdf = new Pdf ( [
+            'mode' => Pdf::MODE_CORE,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            'cssFile' => $css ? $css : '@app/web/css/print/informe.css',
+            'content' => $this->renderPartial($form,[
+                'model' => $model,
+            ]),
+            'options' => [
+                'title' => 'Forestal Pico: Sistema de Gestión de Pedidos'
+            ],
+            'methods' => [
+                'SetHeader' => ['Forestal Pico: Sistema de Gestión de Pedidos'.'<BR>Pedido Nro: '.$pedido_id.' - Fecha: '.$fecha	],
+                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO}'],
+            ]
+        ] );
+        
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'application/pdf');
+        return $pdf->render ();
+    }
+    
+    public function actionPrint(){
+        $pedido_id = Yii::$app->request->get('id');
+        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
+        $form = '_print_expedicion';
+        $css =  '@app/web/css/print/expedicion.css';
+        $this->crearPdf($model_pedido,$form,$css);
+        
+    }
+    
+    
 }

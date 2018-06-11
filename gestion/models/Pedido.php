@@ -230,5 +230,14 @@ class Pedido extends \yii\db\ActiveRecord
         }
         return null;
     }
+    
+    public function getCodigoCliente(){
+        $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
+        if (empty($modelCliente->codigo)){
+            return ' ';
+        }else{
+            return $modelCliente->codigo;
+        }
+    }
 
 }
