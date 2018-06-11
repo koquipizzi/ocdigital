@@ -101,7 +101,7 @@ class Pedido extends \yii\db\ActiveRecord
             'flete_bonificado' => Yii::t('app', 'Flete Bonificado'),
             'flete_valor' => Yii::t('app', 'Valor del Flete'),
             'sync' => Yii::t('app','Sincronizado'), 
-            'cond_venta' => Yii::t('app', 'Cond Venta'),
+            'cond_venta' => Yii::t('app', 'Cond. Venta'),
             'notas' => Yii::t('app', 'Notas'),
             'telefono' => Yii::t('app', 'Telefono'),
             'responsable_recepcion' => Yii::t('app', 'Responsable Recepcion'),
