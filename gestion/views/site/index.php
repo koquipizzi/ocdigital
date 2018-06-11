@@ -14,7 +14,7 @@ use insolita\wgadminlte\LteSmallBox;
 use insolita\wgadminlte\LteConst;
 use yii\bootstrap\Modal;
 
-$this->title = "Sistema de Gestión de Comandas";
+$this->title = "Sistema de Gestión de Toma de Pedidos";
 ?>
 <?php      
                 Modal::begin([
