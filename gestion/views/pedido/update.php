@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
       <?php
         if ($vista == 'form_aceptar') 
           echo $this->render('_form_aceptar', [
-          'model' => $model,'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
+          'model' => $model,'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+           'arrayDataEstadoskv' =>$arrayDataEstadoskv
           ]);
         else 
           echo $this->render('_form', [

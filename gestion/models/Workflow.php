@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%workflow}}".
@@ -90,4 +91,19 @@ class Workflow extends \yii\db\ActiveRecord
     {
         return new WorkflowQuery(get_called_class());
     }
+    
+    public static function lastStatePedido($pedido_id){
+        $query = new Query;
+        $query->select('id')
+         ->from('view_pedido_ult_workflow')
+         ->where(["view_pedido_ult_workflow.pedido_id" => $pedido_id]);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+
+        if(empty($data) || !is_array($data[0] )){
+            throw new \Exception("No se econtro el utlimo estado del pedido {$pedido_id}.");
+        }
+       return $data[0]['id'];
+    }
+
 }

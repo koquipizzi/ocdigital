@@ -173,7 +173,7 @@ class PedidoSearch extends Pedido
             ,pedido.orden_reparto
             ,pedido.confirmado
             ,cliente.razon_social
-            
+            ,estado.id estado_id
         ";
         $fromTables = '
             pedido

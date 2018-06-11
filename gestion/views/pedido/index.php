@@ -151,7 +151,7 @@ if(!empty($info))
                       'confirm' => function ($url, $model) {
                         if (Yii::$app->user->getId() == 7)
                             {
-                                $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
+                                $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar', "estado_origen_id"=>$model["estado_id"]]);
                                 return Html::a('<span class="fa fa-check"></span>',Url::to($url));
                             }
                         else      
