@@ -12,7 +12,7 @@ use insolita\wgadminlte\LteInfoBox;
 use insolita\wgadminlte\LteSmallBox;
 use insolita\wgadminlte\LteConst;
 
-$this->title = "Sistema de Gestión de Comandas";
+$this->title = "Sistema de Gestión de Toma de Pedidos";
 ?>
 
 <div class="row">

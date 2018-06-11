@@ -3,12 +3,12 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-Yii::$app->name = "SGComandas";
+Yii::$app->name = "SGPedidos";
 ?>
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">SGC</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">SGP</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -28,7 +28,7 @@ Yii::$app->name = "SGComandas";
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!--img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/-->
-                        <img src="<?= Yii::$app->getHomeUrl().'images/prospero_logo.jpg' ?>" class="user-image"  alt="admin" >
+                        <img src="<?= Yii::$app->getHomeUrl().'images/fp_logo.jpg' ?>" class="user-image"  alt="admin" >
                         <span class="hidden-xs">
                         <?php echo strtoupper(Yii::$app->user->identity->username);  ?>
                         </span>
