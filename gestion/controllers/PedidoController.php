@@ -4,6 +4,8 @@ namespace app\controllers;
 
 
 use app\commands\SyncController;
+use app\models\Estado;
+use app\models\Workflow;
 use Yii;
 use app\models\Pedido;
 use app\models\PedidoSearch;
@@ -242,7 +244,6 @@ class PedidoController extends Controller
         if ($modelPedido->load(Yii::$app->request->post())) {
             $modelPedido->gestor_id = Yii::$app->user->id;
             $modelPedido->save();
-
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
 
@@ -255,6 +256,10 @@ class PedidoController extends Controller
 
                 try {
                     if ($flag = $modelPedido->save(false)) {
+                        $modelWorkflow->pedido_id=$modelPedido->id;
+                        $modelWorkflow->user_id=
+                         $modelPedido
+                        
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($pedidoDetalle->producto_id);
