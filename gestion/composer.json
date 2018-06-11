@@ -45,7 +45,9 @@
         "maksyutin/yii2-dual-list-box": "dev-master",
         "nepstor/yii2-datetime-compare-validator": "^2.0",
         "marekpetras/yii2-ajax-box-widget": "^1.0",
-        "bedezign/yii2-audit": "^1.0"
+        "bedezign/yii2-audit": "^1.0",
+        "philippfrenzel/yii2fullcalendarscheduler": "dev-master"
+        
 
 
     },
