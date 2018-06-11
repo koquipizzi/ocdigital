@@ -80,9 +80,9 @@ class PedidoSearch extends Pedido
      * Filtro de nro Pedido_id
      */
     private function nroPedidoIdFilter($params, &$where, &$queryParams) {
-        if($this->paramExists($params, 'nro_pedido')) {
-            $queryParams[':nro_pedido'] = "%".$params['nro_pedido']."%";
-            $where = $this->addWhereSentence($where, " id=:nro_pedido");
+        if($this->paramExists($params, 'id')) {
+            $queryParams[':id'] = $params['id'];
+            $where = $this->addWhereSentence($where, "pedido.id= :id");
         }
     }
     
@@ -160,11 +160,11 @@ class PedidoSearch extends Pedido
     {
         
         $queryParams = [];
-        $where = '';
+        $where = 'estado.id=1';
         $GROUP_BY ='';
         $formParams = [];
-        if(array_key_exists('searchPedidosEnEspera',$params)) {
-            $formParams = $params['searchPedidosEnEspera'];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
         }
         
         $fieldList = "
@@ -177,9 +177,10 @@ class PedidoSearch extends Pedido
         ";
         $fromTables = '
             pedido
-            JOIN workflow                     ON(pedido.id=workflow.pedido_id)
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
             JOIN view_pedido_ult_workflow vuw ON(pedido.id=vuw.pedido_id)
+            JOIN workflow                     ON(vuw.id=workflow.id)
+            JOIN estado                       ON(workflow.estado_id=estado.id)
         ';
         
         
