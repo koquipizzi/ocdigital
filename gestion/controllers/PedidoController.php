@@ -308,8 +308,9 @@ class PedidoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $proceso=null, $confirm=null)
     {
+    //    die($confirm);
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
@@ -348,8 +349,7 @@ class PedidoController extends Controller
                             }
                         }
                         $modelPedido->precio_total = $total;
-                        
-                       
+
                         $modelPedido->save();
                     }
                     if ($flag) {
@@ -368,10 +368,18 @@ class PedidoController extends Controller
             }
         }
 
-        return $this->render('update', [
-            'model' => $modelPedido,
-            'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
-        ]);
+        if ($proceso == 'aceptar')
+           return $this->render('update', [
+                'model' => $modelPedido,
+                'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+                'vista' => 'form_aceptar'
+                ]);
+        else 
+            return $this->render('update', [
+                'model' => $modelPedido,
+                'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+                'vista' => ''
+                ]);
 
 
 
