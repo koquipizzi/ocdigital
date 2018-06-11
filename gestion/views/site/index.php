@@ -43,15 +43,16 @@ $this->title = "Sistema de Gestión de Toma de Pedidos";
     </div>
     <div class="box-body">
   
-      <?= \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
+      <?php
+        /*  echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
           'events'=> $e,
           'id' => 'calendar',
-          /*    'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+          'eventClick'=> 'js:function(calEvent, jsEvent, view) {
                   $("#myModalHeader").html(calEvent.title);
                   $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
                   $("#myModal").modal();
-              }',*/
-          ));
+              }',
+           ));*/
       ?>
       </div>
   </div> 
