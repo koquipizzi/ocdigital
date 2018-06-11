@@ -17,7 +17,7 @@ use kartik\datecontrol\DateControl;
                       'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
                       'value' => $model->fecha_produccion,
                       'language' => 'es',
-                      'type'=>DateControl::FORMAT_DATETIME,
+                      'type'=>DateControl::FORMAT_DATE,
                       'pluginOptions' => [
                           'autoclose'=>true,
                           'convertFormat' => true,
