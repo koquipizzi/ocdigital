@@ -27,6 +27,8 @@ use app\models\ProductoSearch;
 use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
+use app\models\Workflow;
+use app\models\Estado;
 
 use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
@@ -242,7 +244,14 @@ class PedidoController extends Controller
         if ($modelPedido->load(Yii::$app->request->post())) {
             $modelPedido->gestor_id = Yii::$app->user->id;
             $modelPedido->save();
-
+            $modelWorkflow = new Workflow();
+            $modelEstado   = new Estado();
+            $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
+            if (empty($rowEstado)) {
+                throw new \Exception("model Estado es vacío.");
+           }
+            
+            
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
 
@@ -252,7 +261,16 @@ class PedidoController extends Controller
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
-
+                // $fecha =   $date->format('d-m-Y');
+                
+                $modelWorkflow->estado_id    = $rowEstado->id;
+                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                $modelWorkflow->pedido_id    = $modelPedido->id;
+                $modelWorkflow->fecha_inicio =  date("Y-m-d");
+                $modelWorkflow->save();
+                if (empty($modelWorkflow)) {
+                    throw new \Exception("model Workflow fallo al salvar.");
+                }
                 try {
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
