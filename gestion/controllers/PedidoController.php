@@ -39,7 +39,7 @@ use bedezign\yii2\audit\models\AuditTrailSearch;
 
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-
+use \DateTime;
 
 /**
  * PedidoController implements the CRUD actions for Pedido model.
@@ -74,7 +74,7 @@ class PedidoController extends Controller
     public function actionIndex()
     {
         $searchModel = new PedidoSearch();
-        $dataProviderSinComandas = $searchModel->searchSinComandas(Yii::$app->request->queryParams);
+        $dataProviderSinComandas = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
 
         $orden_entrega = $this->orden_entrega;
         foreach ($dataProviderSinComandas->getModels() as $value)
@@ -264,11 +264,13 @@ class PedidoController extends Controller
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 // $fecha =   $date->format('d-m-Y');
+    
+                $ftimestamp = new DateTime();
                 
                 $modelWorkflow->estado_id    = $rowEstado->id;
                 $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
                 $modelWorkflow->pedido_id    = $modelPedido->id;
-                $modelWorkflow->fecha_inicio =  date("Y-m-d");
+                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
                 $modelWorkflow->save();
                 if (empty($modelWorkflow)) {
                     throw new \Exception("model Workflow fallo al salvar.");
