@@ -30,7 +30,7 @@ class Unidad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'nombre_unidad'], 'required'],
+            [['nombre_unidad'], 'required'],
             [['id'], 'integer'],
             [['nombre_unidad'], 'string', 'max' => 255],
             [['id'], 'unique'],
