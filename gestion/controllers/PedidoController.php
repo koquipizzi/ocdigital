@@ -4,6 +4,8 @@ namespace app\controllers;
 
 
 use app\commands\SyncController;
+use app\models\Estado;
+use app\models\Workflow;
 use Yii;
 use app\models\Pedido;
 use app\models\PedidoSearch;
@@ -238,7 +240,13 @@ class PedidoController extends Controller
         $error = null;
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-
+            $modelWorkflow = new Workflow();
+            $modelEstado   = new Estado();
+            $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
+            if (empty($rowEstado)) {
+                throw new \Exception('model Estado es vacío.');
+            }
+            
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
 
@@ -251,6 +259,10 @@ class PedidoController extends Controller
 
                 try {
                     if ($flag = $modelPedido->save(false)) {
+                        $modelWorkflow->pedido_id=$modelPedido->id;
+                        $modelWorkflow->user_id=
+                         $modelPedido
+                        
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($pedidoDetalle->producto_id);

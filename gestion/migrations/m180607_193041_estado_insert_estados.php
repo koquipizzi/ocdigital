@@ -16,7 +16,7 @@ class m180607_193041_estado_insert_estados extends Migration
         $this->insert("estado",["descripcion"=>"Aceptado"]);
         $this->insert("estado",["descripcion"=>"Expedición"]);
         $this->insert("estado",["descripcion"=>"Despacho"]);
-        $this->insert("estado",["descripcion"=>"Cancelada"]);
+        $this->insert("estado",["descripcion"=>"Cancelado"]);
     }
 
     /**
