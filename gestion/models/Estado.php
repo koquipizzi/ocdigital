@@ -42,7 +42,7 @@ class Estado extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'descripcion' => Yii::t('app', 'Descripcion'),
+            'descripcion' => Yii::t('app', 'Descripción'),
         ];
     }
 
@@ -51,7 +51,7 @@ class Estado extends \yii\db\ActiveRecord
      */
     public function getEtadoProximos()
     {
-        return $this->hasMany(EtadoProximo::className(), ['estado_destino_id' => 'id']);
+        return $this->hasMany(EstadoProximo::className(), ['estado_destino_id' => 'id']);
     }
 
     /**
@@ -59,7 +59,7 @@ class Estado extends \yii\db\ActiveRecord
      */
     public function getEtadoProximos0()
     {
-        return $this->hasMany(EtadoProximo::className(), ['estado_origen_id' => 'id']);
+        return $this->hasMany(EstadoProximo::className(), ['estado_origen_id' => 'id']);
     }
 
     /**
