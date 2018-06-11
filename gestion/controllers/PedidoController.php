@@ -26,6 +26,7 @@ use app\models\ComandaDetalle;
 use app\models\ProductoSearch;
 use app\models\ComandaSearch;
 use app\models\Comanda;
+use app\models\Event;
 
 use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
@@ -233,6 +234,7 @@ class PedidoController extends Controller
     public function actionCreate()
     {
         $modelPedido = new Pedido();
+        $modelEvent = new Event();
         $modelsPedidoDetalle = [new PedidoDetalle];
         $total = 0; //Cálculo de total de pedido
         $error = null;
@@ -267,10 +269,23 @@ class PedidoController extends Controller
                         $modelPedido->precio_total = $total;
                         $modelPedido->estado = Pedido::ESTADO_MANUAL;
                         $modelPedido->save();
+                        
+                        
+
                     }
 
                     if ($flag) {
                         $transaction->commit();
+                        $pedido = Pedido::findOne($modelPedido->id);
+                        $modelEvent->start = $pedido->fecha_hora;
+                        $modelEvent->end = $pedido->fecha_hora;
+                        $modelEvent->title = $pedido->cliente->nombre;
+                        
+                        if (!$modelEvent->save()) {
+                            var_dump( $pedido->fecha_hora);
+                            var_dump( $modelEvent->getErrors());
+                            die();
+                        }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
                 } catch (Exception $e) {
