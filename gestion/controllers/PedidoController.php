@@ -279,6 +279,7 @@ class PedidoController extends Controller
                         $pedido = Pedido::findOne($modelPedido->id);
                         $modelEvent->start = $pedido->fecha_hora;
                         $modelEvent->end = $pedido->fecha_hora;
+                        $modelEvent->entrega = $pedido->fecha_entrega;
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
