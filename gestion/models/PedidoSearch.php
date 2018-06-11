@@ -160,7 +160,7 @@ class PedidoSearch extends Pedido
     {
         
         $queryParams = [];
-        $where = 'estado.id=1';
+        $where = 'estado.id=1 && workflow.fecha_fin is null';
         $GROUP_BY ='';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
