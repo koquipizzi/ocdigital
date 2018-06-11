@@ -39,10 +39,12 @@ if(!empty($error))
 <div class="pedido-create">
   <div class="box box-warning with-border">
     <div class="box-body">
-      <?= $this->render('_form', [
+      <?php 
+        echo $this->render('_form', [
           'model' => $model,
           'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
-          ]); ?>
+          ]); 
+      ?>
     </div>
   </div>
 </div>

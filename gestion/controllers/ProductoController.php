@@ -286,6 +286,20 @@ class ProductoController extends Controller
           'info' => $mensaje
       ]);
     }
+    
+    public function actionGetDetalles(){
+        $idProducto = Yii::$app->getRequest()->get('id');
+        $response = ['rta' => false];
+        if (!empty($idProducto)){
+            $producto = Producto::find()->where(['id' => $idProducto])->asArray()->one();
+            if  (!empty($producto)){
+                $response = ['rta' => true, 'data' => $producto];
+            }
+        }
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
 
 
 }

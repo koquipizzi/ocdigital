@@ -28,6 +28,7 @@ use app\models\ComandaDetalle;
 use app\models\ProductoSearch;
 use app\models\ComandaSearch;
 use app\models\Comanda;
+use app\models\Event;
 
 use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
@@ -235,18 +236,14 @@ class PedidoController extends Controller
     public function actionCreate()
     {
         $modelPedido = new Pedido();
+        $modelEvent = new Event();
         $modelsPedidoDetalle = [new PedidoDetalle];
         $total = 0; //Cálculo de total de pedido
         $error = null;
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-            $modelWorkflow = new Workflow();
-            $modelEstado   = new Estado();
-            $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
-            if (empty($rowEstado)) {
-                throw new \Exception('model Estado es vacío.');
-            }
-            
+            $modelPedido->gestor_id = Yii::$app->user->id;
+            $modelPedido->save();
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
 
@@ -277,10 +274,24 @@ class PedidoController extends Controller
                         $modelPedido->precio_total = $total;
                         $modelPedido->estado = Pedido::ESTADO_MANUAL;
                         $modelPedido->save();
+                        
+                        
+
                     }
 
                     if ($flag) {
                         $transaction->commit();
+                        $pedido = Pedido::findOne($modelPedido->id);
+                        $modelEvent->start = $pedido->fecha_hora;
+                        $modelEvent->end = $pedido->fecha_hora;
+                        $modelEvent->entrega = $pedido->fecha_entrega;
+                        $modelEvent->title = $pedido->cliente->nombre;
+                        
+                        if (!$modelEvent->save()) {
+                            var_dump( $pedido->fecha_hora);
+                            var_dump( $modelEvent->getErrors());
+                            die();
+                        }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
                 } catch (Exception $e) {
@@ -312,7 +323,8 @@ class PedidoController extends Controller
         $total = 0; //Cálculo de total de pedido
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-
+            
+            
             $oldIDs = ArrayHelper::map($modelsPedidoDetalle, 'id', 'id');
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle);
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
@@ -332,8 +344,11 @@ class PedidoController extends Controller
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
+                            
+                             //Actualmente no calculamos el total del pedido
                             $modelPedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$modelPedidoDetalle->cantidad) ;
                             $total = $modelPedidoDetalle->precio_linea + $total;
+                            
 
                             if (! ($flag = $modelPedidoDetalle->save())) {
                                 $transaction->rollBack();
@@ -341,6 +356,8 @@ class PedidoController extends Controller
                             }
                         }
                         $modelPedido->precio_total = $total;
+                        
+                       
                         $modelPedido->save();
                     }
                     if ($flag) {
@@ -540,13 +557,12 @@ class PedidoController extends Controller
       ];
       return $data;
     }
-	
-	
-	/**
-	 * @param      $clienteId
-	 * @param null $q
-	 */
-	public function actionProductosPorCliente($clienteId, $q=null)
+    
+    /**
+     * @param      $clienteId
+     * @param null $q
+     */
+    public function actionProductosPorCliente($clienteId, $q=null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
@@ -565,19 +581,19 @@ class PedidoController extends Controller
             }
             if (!is_null($q)) {
                 $productos = Producto::find()->Where(['in','id', $pr])
-                                            ->andFilterWhere(['like', 'nombre', $q])->all();
+                 ->andFilterWhere(['like', 'codigo_nombre_producto', $q])->all();
             }
             else {
                 $productos = Producto::find()->Where(['in','id', $pr])->all();
             }
             foreach ($productos as $producto){
-                $out[] = ['id' => $producto->id, 'text' => $producto->nombre];
+                $out[] = ['id' => $producto->id, 'text' => $producto->codigo_nombre_producto];
             }
         }
         echo  json_encode(['results'=>$out]);
         die();
     }
-	
+
 	/**
 	 * @param $id
 	 * @throws NotFoundHttpException

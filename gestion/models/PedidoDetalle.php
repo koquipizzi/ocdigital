@@ -2,7 +2,7 @@
 
 namespace app\models;
 use yii\helpers\ArrayHelper;
-
+use app\models\Unidad;
 use Yii;
 
 /**
@@ -13,7 +13,7 @@ use Yii;
  * @property integer $producto_id
  * @property integer $cantidad
  * @property string $precio_linea
- *
+ * @property Unidad $unidad
  * @property Pedido $pedido
  * @property Producto $producto
  */
@@ -34,8 +34,8 @@ class PedidoDetalle extends \yii\db\ActiveRecord
     {
         return [
             [['pedido_id', 'producto_id', 'cantidad', 'precio_linea', 'unidad_id'], 'required'],
-            [['pedido_id', 'producto_id', 'cantidad', 'unidad_id'], 'integer'],
-            [['precio_linea'], 'number'],
+            [['pedido_id', 'producto_id', 'cantidad', 'unidad_id',], 'integer'],
+            [['precio_linea','precio_unitario'], 'number'],
             [['pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pedido::className(), 'targetAttribute' => ['pedido_id' => 'id']],
             [['producto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Producto::className(), 'targetAttribute' => ['producto_id' => 'id']],
             [['unidad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unidad::className(), 'targetAttribute' => ['unidad_id' => 'id']],
@@ -91,7 +91,13 @@ class PedidoDetalle extends \yii\db\ActiveRecord
             return $cliente;
         return '';
     }
-
+    
+    public function getUnidad()
+    {
+        return $this->hasOne(Unidad::className(), ['id' => 'unidad_id']);
+    }
+    
+    
     public static function createMultiple($modelClass, $multipleModels = [])
    {
        $model    = new $modelClass;

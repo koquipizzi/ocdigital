@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= DetailView::widget([
           'model' => $model,
           'attributes' => [
+              'codigo',
               'nombre',
               [
                 'label' => 'Categoria',
@@ -39,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'precio_unitario',
                 'format' => ['currency'],
               ],
+              ['label' => 'Unidad', 'value' => $model->getUnidadName()],
           ],
       ]) ?>
     </div>

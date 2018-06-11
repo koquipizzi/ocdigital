@@ -6,15 +6,55 @@ use app\models\Producto;
 use app\models\Pedido;
 use app\models\Comanda;
 use app\models\ComandaSearch;
+use app\models\Event;
 use app\models\PedidoSearch;
 use yii\grid\GridView;
 use insolita\wgadminlte\LteInfoBox;
 use insolita\wgadminlte\LteSmallBox;
 use insolita\wgadminlte\LteConst;
+use yii\bootstrap\Modal;
 
-$this->title = "Sistema de Gestión de Comandas";
+$this->title = "Sistema de Gestión de Toma de Pedidos";
+?>
+<?php      
+                Modal::begin([
+                        'header' => '<h4>Events</h4>',
+                        'id'     => 'model',
+                        'size'   => 'model-lg',
+                ]);
+                
+                echo "<div id='modelContent'></div>";
+                Modal::end();
 ?>
 
+<?php
+  $events = array();
+  $e = Event::find()->asArray()->all();
+  //var_dump($e); die;
+
+  ?>
+
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Pedidos Realizados</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+  
+      <?= \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
+          'events'=> $e,
+          'id' => 'calendar',
+          /*    'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+                  $("#myModalHeader").html(calEvent.title);
+                  $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
+                  $("#myModal").modal();
+              }',*/
+          ));
+      ?>
+      </div>
+  </div> 
 <div class="row">
 
   <div class="col-lg-3 col-xs-6">
