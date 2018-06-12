@@ -96,6 +96,17 @@ class PedidoController extends Controller
         ]);
     }
 
+    public function actionIndex_pendientes_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosEnEsperaViajante(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionIndex_aceptados()
     {
         $searchModel = new PedidoSearch();
@@ -383,6 +394,7 @@ class PedidoController extends Controller
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
+        $mensaje = array();
 
         if ($modelPedido->load(Yii::$app->request->post())) {
             $oldIDs = ArrayHelper::map($modelsPedidoDetalle, 'id', 'id');
@@ -422,10 +434,12 @@ class PedidoController extends Controller
                         }
                         if ($flag) {
                             $transaction->commit();
+                            $mensaje['error'] = '';
+                            $mensaje['mensaje'] = 'dlsfka;lf';
                         }
                         
                     }
-                    return $this->redirect(['view', 'id' => $modelPedido->id]);
+                    return $this->redirect(['view', 'id' => $modelPedido->id, 'error' => $mensaje]);
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
