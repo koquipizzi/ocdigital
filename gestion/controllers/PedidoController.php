@@ -90,7 +90,96 @@ class PedidoController extends Controller
             'orden_reparto'=> $orden_entrega,
         ]);
     }
-    
+
+    public function actionIndex_pendientes()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProviderSinComandas = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+
+        $orden_entrega = $this->orden_entrega;
+        /*foreach ($dataProviderSinComandas->getModels() as $value)
+            {
+              $this->orden_entrega[] = $value['orden_reparto'];
+            }
+        */
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProviderSinComandas,
+            'orden_reparto'=> $orden_entrega,
+        ]);
+    }
+
+    public function actionIndex_aceptados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProviderSinComandas = $searchModel->searchPedidosAceptados(Yii::$app->request->queryParams);
+
+        $orden_entrega = $this->orden_entrega;
+        foreach ($dataProviderSinComandas->getModels() as $value)
+            {
+              $this->orden_entrega[] = $value['orden_reparto'];
+            }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProviderSinComandas,
+            'orden_reparto'=> $orden_entrega,
+        ]);
+    }
+
+    public function actionIndex_expedicion()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProviderSinComandas = $searchModel->searchPedidosExpedicion(Yii::$app->request->queryParams);
+
+        $orden_entrega = $this->orden_entrega;
+        foreach ($dataProviderSinComandas->getModels() as $value)
+            {
+              $this->orden_entrega[] = $value['orden_reparto'];
+            }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProviderSinComandas,
+            'orden_reparto'=> $orden_entrega,
+        ]);
+    }
+
+    public function actionIndex_despachados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProviderSinComandas = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+
+        $orden_entrega = $this->orden_entrega;
+        foreach ($dataProviderSinComandas->getModels() as $value)
+            {
+              $this->orden_entrega[] = $value['orden_reparto'];
+            }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProviderSinComandas,
+            'orden_reparto'=> $orden_entrega,
+        ]);
+    }
+    public function actionIndex_cancelados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProviderSinComandas = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+
+        $orden_entrega = $this->orden_entrega;
+        foreach ($dataProviderSinComandas->getModels() as $value)
+            {
+              $this->orden_entrega[] = $value['orden_reparto'];
+            }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProviderSinComandas,
+            'orden_reparto'=> $orden_entrega,
+        ]);
+    }
+
 	public function actionHindex($info='')
     {
         $searchModel = new PedidoSearch();
