@@ -223,16 +223,16 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
           ],
          ],
          'totalCount' => $itemsCount,
@@ -316,17 +316,17 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
+            ],
          ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
@@ -411,16 +411,16 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
           ],
          ],
          'totalCount' => $itemsCount,
@@ -502,21 +502,21 @@ class PedidoSearch extends Pedido
         )->queryScalar();
         
         $dataProvider = new \yii\data\SqlDataProvider([
-         'sql' => $query,
-         'params' => $queryParams,
-         'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
-         ],
+            'sql' => $query,
+            'params' => $queryParams,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_DESC],
+                'attributes' => [
+                    'razon_social',
+                    'nro_pedido',
+                    'fecha_entrega',
+                    'id' => [
+                            'asc' => [new Expression('id')],
+                            'desc' => [new Expression('id DESC ')],
+                            'default' => SORT_DESC,
+                    ],
+                ],
+            ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
          'pagination' => [
@@ -598,21 +598,21 @@ class PedidoSearch extends Pedido
         )->queryScalar();
         
         $dataProvider = new \yii\data\SqlDataProvider([
-         'sql' => $query,
-         'params' => $queryParams,
-         'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
-         ],
+            'sql' => $query,
+            'params' => $queryParams,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_DESC],
+                'attributes' => [
+                    'razon_social',
+                    'nro_pedido',
+                    'fecha_entrega',
+                    'id' => [
+                            'asc' => [new Expression('id')],
+                            'desc' => [new Expression('id DESC ')],
+                            'default' => SORT_DESC,
+                    ],
+                ],
+            ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
          'pagination' => [
