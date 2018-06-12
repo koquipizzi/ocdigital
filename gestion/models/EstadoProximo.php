@@ -73,4 +73,11 @@ class EstadoProximo extends \yii\db\ActiveRecord
     {
         return new EstadoProximoQuery(get_called_class());
     }
+    
+    //obtiene el estado_destino dado un estado_origen
+    public static function estadoProximo($estado_id){
+    
+    
+    }
+    
 }

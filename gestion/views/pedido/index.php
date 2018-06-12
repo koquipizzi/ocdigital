@@ -96,7 +96,7 @@ if(!empty($info))
             'showFooter' => true,
             'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
             'rowOptions'=> function($model){
-                    if(!$model->confirmado){
+                    if(is_array($model) && array_key_exists("confirmado",$model) && !$model["confirmado"]){
                         return ['class' => 'danger'];
                     }else{
                         return ['class' => 'success'];
@@ -111,9 +111,6 @@ if(!empty($info))
                 [
                     'label' => 'Razón Social / Nombre',
                     'attribute' => 'razon_social',
-                    'value' => function($model){
-                        return $model->getClienteRazonSocial();
-                    },
                     'headerOptions' => ['style' => 'width:20%'],
                     'contentOptions' => ['style' => 'width:20px;'],
                 ],
@@ -154,7 +151,7 @@ if(!empty($info))
                       'confirm' => function ($url, $model) {
                         if (Yii::$app->user->getId() == 7)
                             {
-                                $url =  Url::toRoute(['pedido/update', 'id' => $model->id, 'proceso' => 'aceptar']);
+                                $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                 return Html::a('<span class="fa fa-check"></span>',Url::to($url));
                             }
                         else      
