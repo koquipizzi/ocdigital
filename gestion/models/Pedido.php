@@ -27,7 +27,7 @@ use Empathy\Validators\DateTimeCompareValidator;
  * @property string $ship_country
  * @property string $estado
  * @property string $cond_venta
- * @property string $estado_id
+ * @property integer $estado_id
  *
  * @property Cliente $cliente
  * @property Comanda $comanda
@@ -232,13 +232,13 @@ class Pedido extends \yii\db\ActiveRecord
             $clienteNombre = $usuario->username;
             return $clienteNombre;
         }
-        return null;
+        return '';
     }
     
     public function getClienteDocumento(){
         $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
         if (empty($modelCliente->documento)){
-            return ' ';
+            return '';
         }else{
             return $modelCliente->documento ;
         }

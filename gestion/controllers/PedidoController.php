@@ -350,9 +350,7 @@ class PedidoController extends Controller
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
-                            var_dump( $pedido->fecha_hora);
-                            var_dump( $modelEvent->getErrors());
-                            die();
+                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelEvent->id}.");
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
@@ -381,6 +379,7 @@ class PedidoController extends Controller
     public function actionUpdate($id, $proceso=null)
     {
 
+        
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
@@ -400,7 +399,7 @@ class PedidoController extends Controller
                     $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
                 }
                 try {
-                    if ($flag = $modelPedido->save()) {
+                    if ($flag = $modelPedido->save(false)) {
                         if (!empty($deletedIDs)) {
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
                         }
@@ -418,8 +417,13 @@ class PedidoController extends Controller
                             }
                         }
                         $modelPedido->precio_total = $total;
-
-                        $modelPedido->save();
+                        if(!$modelPedido->save()) {
+                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelPedido->id}.");
+                        }
+                        if ($flag) {
+                            $transaction->commit();
+                        }
+                        
                     }
                     return $this->redirect(['view', 'id' => $modelPedido->id]);
                 } catch (Exception $e) {

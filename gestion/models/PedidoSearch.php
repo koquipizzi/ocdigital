@@ -160,7 +160,7 @@ class PedidoSearch extends Pedido
     {
         
         $queryParams = [];
-        $where = 'pedido.estado_id =1 && workflow.fecha_fin is null';
+        $where = 'pedido.estado_id =1';
         $GROUP_BY ='';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
@@ -172,14 +172,14 @@ class PedidoSearch extends Pedido
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
+            ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,user.username
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN view_pedido_ult_workflow vuw ON(pedido.id=vuw.pedido_id)
-            JOIN workflow                     ON(vuw.id=workflow.id)
-            JOIN estado                       ON(workflow.estado_id=estado.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
         ';
         
         
@@ -265,11 +265,14 @@ class PedidoSearch extends Pedido
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
+            ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,user.username
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
         ';
         
         
@@ -357,11 +360,14 @@ class PedidoSearch extends Pedido
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
+            ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,user.username
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
         ';
         
         
@@ -448,11 +454,14 @@ class PedidoSearch extends Pedido
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
+            ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,user.username
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
         ';
         
         
@@ -540,12 +549,16 @@ class PedidoSearch extends Pedido
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
+            ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,user.username
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
         ';
+        
         
         
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);

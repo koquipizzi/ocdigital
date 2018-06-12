@@ -96,7 +96,7 @@ if(!empty($info))
             'showFooter' => true,
             'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
             'rowOptions'=> function($model){
-                    if(is_array($model) && array_key_exists("confirmado",$model) && !$model["confirmado"]){
+                    if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
                         return ['class' => 'danger'];
                     }else{
                         return ['class' => 'success'];
@@ -107,12 +107,6 @@ if(!empty($info))
                     'label' => 'Nro. Pedido',
                     'attribute' => 'id',
                     'headerOptions' => ['style' => 'width:1%']
-                ],
-                [
-                    'label' => 'Razón Social / Nombre',
-                    'attribute' => 'razon_social',
-                    'headerOptions' => ['style' => 'width:20%'],
-                    'contentOptions' => ['style' => 'width:20px;'],
                 ],
                 [
                     'label' => 'Fecha de Entrega',
@@ -143,13 +137,57 @@ if(!empty($info))
                     ])
                 ],
                 [
+                    'label' => 'Fecha de Ingreso',
+                    'attribute' => 'fecha_hora',
+                    'contentOptions' => ['style' => 'width:10%;'],
+                    'format' => ['date', 'php:d/m/Y'],
+                    'filter' => DateRangePicker::widget([
+                    'template' => '
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                {input}
+                            </div>
+                        ',
+                         'model' => $searchModel,
+                         'locale'    => 'es-ES',
+                        'attribute' => 'fecha_hora',
+                        'pluginOptions' => [
+                            'locale'=> [
+                                'format'=>'DD/MM/YYYY',
+                                'separator'=>' - ',
+                                'applyLabel' => 'Seleccionar',
+                                'cancelLabel' => 'Cancelar',
+                            ],
+                            'autoUpdateInput' => false,
+                        ]
+                    ])
+                ],
+                [
+                    'label' => 'Razón Social / Nombre',
+                    'attribute' => 'razon_social',
+                    'headerOptions' => ['style' => 'width:20%'],
+                    'contentOptions' => ['style' => 'width:20px;'],
+                ],
+                [
+                    'label' => 'Gestor Del Pedido',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        return $model["username"];
+                    },
+                    'headerOptions' => ['style' => 'width:10%'],
+                    'contentOptions' => ['style' => 'width:10px;'],
+                ],
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{view} {update} {delete} {confirm} ',
                     'headerOptions' => ['style' => 'width:13%'],
                     'contentOptions' => ['style' => 'width:13px;'],
                     'buttons' => [
                       'confirm' => function ($url, $model) {
-                        if (Yii::$app->user->getId() == 7)
+                          $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                          if ( current($userRole)->name !='Viajante')
                             {
                                 $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                 return Html::a('<span class="fa fa-check"></span>',Url::to($url));
