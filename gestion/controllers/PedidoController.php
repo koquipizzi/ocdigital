@@ -76,21 +76,69 @@ class PedidoController extends Controller
     public function actionIndex()
     {
         $searchModel = new PedidoSearch();
-        $dataProviderSinComandas = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
-
-        $orden_entrega = $this->orden_entrega;
-        foreach ($dataProviderSinComandas->getModels() as $value)
-            {
-              $this->orden_entrega[] = $value['orden_reparto'];
-            }
+        $dataProvider = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProviderSinComandas,
+            'dataProvider' => $dataProvider,
             'orden_reparto'=> $orden_entrega,
         ]);
     }
-    
+
+    public function actionIndex_pendientes()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndex_aceptados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosAceptados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionIndex_expedicion()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosExpedicion(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionIndex_despachados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+    public function actionIndex_cancelados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosCancelados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
 	public function actionHindex($info='')
     {
         $searchModel = new PedidoSearch();

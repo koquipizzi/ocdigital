@@ -18,6 +18,10 @@ use \app\models\Unidad;
 /* @var $model app\models\Pedido */
 /* @var $form yii\widgets\ActiveForm */
 
+$this->registerJs('var ajaxurl = "' .Url::to(['pedido/get-cliente-direccion']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var ajaxurlp = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var linea = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
+
 $js = <<<JS
   
   jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
@@ -30,30 +34,30 @@ $js = <<<JS
     var select0 = jQuery(item).find("#select2-pedidodetalle-"+linea+"-producto_id-container").html("Seleccione un Producto...");
     var begin = "pedidodetalle-"+linea;
     jQuery( "*[id^="+begin+"]" ).val( "" );
-  });
-  jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
-      jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
-          jQuery(this).html("Producto: " + (index + 1))
-      });
-  });
-  $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
+    });
+    jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
+        jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
+            jQuery(this).html("Producto: " + (index + 1))
+        });
+    });
+    $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
 
-  if (! confirm("Está seguro que desea eliminar el producto del pedido?")) {
-      return false;
-  }
-  var n = noty({
-      text: "Se eliminó el producto.",
-      type: "success",
-      class: "animated pulse",
-      layout: "topCenter",
-      theme: "metroui",
-      timeout: 2000, // delay for closing event. Set false for sticky notifications
-      force: false, // adds notification to the beginning of queue when set to true
-      modal: false, // si pongo true me hace el efecto de pantalla gris
-  //       maxVisible  : 10
-  });
-  return true;
-  });
+    if (! confirm("Está seguro que desea eliminar el producto del pedido?")) {
+        return false;
+    }
+    var n = noty({
+        text: "Se eliminó el producto.",
+        type: "success",
+        class: "animated pulse",
+        layout: "topCenter",
+        theme: "metroui",
+        timeout: 2000, // delay for closing event. Set false for sticky notifications
+        force: false, // adds notification to the beginning of queue when set to true
+        modal: false, // si pongo true me hace el efecto de pantalla gris
+    //       maxVisible  : 10
+    });
+    return true;
+    });
 
 JS;
 
@@ -74,10 +78,6 @@ $updatePedido = <<<JS
   });
 JS;
 $this->registerJs($updatePedido);
-
-$this->registerJs('var ajaxurl = "' .Url::to(['pedido/get-cliente-direccion']). '";', \yii\web\View::POS_HEAD);
-$this->registerJs('var ajaxurlp = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
-$this->registerJs('var linea = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
 
 $set_date = <<<JS
  $( document ).ready(function() {
