@@ -231,7 +231,7 @@ class Pedido extends \yii\db\ActiveRecord
             $clienteNombre = $usuario->username;
             return $clienteNombre;
         }
-        return null;
+        return '';
     }
     
     public function getCodigoCliente(){
