@@ -373,7 +373,7 @@ class PedidoController extends Controller
 
                         $modelPedido->save();
                     }
-
+                    return $this->redirect(['view', 'id' => $modelPedido->id]);
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
