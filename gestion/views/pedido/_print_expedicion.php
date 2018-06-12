@@ -14,7 +14,6 @@
                 <td width="200">
                     <h2> Forestal Pico </h2>
                     <h3> Depósito Tandil </h3>
-                    <h4> Lista de expedición de uso interno </h4>
                 </td>
                 <td width="300">
                     <?php
@@ -51,6 +50,14 @@
                         echo "<br>";
                     ?>
                 </td>
+                <tr>
+                    <td style="text-align: left"  colspan="4">
+                        <?php
+                            echo "<h4>Formulario de Expedición</h4>";
+                            echo "<p>de uso interno </p>";
+                        ?>
+                    </td>
+                </tr>
             </tr>
         </table>
     </div>
@@ -105,13 +112,6 @@
                     <td width="200">
                         <h2> Forestal Pico </h2>
                         <h3> Depósito Tandil </h3>
-                        <h4> Hoja de Pedido </h4>
-                        <br>
-                        <?php
-                            echo "<strong> Vendedor: </strong>";
-                            echo strtoupper($model->GestorPedidoName);
-                            echo "<br>";
-                        ?>
                     </td>
                     <td width="300">
                         <?php
@@ -158,7 +158,14 @@
                             echo "<br>";
                         ?>
                     </td>
-                </tr>
+                    <tr>
+                        <td style="text-align: left"  colspan="4">
+                            <?php
+                                echo "<h4>Formulario de Administración</h4>";
+                                echo "<p>de uso interno </p>";
+                            ?>
+                        </td>
+                    </tr>
             </table>
         </div>
     </div>
@@ -171,16 +178,17 @@
                     <table class="minimalistBlack">
                         <thead>
                         <tr>
-                            <th colspan="3"></th>
+                            <th colspan="4"></th>
                             <th colspan="3"> Precio Pactado</th>
                         </tr>
                             <tr>
-                                <th style="text-align:center" width="50"> Cant. </th>
-                                <th style="text-align:center" width="50"> UM  </th>
+                                <th style="text-align:center" width="40"> Cant. </th>
+                                <th style="text-align:center" width="40"> UM  </th>
+                                <th style="text-align:center" width="50"> Código </th>
                                 <th style="text-align:center" width="250"> Descripción </th>
                                 <th style="text-align:center" width="70"> Precio Lista </th>
-                                <th style="text-align:center" width="70"> Bonificación </th>
-                                <th style="text-align:center"  width="70"> Precio </th>
+                                <th style="text-align:center" width="60"> Bonificación </th>
+                                <th style="text-align:center"  width="60"> Precio </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -189,14 +197,15 @@
                                 <?php $precio = number_format($detalle->precio_unitario,2,',','.');  ?>
                                 <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->cantidad ?> </td>
                                 <td height="30" style ="text-align:center; border: 1px solid #000000;"> <?= $detalle->unidad->nombre_unidad ?> </td>
-                                <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->descripcionproducto ?>  </td>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->codigoproducto ?> </td>
+                                <td height="40" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->descripcionproducto ?>  </td>
                                 <td height="30" style="text-align:right; margin-right: 2px; border: 1px solid #000000;"> <?= '$ '.$precio?></td>
                                 <td height="30" style="text-align:center; border: 1px solid #000000;"> </td>
                                 <td height="30" style="text-align:center; border: 1px solid #000000;"> </td>
                             </tr>
                             <?php } ?>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td height="70" style="text-align: left; text-decoration: underline; border-left: 1px solid #000000;">Autorización: </td>
                         </tr>
                         </tbody>
@@ -206,6 +215,10 @@
         </tr>
     </table>
     <hr>
+    <?php
+        echo "<strong>Vendedor: </strong>" . strtoupper($model->GestorPedidoName);
+        echo   "<br>";
+    ?>
 <?php
     echo "<strong> Condición de Venta: </strong>";
     echo $model->cond_venta;
