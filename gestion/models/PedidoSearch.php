@@ -160,7 +160,7 @@ class PedidoSearch extends Pedido
     {
         
         $queryParams = [];
-        $where = 'estado.id=1 && workflow.fecha_fin is null';
+        $where = 'pedido.estado_id =1 && workflow.fecha_fin is null';
         $GROUP_BY ='';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
@@ -170,10 +170,9 @@ class PedidoSearch extends Pedido
         $fieldList = "
              pedido.id
             ,pedido.fecha_entrega
-            ,pedido.orden_reparto
             ,pedido.confirmado
             ,cliente.razon_social
-            ,estado.id estado_id
+            ,pedido.estado_id as pedido_estado_id
         ";
         $fromTables = '
             pedido
@@ -200,6 +199,7 @@ class PedidoSearch extends Pedido
             $GROUP_BY = " GROUP BY {$GROUP_BY} ";
         }
         
+
         
         $query = "
             SELECT {$fieldList}
@@ -207,6 +207,372 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
+          'attributes' => [
+               'razon_social',
+               'nro_pedido',
+               'fecha_entrega',
+               'id' => [
+                    'asc' => [new Expression('id')],
+                    'desc' => [new Expression('id DESC ')],
+                    'default' => SORT_DESC,
+               ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
+    public function searchPedidosAceptados($params)
+    {
+        
+        $queryParams = [];
+        $where = 'pedido.estado_id =2';
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.estado_id as pedido_estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
+          'attributes' => [
+               'razon_social',
+               'nro_pedido',
+               'fecha_entrega',
+               'id' => [
+                    'asc' => [new Expression('id')],
+                    'desc' => [new Expression('id DESC ')],
+                    'default' => SORT_DESC,
+               ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
+    
+    public function searchPedidosExpedicion($params)
+    {
+        
+       
+        $queryParams = [];
+        $where = 'pedido.estado_id =3';
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.estado_id as pedido_estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
+          'attributes' => [
+               'razon_social',
+               'nro_pedido',
+               'fecha_entrega',
+               'id' => [
+                    'asc' => [new Expression('id')],
+                    'desc' => [new Expression('id DESC ')],
+                    'default' => SORT_DESC,
+               ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
+    public function searchPedidosDespachados($params)
+    {
+        
+       
+        $queryParams = [];
+        $where = 'pedido.estado_id =4';
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.estado_id as pedido_estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
+          'attributes' => [
+               'razon_social',
+               'nro_pedido',
+               'fecha_entrega',
+               'id' => [
+                    'asc' => [new Expression('id')],
+                    'desc' => [new Expression('id DESC ')],
+                    'default' => SORT_DESC,
+               ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
+    
+     public function searchPedidosCancelados($params)
+    {
+        
+       
+        $queryParams = [];
+        $where = 'pedido.estado_id =5';
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.estado_id as pedido_estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
