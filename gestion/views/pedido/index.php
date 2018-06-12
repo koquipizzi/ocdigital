@@ -82,7 +82,7 @@ if(!empty($info))
 } ?>
 
 <div class="pedido-index">
-    <?php Pjax::begin(['id' => 'pedidos']); ?>
+    
     <div class="box box-warning with-border">
     <div class="box-header">
       <?= Html::encode(Yii::t('app', 'Listado de Pedidos')) ?>
@@ -181,26 +181,29 @@ if(!empty($info))
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {update} {delete} {confirm} ',
+                    'template' => '{view} {update} {delete} {confirm} {print}',
                     'headerOptions' => ['style' => 'width:13%'],
                     'contentOptions' => ['style' => 'width:13px;'],
                     'buttons' => [
-                      'confirm' => function ($url, $model) {
+                        'confirm' => function ($url, $model) {
                           $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                           if ( current($userRole)->name !='Viajante')
                             {
                                 $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                 return Html::a('<span class="fa fa-check"></span>',Url::to($url));
                             }
-                        else      
+                        else
                             return "";
-                      },
+                        },
+                        'print' => function ($url,$data) {
+                            return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
+                        },
                     ]
                 ],
             ],
         ]); ?>
         <?= Html::endForm();?>
-        <?php Pjax::end(); ?>
+        
     </div>
 
 </div>
