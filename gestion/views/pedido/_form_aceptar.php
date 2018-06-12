@@ -99,40 +99,56 @@ JS;
 $this->registerJs($set_date);
 
 ?>
-
 <div class="pedido-form">
 
   <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
   <input id="clienteID" name="clienteID" type="hidden" value="xm234jq">
-  <div class="row">
-    <div class="col-sm-6">
-        <?php
-            $clientes = Cliente::find()->all();
-            $listData = ArrayHelper::map($clientes,'id', 'nombre');
-            echo $form->field ($model, 'cliente_id', ['template' => "{label} {input} {hint} {error}"]
-                            )->widget(select2::classname(), [
-                                                                'data' => $listData ,
-                                                                'language' => 'es',
-                                                                'options' => [
-                                                                  'onchange' => '
-                                                                        jQuery("#clienteID").val(this.value);
-                                                                        id = this.value;
-                                                                        aux = ajaxurl + "&id=" + id;
-                                                                        $.get( aux , function( data ) {
-                                                                            if (data.rta){
-                                                                                jQuery("#pedido-ship_address_1").val(data.results.direccion);
-                                                                                jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
-                                                                                jQuery("#pedido-telefono").val(data.results.telefono);
-                                                                                jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
-                                                                            }
-                                                                        });',
-                                                                  'placeholder' => 'Seleccione un Cliente...'],
-                                                                'pluginOptions' => [
-                                                                   'allowClear' => false
-                                                               ],
-                                                            ]);
-        ?>
+    <div class="row">
+        <div  style="float: right" class="col-sm-6">
+            <?php
+                echo $form->field ($model, 'estado_id', ['template' => "{label} {input} {hint} {error}"]
+                )->widget(select2::classname(), [
+                 'data' => $arrayDataEstadoskv ,
+                 'language' => 'es',
+                 'options' => [
+                  
+                  'placeholder' => 'Seleccionar estado...'],
+                 'pluginOptions' => [
+                  'allowClear' => false
+                 ],
+                ]);
+            ?>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <?php
+                $clientes = Cliente::find()->all();
+                $listData = ArrayHelper::map($clientes,'id', 'nombre');
+                echo $form->field ($model, 'cliente_id', ['template' => "{label} {input} {hint} {error}"]
+                                )->widget(select2::classname(), [
+                                                                    'data' => $listData ,
+                                                                    'language' => 'es',
+                                                                    'options' => [
+                                                                      'onchange' => '
+                                                                            jQuery("#clienteID").val(this.value);
+                                                                            id = this.value;
+                                                                            aux = ajaxurl + "&id=" + id;
+                                                                            $.get( aux , function( data ) {
+                                                                                if (data.rta){
+                                                                                    jQuery("#pedido-ship_address_1").val(data.results.direccion);
+                                                                                    jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
+                                                                                    jQuery("#pedido-telefono").val(data.results.telefono);
+                                                                                    jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
+                                                                                }
+                                                                            });',
+                                                                      'placeholder' => 'Seleccione un Cliente...'],
+                                                                    'pluginOptions' => [
+                                                                       'allowClear' => false
+                                                                   ],
+                                                                ]);
+            ?>
+        </div>
         <div class="col-md-6">
             <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
             [
@@ -287,8 +303,8 @@ $this->registerJs($set_date);
             </div>
         </div>
         <div class="form-group" style="float:right;">
-            <?php echo Html::a('Aceptar Pedido', ['/pedido/update', 'id' => $model->id, 'proceso' =>  'aceptar', 'confirm' => 'ok'], ['class'=>'btn btn-success']) ; ?>
-            <?php echo Html::a('Cancelar Pedido', ['/pedido/update', 'id' => $model->id, 'proceso' =>  'aceptar', 'confirm' => 'nok'], ['class'=>'btn bg-red']) ; ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
         </div>
 
         <?php DynamicFormWidget::end(); ?>
