@@ -94,4 +94,91 @@
     </tr>
 </table>
 <hr>
+<pagebreak>
+    <div class="pagina">
+        <div class="header">
+            <table style="padding-top: 10px">
+                <tr>
+                    <td>
+                        <img src="<?php echo Yii::getAlias('@webroot').'/images/fp_logo.jpg'; ?>" width="50"  \/>
+                    </td>
+                    <td width="200">
+                        <h2> Forestal Pico </h2>
+                        <h3> Depósito Tandil </h3>
+                        <h4> Hoja de Pedido </h4>
+                    </td>
+                    <td width="300">
+                        <?php
+                            echo "<strong> Cliente: </strong>" ;
+                            echo ' ( '.$model->CodigoCliente.' ) '.$model->getClienteRazonSocial();
+                            echo "<br>";
+                        ?>
+                        
+                        <?php
+                            echo "<strong> Direccion de Entrega </strong>";
+                            echo $model->ship_address_1;
+                            echo "<br>";
+                        ?>
+                        <?php
+                            echo "<strong> Localidad: </strong>";
+                            echo $model->ship_city;
+                            echo "<br>";
+                        ?>
+                        <?php
+                            echo "<strong> Hora de Descarga: </strong>";
+                            echo $model->hora_de_recepcion;
+                            echo "<br>";
+                        ?>
+                        <?php
+                            echo "<strong> Contacto y Telefono: </strong>";
+                            echo $model->responsable_recepcion.' '.$model->telefono;
+                            echo "<br>";
+                        ?>
+                    </td>
+                    <td style="text-align:center">
+                        <?php
+                            echo "<h4>Pedido Nro </h4>";
+                            echo "<h2>  $model->id  </h2>";
+                            echo "<br>";
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <table width="100%">
+        <tr>
+            <td width="100%">
+                <div class="cl50">
+                    <table class="minimalistBlack">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center" width="70"> Cant </th>
+                                <th style="text-align:center" width="70"> UM  </th>
+                                <th style="text-align:center" width="250"> Descripción </th>
+                                <th style="text-align:center" width="70"> Precio Lista </th>
+                                <th style="text-align:center" width="70"> Bonificacion </th>
+                                <th style="text-align:center"  width="70"> Precio </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($model->pedidoDetalles as $detalle) { ?>
+                            <tr>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->cantidad ?> </td>
+                                <td height="30" style ="text-align:center; border: 1px solid #000000;"> <?= $detalle->unidad->nombre_unidad ?> </td>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->descripcionproducto ?>  </td>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> <?= $detalle->precio_unitario ?></td>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> </td>
+                                <td height="30" style="text-align:center; border: 1px solid #000000;"> </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <hr>
 
