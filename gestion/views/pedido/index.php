@@ -90,123 +90,126 @@ if(!empty($info))
             <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
     <div class="box-body">
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'showFooter' => true,
-            'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
-            'rowOptions'=> function($model){
-                    if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
-                        return ['class' => 'danger'];
-                    }else{
-                        return ['class' => 'success'];
-                    }
-            },
-            'columns' => [
-                [
-                    'label' => 'Nro. Pedido',
-                    'attribute' => 'id',
-                    'headerOptions' => ['style' => 'width:1%']
-                ],
-                [
-                    'label' => 'Fecha de Entrega',
-                    'attribute' => 'fecha_entrega',
-                    'contentOptions' => ['style' => 'width:10%;'],
-                    'format' => ['date', 'php:d/m/Y'],
-                    'filter' => DateRangePicker::widget([
-                    'template' => '
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                {input}
-                            </div>
-                        ',
-                         'model' => $searchModel,
-                         'locale'    => 'es-ES',
+        <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'showFooter' => true,
+                'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
+                'rowOptions'=> function($model){
+                        if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
+                            return ['class' => 'danger'];
+                        }else{
+                            return ['class' => 'success'];
+                        }
+                },
+                'columns' => [
+                    [
+                        'label' => 'Nro. Pedido',
+                        'attribute' => 'id',
+                        'headerOptions' => ['style' => 'width:1%']
+                    ],
+                    [
+                        'label' => 'Fecha de Entrega',
                         'attribute' => 'fecha_entrega',
-                        'pluginOptions' => [
-                            'locale'=> [
-                                'format'=>'DD/MM/YYYY',
-                                'separator'=>' - ',
-                                'applyLabel' => 'Seleccionar',
-                                'cancelLabel' => 'Cancelar',
-                            ],
-                            'autoUpdateInput' => false,
-                        ]
-                    ])
-                ],
-                [
-                    'label' => 'Fecha de Ingreso',
-                    'attribute' => 'fecha_hora',
-                    'contentOptions' => ['style' => 'width:10%;'],
-                    'format' => ['date', 'php:d/m/Y'],
-                    'filter' => DateRangePicker::widget([
-                    'template' => '
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                {input}
-                            </div>
-                        ',
-                         'model' => $searchModel,
-                         'locale'    => 'es-ES',
+                        'contentOptions' => ['style' => 'width:10%;'],
+                        'format' => ['date', 'php:d/m/Y'],
+                        'filter' => DateRangePicker::widget([
+                        'template' => '
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    {input}
+                                </div>
+                            ',
+                            'model' => $searchModel,
+                            'locale'    => 'es-ES',
+                            'attribute' => 'fecha_entrega',
+                            'pluginOptions' => [
+                                'locale'=> [
+                                    'format'=>'DD/MM/YYYY',
+                                    'separator'=>' - ',
+                                    'applyLabel' => 'Seleccionar',
+                                    'cancelLabel' => 'Cancelar',
+                                ],
+                                'autoUpdateInput' => false,
+                            ]
+                        ])
+                    ],
+                    [
+                        'label' => 'Fecha de Ingreso',
                         'attribute' => 'fecha_hora',
-                        'pluginOptions' => [
-                            'locale'=> [
-                                'format'=>'DD/MM/YYYY',
-                                'separator'=>' - ',
-                                'applyLabel' => 'Seleccionar',
-                                'cancelLabel' => 'Cancelar',
-                            ],
-                            'autoUpdateInput' => false,
+                        'contentOptions' => ['style' => 'width:10%;'],
+                        'format' => ['date', 'php:d/m/Y'],
+                        'filter' => DateRangePicker::widget([
+                        'template' => '
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    {input}
+                                </div>
+                            ',
+                            'model' => $searchModel,
+                            'locale'    => 'es-ES',
+                            'attribute' => 'fecha_hora',
+                            'pluginOptions' => [
+                                'locale'=> [
+                                    'format'=>'DD/MM/YYYY',
+                                    'separator'=>' - ',
+                                    'applyLabel' => 'Seleccionar',
+                                    'cancelLabel' => 'Cancelar',
+                                ],
+                                'autoUpdateInput' => false,
+                            ]
+                        ])
+                    ],
+                    [
+                        'label' => 'Razón Social / Nombre',
+                        'attribute' => 'razon_social',
+                        'headerOptions' => ['style' => 'width:20%'],
+                        'contentOptions' => ['style' => 'width:20px;'],
+                    ],
+                    [
+                        'label' => 'Gestor Del Pedido',
+                        'format' => 'raw',
+                        'value' => function($model){
+                            return $model["username"];
+                        },
+                        'headerOptions' => ['style' => 'width:10%'],
+                        'contentOptions' => ['style' => 'width:10px;'],
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update} {delete} {confirm} {print} ',
+                        'headerOptions' => ['style' => 'width:13%'],
+                        'contentOptions' => ['style' => 'width:13px;'],
+                        'buttons' => [
+                            'confirm' => function ($url, $model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    {
+                                        $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
+                                        return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                                    }
+                                if ( current($userRole)->name =='Gerente' && $model["estado_id"]==1)
+                                    {
+                                        $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
+                                        return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                                    }
+                                else      
+                                    return "";
+                            },
+                            'print' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
+                            },
                         ]
-                    ])
+                    ],
                 ],
-                [
-                    'label' => 'Razón Social / Nombre',
-                    'attribute' => 'razon_social',
-                    'headerOptions' => ['style' => 'width:20%'],
-                    'contentOptions' => ['style' => 'width:20px;'],
-                ],
-                [
-                    'label' => 'Gestor Del Pedido',
-                    'format' => 'raw',
-                    'value' => function($model){
-                        return $model["username"];
-                    },
-                    'headerOptions' => ['style' => 'width:10%'],
-                    'contentOptions' => ['style' => 'width:10px;'],
-                ],
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {update} {delete} {confirm} {print} ',
-                    'headerOptions' => ['style' => 'width:13%'],
-                    'contentOptions' => ['style' => 'width:13px;'],
-                    'buttons' => [
-                      'confirm' => function ($url, $model) {
-                          $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                          if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                            {
-                                $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
-                                return Html::a('<span class="fa fa-check"></span>',Url::to($url));
-                            }
-                          if ( current($userRole)->name =='Gerente' && $model["estado_id"]==1)
-                          {
-                              $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
-                              return Html::a('<span class="fa fa-check"></span>',Url::to($url));
-                          }
-                        else      
-                            return "";
-                      },
-                      'print' => function ($url,$data) {
-                                return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
-                          },
-                    ]
-                ],
-            ],
-        ]); ?>
+            ]); ?>
         <?= Html::endForm();?>
         <?php Pjax::end(); ?>
     </div>

@@ -434,12 +434,10 @@ class PedidoController extends Controller
                         }
                         if ($flag) {
                             $transaction->commit();
-                            $mensaje['error'] = '';
-                            $mensaje['mensaje'] = 'dlsfka;lf';
                         }
                         
                     }
-                    return $this->redirect(['view', 'id' => $modelPedido->id, 'error' => $mensaje]);
+                    return $this->redirect(['view', 'id' => $modelPedido->id]);
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
