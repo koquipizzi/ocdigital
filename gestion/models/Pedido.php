@@ -27,6 +27,7 @@ use Empathy\Validators\DateTimeCompareValidator;
  * @property string $ship_country
  * @property string $estado
  * @property string $cond_venta
+ * @property string $estado_id
  *
  * @property Cliente $cliente
  * @property Comanda $comanda
@@ -39,7 +40,6 @@ class Pedido extends \yii\db\ActiveRecord
     const ESTADO_COMPLETADO = 'completed';
     const ESTADO_CANCELADO = 'cancelled';
     const ESTADO_MANUAL = 'Manual';
-    public $estado_id;
 
 
     /**
