@@ -270,11 +270,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
             JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
