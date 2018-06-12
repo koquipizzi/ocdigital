@@ -110,6 +110,7 @@ class Pedido extends \yii\db\ActiveRecord
             'hora_de_recepcion' => Yii::t('app', 'Hora De Recepción'),
             'gestor_id' => Yii::t('app', 'Gestor ID'),
             'estado_id'=>Yii::t('app', 'Cambiar estado'),
+
         ];
     }
 
@@ -232,6 +233,15 @@ class Pedido extends \yii\db\ActiveRecord
             return $clienteNombre;
         }
         return null;
+    }
+    
+    public function getClienteDocumento(){
+        $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
+        if (empty($modelCliente->documento)){
+            return ' ';
+        }else{
+            return $modelCliente->documento ;
+        }
     }
     
     public function getCodigoCliente(){
