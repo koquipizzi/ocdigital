@@ -132,7 +132,7 @@ $this->registerJs($set_date);
                                                                 ]);
             ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
             [
                 'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
@@ -147,22 +147,7 @@ $this->registerJs($set_date);
                 ]
             ]); ?>
         </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
-            [
-                'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
-                'value' => $model->fecha_produccion,
-                'type'=>DateControl::FORMAT_DATE,
-                'language' => 'es',
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'convertFormat' => true,
-                    'format' => 'dd-m-yyyy hh:ii',
-                    'todayHighlight' => true,
-                ]
-            ]); ?>
-        </div>
-        <div class="col-md-2 bg-orange disabled color-palette">
+        <div class="col-md-4 bg-orange color-palette" style=" opacity: .70;">
         <?php
                 echo $form->field ($model, 'estado_id', ['template' => "{label} 
                {input} {hint} {error}"]
