@@ -181,7 +181,7 @@ if(!empty($info))
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {update} {delete} {confirm} ',
+                    'template' => '{view} {update} {delete} {confirm} {print} ',
                     'headerOptions' => ['style' => 'width:13%'],
                     'contentOptions' => ['style' => 'width:13px;'],
                     'buttons' => [
@@ -195,6 +195,9 @@ if(!empty($info))
                         else      
                             return "";
                       },
+                      'print' => function ($url,$data) {
+                                return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
+                          },
                     ]
                 ],
             ],
