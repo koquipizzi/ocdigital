@@ -27,7 +27,7 @@ use Empathy\Validators\DateTimeCompareValidator;
  * @property string $ship_country
  * @property string $estado
  * @property string $cond_venta
- * @property string $estado_id
+ * @property integer $estado_id
  *
  * @property Cliente $cliente
  * @property Comanda $comanda

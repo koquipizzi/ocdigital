@@ -186,7 +186,8 @@ if(!empty($info))
                     'contentOptions' => ['style' => 'width:13px;'],
                     'buttons' => [
                       'confirm' => function ($url, $model) {
-                        if (Yii::$app->user->getId() == 7)
+                          $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                          if ( current($userRole)->name !='Viajante')
                             {
                                 $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                 return Html::a('<span class="fa fa-check"></span>',Url::to($url));
