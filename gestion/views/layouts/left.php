@@ -59,7 +59,8 @@ use mdm\admin\components\Helper;
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                                ['label' => 'Pedidos', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes']],
+                                ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes']],
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
                                 ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                             ]
                     ]);
