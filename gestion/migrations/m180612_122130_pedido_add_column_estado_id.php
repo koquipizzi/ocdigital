@@ -12,7 +12,7 @@ class m180612_122130_pedido_add_column_estado_id extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn("pedido","estado_id",$this->integer(11)->null());
+        $this->addColumn("pedido","estado_id",$this->integer(11)->defaultValue(1));
         
         $this->createIndex(
          'idx_pedido_estado-estado_id',
