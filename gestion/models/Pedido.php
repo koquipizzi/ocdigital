@@ -238,7 +238,7 @@ class Pedido extends \yii\db\ActiveRecord
     public function getClienteDocumento(){
         $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
         if (empty($modelCliente->documento)){
-            return ' ';
+            return '';
         }else{
             return $modelCliente->documento ;
         }
