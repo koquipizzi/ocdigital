@@ -24,7 +24,6 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/noty/packaged/jquery.noty.packaged.js',
      //   'assets/admin/js/jquery.fancybox.js',
-        'js/admin.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
