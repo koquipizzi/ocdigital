@@ -45,7 +45,7 @@ class m180612_153134_roles_gerente_logistica_viajante extends Migration
                 
                 
                 -- gerente!
-                INSERT INTO `ocdigital`.`user`
+                INSERT INTO  `user`
                 (
                     `username`,
                     `password_hash`,
@@ -58,7 +58,7 @@ class m180612_153134_roles_gerente_logistica_viajante extends Migration
                     ,1
                  );
                 
-                INSERT INTO `ocdigital`.`auth_assignment`
+                INSERT INTO  `auth_assignment`
                 (
                     `item_name`,
                     `user_id`
@@ -83,7 +83,7 @@ class m180612_153134_roles_gerente_logistica_viajante extends Migration
                 
                 
                 -- logistica!321
-                INSERT INTO `ocdigital`.`user`
+                INSERT INTO  `user`
                 (
                     `username`,
                     `password_hash`,
@@ -96,7 +96,7 @@ class m180612_153134_roles_gerente_logistica_viajante extends Migration
                     ,1
                 );
                 
-                INSERT INTO `ocdigital`.`auth_assignment`
+                INSERT INTO  `auth_assignment`
                 (
                     `item_name`,
                     `user_id`
