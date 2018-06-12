@@ -354,8 +354,7 @@ class PedidoController extends Controller
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
-   
-                $ftimestamp = new DateTime();
+ 
                 $modelWorkflow->estado_id    = $rowEstado->id;
                 $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
                 $modelWorkflow->pedido_id    = $modelPedido->id;
@@ -379,6 +378,7 @@ class PedidoController extends Controller
                         }
                         $modelPedido->precio_total = $total;
                         $modelPedido->estado = Pedido::ESTADO_MANUAL;
+                        $modelPedido->estado_id=1;
                         $modelPedido->save();
                     }
 
@@ -419,9 +419,9 @@ class PedidoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id, $proceso=null, $confirm=null, $estado_destino_id=null,$estado_origen_id=null)
+    public function actionUpdate($id, $proceso=null)
     {
-    //    die($confirm);
+
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
@@ -434,7 +434,6 @@ class PedidoController extends Controller
 
             // validate all models
             $valid = $modelPedido->validate();
-         //   $valid = Model::validateMultiple($modelsPedidoDetalle) && $valid;
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
@@ -454,7 +453,6 @@ class PedidoController extends Controller
                             $modelPedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$modelPedidoDetalle->cantidad) ;
                             $total = $modelPedidoDetalle->precio_linea + $total;
                             
-
                             if (! ($flag = $modelPedidoDetalle->save())) {
                                 $transaction->rollBack();
                                 break;
@@ -464,16 +462,7 @@ class PedidoController extends Controller
 
                         $modelPedido->save();
                     }
-                    if ($flag) {
-                        $transaction->commit();
-                        if ($modelPedido->estado <> Pedido::ESTADO_MANUAL) {
-                            $pedidoNuevo = Yii::$app->woocomponent->newPedido($this->createPedidoJSON($modelPedido));
-                            $pedido = Yii::$app->woocomponent->deletePedido($modelPedido->web_id);
-                            $modelPedido->web_id = $pedidoNuevo['id'];
-                            $modelPedido->save();
-                        }
-                        return $this->redirect(['view', 'id' => $modelPedido->id]);
-                    }
+
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
@@ -489,7 +478,7 @@ class PedidoController extends Controller
               'estado_proximo',
               'estado.id =estado_proximo.estado_destino_id'
              )
-             ->where(["estado_proximo.estado_origen_id" => $estado_origen_id]);
+             ->where(["estado_proximo.estado_origen_id" =>$modelPedido->estado_id]);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $arrayDataEstadoskv = array();
