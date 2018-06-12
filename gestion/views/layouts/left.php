@@ -60,7 +60,7 @@ use mdm\admin\components\Helper;
                         'items' =>
                             [
                                 ['label' => 'Pedidos', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']],
+                                ['label' => 'Crear Pedido', 'icon' =>  'plus','options' => ['class' => 'bg-orange'], 'url' => ['/pedido/create']],
                             ]
                     ]);
             }

@@ -206,6 +206,37 @@ if(!empty($info))
                                 if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
                                     return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
                             },
+                            'update' => function ($url, $model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante')
+                                {
+                                    $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
+                                }
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                {
+                                    $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
+                                }
+            
+                                else
+                                    return "";
+                            },
+                            'delete' => function ($url, $model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante')
+                                {
+                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
+                                }
+                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1)
+                                {
+                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
+                                }
+                                else
+                                    return "";
+                            },
                         ]
                     ],
                 ],

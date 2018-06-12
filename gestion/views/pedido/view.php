@@ -69,7 +69,18 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= Html::encode($this->title) ?>
       <div class="pull-right">
         <?= Html::a('<i class="fa fa-arrow-left"></i> Volver',Yii::$app->request->referrer, ['class'=>'btn btn-primary']) ?>
-          <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary'])?>
+          <?php
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name !='Viajante')
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            if ( current($userRole)->name == 'Viajante' && $model->estado_id==1)
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            
+           ?>
     </div>
   </div>
   <div class="box-body">
