@@ -121,8 +121,10 @@
                         ?>
                         <?php
                             echo "<strong> N° de Doc.: </strong>" ;
-                            $documento = number_format($model->ClienteDocumento,0,'.','.');
-                            echo $documento; 
+                            if (!empty($model->ClienteDocumento)) { 
+                                $documento = number_format($model->ClienteDocumento,0,'.','.');
+                                echo $documento; 
+                            }
                             echo "<br>";
                         ?>
                         <?php

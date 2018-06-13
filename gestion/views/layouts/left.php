@@ -30,14 +30,14 @@ use mdm\admin\components\Helper;
                                 ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                                 ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes']],
-                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
-                                ['label' => 'Pedidos En Expedición', 'icon' =>  'clock-o', 'url' => ['/pedido/index_expedicion']],
-                                ['label' => 'Pedidos Despachados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_despachados']],
-                                ['label' => 'Pedidos Cancelados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_cancelados']],
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados']],
+                                ['label' => 'Pedidos En Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion']],
+                                ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados']],
+                                ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados']],
                                 //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']],
+                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
-                                ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
+                                ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index'],  'template'=>'<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">123</small></span></a>'],
                                 //['label' => 'Productos Pendientes', 'icon' => 'clock-o', 'url' => ['/producto/pindex']],
                                 [
                                     'label' => 'Configuración',
@@ -59,8 +59,9 @@ use mdm\admin\components\Helper;
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                                ['label' => 'Pedidos', 'icon' =>  'clock-o', 'url' => ['/pedido/index']],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']],
+                                ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
+                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']]
                             ]
                     ]);
             }

@@ -104,24 +104,7 @@ $this->registerJs($set_date);
   <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
   <input id="clienteID" name="clienteID" type="hidden" value="xm234jq">
     <div class="row">
-        <div  style="float: right" class="col-sm-6">
-            <?php
-                echo $form->field ($model, 'estado_id', ['template' => "{label} {input} {hint} {error}"]
-                )->widget(select2::classname(), [
-                 'data' => $arrayDataEstadoskv ,
-                 'language' => 'es',
-                 'options' => [
-                  
-                  'placeholder' => 'Seleccionar estado...'],
-                 'pluginOptions' => [
-                  'allowClear' => false
-                 ],
-                ]);
-            ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <?php
                 $clientes = Cliente::find()->all();
                 $listData = ArrayHelper::map($clientes,'id', 'nombre');
@@ -142,14 +125,14 @@ $this->registerJs($set_date);
                                                                                     jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
                                                                                 }
                                                                             });',
-                                                                      'placeholder' => 'Seleccione un Cliente...'],
-                                                                    'pluginOptions' => [
-                                                                       'allowClear' => false
-                                                                   ],
+                                                                        'placeholder' => 'Seleccione un Cliente...'],
+                                                                        'pluginOptions' => [
+                                                                        'allowClear' => false
+                                                                    ],
                                                                 ]);
             ?>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
             [
                 'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
@@ -163,6 +146,22 @@ $this->registerJs($set_date);
                     'todayHighlight' => true,
                 ]
             ]); ?>
+        </div>
+        <div class="col-md-4 bg-orange color-palette" style=" opacity: .70;">
+        <?php
+                echo $form->field ($model, 'estado_id', ['template' => "{label} 
+               {input} {hint} {error}"]
+                )->widget(select2::classname(), [
+                 'data' => $arrayDataEstadoskv ,
+                 'language' => 'es',
+                 'options' => [
+                  
+                  'placeholder' => 'Seleccionar estado...'],
+                 'pluginOptions' => [
+                  'allowClear' => false
+                 ],
+                ]);
+            ?>
         </div>
     </div>
     <div class="row">

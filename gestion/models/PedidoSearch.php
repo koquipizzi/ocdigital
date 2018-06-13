@@ -175,11 +175,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
-            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN cliente                     ON(pedido.cliente_id=cliente.id)
+            JOIN user                        ON(pedido.gestor_id=user.id)
+            JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -223,16 +225,16 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
           ],
          ],
          'totalCount' => $itemsCount,
@@ -248,6 +250,102 @@ class PedidoSearch extends Pedido
         
         return $dataProvider;
     }
+
+    public function searchPedidosEnEsperaViajante($params)
+    {
+        $gestor = Yii::$app->user->getId();
+        $queryParams = [];
+        $where = 'pedido.estado_id =1 and gestor_id = '.$gestor;
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.gestor_id
+            ,pedido.estado_id as pedido_estado_id
+            ,user.username
+            ,estado.id as estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN estado                      ON(pedido.estado_id=estado.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
     
     public function searchPedidosAceptados($params)
     {
@@ -268,11 +366,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+            JOIN estado                       ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -316,17 +416,17 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
+            ],
          ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
@@ -363,11 +463,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+             JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -411,16 +513,16 @@ class PedidoSearch extends Pedido
          'sql' => $query,
          'params' => $queryParams,
          'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
           ],
          ],
          'totalCount' => $itemsCount,
@@ -457,11 +559,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+             JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -502,21 +606,21 @@ class PedidoSearch extends Pedido
         )->queryScalar();
         
         $dataProvider = new \yii\data\SqlDataProvider([
-         'sql' => $query,
-         'params' => $queryParams,
-         'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
-         ],
+            'sql' => $query,
+            'params' => $queryParams,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_DESC],
+                'attributes' => [
+                    'razon_social',
+                    'nro_pedido',
+                    'fecha_entrega',
+                    'id' => [
+                            'asc' => [new Expression('id')],
+                            'desc' => [new Expression('id DESC ')],
+                            'default' => SORT_DESC,
+                    ],
+                ],
+            ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
          'pagination' => [
@@ -552,11 +656,13 @@ class PedidoSearch extends Pedido
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
+            ,estado.id as estado_id
         ";
         $fromTables = '
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                      ON(pedido.gestor_id=user.id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+             JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -598,21 +704,21 @@ class PedidoSearch extends Pedido
         )->queryScalar();
         
         $dataProvider = new \yii\data\SqlDataProvider([
-         'sql' => $query,
-         'params' => $queryParams,
-         'sort' => [
-          'defaultOrder' => ['fecha_entrega' => SORT_ASC],
-          'attributes' => [
-               'razon_social',
-               'nro_pedido',
-               'fecha_entrega',
-               'id' => [
-                    'asc' => [new Expression('id')],
-                    'desc' => [new Expression('id DESC ')],
-                    'default' => SORT_DESC,
-               ],
-          ],
-         ],
+            'sql' => $query,
+            'params' => $queryParams,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_DESC],
+                'attributes' => [
+                    'razon_social',
+                    'nro_pedido',
+                    'fecha_entrega',
+                    'id' => [
+                            'asc' => [new Expression('id')],
+                            'desc' => [new Expression('id DESC ')],
+                            'default' => SORT_DESC,
+                    ],
+                ],
+            ],
          'totalCount' => $itemsCount,
          'key'        => 'id' ,
          'pagination' => [
