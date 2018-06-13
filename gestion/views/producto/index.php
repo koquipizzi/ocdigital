@@ -70,44 +70,12 @@ if(!empty($info)){
   ]);
 }} ?>
 <div class="producto-index">
-  <div class="box box-warning with-border">
-    <div class="box-header">
-      <?= Html::encode(Yii::t('app', 'Listado de Productos')) ?>
-      <div class="pull-right">
-        <?= Html::a(Yii::t('app', 'Create Producto'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?php
-          $url = Url::toRoute('producto/sync');
-          echo Html::a('Sincronizar Productos', '#', [
-            'class' => 'btn btn-success nspinner',
-            'title' => Yii::t('yii', 'Close'),
-                'onclick'=>'
-                $.ajax("'.$url.'",  {data: {id: 1},
-                  type: "POST",
-              }).done(function(data) {
-                $(".wspinner").hide();
-                $(".nspinner").show();
-                var n = noty({
-                  text: data.message,
-                  type: data.rta,
-                  class: "animated pulse",
-                  layout      : "topRight",
-                  theme       : "relax",
-                  timeout: 2000, // delay for closing event. Set false for sticky notifications
-                  force: false, // adds notification to the beginning of queue when set to true
-                  modal: false, // si pongo true me hace el efecto de pantalla gris
-           //       maxVisible  : 10
-              });
-                $.pjax.reload({container:"#Productos"});
-              });
-                ',                         ]);
-       ?>
-        <?php
-          echo '<button style="display:none" class="btn btn-success wspinner"';
-          echo Spinner::widget(['preset' => 'tiny', 'align' => 'left', 'caption' => 'Sincronizando &hellip;']);
-          echo '</button>';
-        ?>
-
-      </div>
+    <div class="box box-warning with-border">
+        <div class="box-header">
+        <?= Html::encode(Yii::t('app', 'Listado de Productos')) ?>
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Create Producto'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
 
     <div class="box-body">
     <?php Pjax::begin(['id' => 'Productos']); ?>
@@ -119,11 +87,6 @@ if(!empty($info)){
               ['class' => 'yii\grid\SerialColumn'],
               'codigo',
               'nombre',
-              [
-                'label' => 'Categoría',
-                'attribute' => 'categoria_id',
-                'value' => 'categoria.nombre',
-              ],
               [
               'label' => 'Precio Unitario',
               'attribute' => 'precio_unitario',
