@@ -1179,9 +1179,15 @@ class PedidoController extends Controller
 
     public function actionCantidad()
     {
-        $modelos = Pedido::find()->where(['estado_id' => 1])->count();
-
-       return $modelos;
+    
+        $cantPendiente = Pedido::countPedidosPendiente();
+        $cantAceptados = Pedido::countPedidosAceptados();
+        $cantExpedicion = Pedido::countPedidosExpedicion();
+        $cantDespacho = Pedido::countPedidosDespacho();
+        $cantCancelado = Pedido::countPedidosCancelado();
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado];
     }
     
     
