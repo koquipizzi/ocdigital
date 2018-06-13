@@ -9,10 +9,6 @@ use kartik\spinner\Spinner;
 use eleiva\noty\Noty;
 use app\models\Pedido;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\PedidoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = Yii::t('app', 'Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>

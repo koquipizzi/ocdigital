@@ -81,7 +81,6 @@ class PedidoController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'orden_reparto'=> $orden_entrega,
         ]);
     }
 
@@ -89,10 +88,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Pendientes";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
 
@@ -100,10 +101,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosEnEsperaViajante(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Pendientes";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
 
@@ -111,10 +114,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosAceptados(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Aceptados";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
 
@@ -122,10 +127,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosExpedicion(Yii::$app->request->queryParams);
+        $titulo = "Pedidos En Expedición";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
 
@@ -133,20 +140,24 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Despachados";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
     public function actionIndex_cancelados()
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosCancelados(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Cancelados";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
         ]);
     }
 
@@ -154,11 +165,13 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $titulo = "Todos los Pedidos";
 
         return $this->render('hindex', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'info' => $info
+            'info' => $info,
+            'titulo' => $titulo,
         ]);
     }
 
