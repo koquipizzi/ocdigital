@@ -29,6 +29,7 @@ use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
 use app\models\Workflow;
+use app\models\WorkflowSearch;
 use app\models\Estado;
 
 use kartik\mpdf\Pdf;
@@ -184,10 +185,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoDetalleSearch();
         $dataProvider = $searchModel->searchDetalle($id);
-
+        $searchModelWorkflow = new WorkflowSearch();
+        $dataProviderWorkflow = $searchModelWorkflow->searchDetalleWorkflow(null,$id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider
+            'model'                 => $this->findModel($id),
+            'dataProvider'          => $dataProvider,
+            'dataProviderWorkflow'  =>$dataProviderWorkflow
         ]);
     }
 	

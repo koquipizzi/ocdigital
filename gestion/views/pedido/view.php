@@ -140,5 +140,21 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
       ] ]);?>
   </div>
-
+      <div class="box-body">
+          <?= GridView::widget([
+           'dataProvider' => $dataProviderWorkflow,
+           'columns' => [
+            'estado',
+            'responsable',
+            [
+             'attribute' => 'fecha_inicio',
+             'format' => ['date', 'php:d/m/Y  H:i'],
+            ],
+            [
+             'attribute' => 'fecha_fin',
+             'format' => ['date', 'php:d/m/Y  H:i'],
+            ],
+            
+          ] ]);?>
+      </div>
 </div>
