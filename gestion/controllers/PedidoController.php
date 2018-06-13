@@ -526,8 +526,7 @@ class PedidoController extends Controller
     }
     
     
-    
-    
+   
     
     /**
      * Deletes an existing Pedido model.
@@ -537,20 +536,35 @@ class PedidoController extends Controller
      */
     public function actionDelete($id)
     {
-      try {
+        $respuesta='ok';
+        $msj="";
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+    
+            $model          = $this->findModel($id);
+            $modelDetalle   = PedidoDetalle::find()->where(["pedido_id"=>$model->id])->all();
+            if(!empty($modelDetalle)){
+                foreach ($modelDetalle as $arr=>$md){
+                    $md->delete();
+                }
+            }
 
-        $model = $this->findModel($id);
-        $data = ['status' => Pedido::ESTADO_CANCELADO];
-        if ($model->estado != Pedido::ESTADO_MANUAL) {
-            $pedidos = Yii::$app->woocomponent->updatePedido($model->web_id,$data);
+            $modelWorkflow   = Workflow::find()->where(["pedido_id"=>$model->id])->all();
+            if(!empty($modelWorkflow)){
+                foreach ($modelWorkflow as $arr=>$mw){
+                    $mw->delete();
+                }
+            }
+            $model->delete();
+            $transaction->commit();
+        } catch (HttpClientException $e) {
+            $transaction->rollBack();
+            $respuesta='ko';
         }
-        $model->estado = Pedido::ESTADO_CANCELADO;
-        $model->save();
-        return $this->redirect(['index']);
-
-      } catch (HttpClientException $e) {
-
-      }
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ['rta'=>$respuesta,"msj"=>$msj];
+        
     }
 
     /**

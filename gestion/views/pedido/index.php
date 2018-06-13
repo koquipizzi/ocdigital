@@ -8,6 +8,10 @@ use yii\helpers\Url;
 use kartik\spinner\Spinner;
 use eleiva\noty\Noty;
 use app\models\Pedido;
+    
+    use xj\bootbox\BootboxAsset;
+    BootboxAsset::register($this);
+
 
 $this->title = Yii::t('app', 'Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
@@ -91,6 +95,7 @@ if(!empty($info))
     </div>
     <div class="box-body">
         <?php
+            Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
@@ -204,7 +209,7 @@ if(!empty($info))
                             'print' => function ($url,$model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                                 if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
+                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank', 'data-pjax' => 0]);
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
@@ -222,28 +227,96 @@ if(!empty($info))
                                 else
                                     return "";
                             },
-                            'delete' => function ($url, $model) {
+                           /* 'delete' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                                 if ( current($userRole)->name !='Viajante')
                                 {
-                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
+                                    $url =  Url::toRoute(['/pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
                                 }
                                 if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1)
                                 {
-                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
+                                    $url =  Url::toRoute(['/pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
                                 }
                                 else
                                     return "";
-                            },
+                            },*/
+                         'delete' => function ($url, $model) {
+                             
+                             return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
+                              'title' => Yii::t('app', 'Restart Production'),
+                              'class'=> '',
+                              'onclick' => "
+                                bootbox.dialog({
+                                
+                                    message: '¿Confirma que desea eliminar el pedido {$model["id"]} ?',
+                                    title: 'Sistema OCDIGITAL',
+                                    // className: 'modal-info modal-center',
+                                    buttons: {
+                                    success: {
+                                        label: 'Aceptar',
+                                        className: 'btn-primary',
+                                        callback: function () {
+                                            $.ajax('{$url}', {
+                                            type: 'POST',
+                                            datatype: JSON,
+                                            success: function (response)
+                                            {
+                                                if(response.rta=='ok'){
+                                                   
+                                                    var n = noty
+                                                        ({
+                                                            text:   'El pedido {$model["id"]} se eliminó.',
+                                                            type:   'success',
+                                                            class:  'animated pulse',
+                                                            layout: 'topCenter',
+                                                            theme:  'relax',
+                                                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                            force:  false, // adds notification to the beginning of queue when set to true
+                                                            modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                            // maxVisible : 10
+                                                        });
+                                                 $.pjax.reload({container:'#pedidos'});
+                                                }
+                                                if(response.rta=='ko'){
+                                                    var n = noty
+                                                        ({
+                                                            text:   'Erro no se pudo eliminar el pedido {$model["id"]}.',
+                                                            type:   'error',
+                                                            class:  'animated pulse',
+                                                            layout: 'topCenter',
+                                                            theme:  'relax',
+                                                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                            force:  false, // adds notification to the beginning of queue when set to true
+                                                            modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                            // maxVisible : 10
+                                                        });
+
+                                                }
+
+                                            },
+                                        });
+                                     }
+                                },
+                                cancel: {
+                                    label: 'Cancelar',
+                                    className: 'btn-danger',
+                                    }
+                                }
+                            });
+                            return false;
+                            "
+                             ]);
+     
+                         },
                         ]
 
                     ],
                 ],
             ]); ?>
         <?= Html::endForm();?>
-        
+        <?php Pjax::end(); ?>
     </div>
 
 </div>
