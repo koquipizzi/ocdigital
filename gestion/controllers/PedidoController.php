@@ -337,16 +337,16 @@ class PedidoController extends Controller
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
- 
-                $modelWorkflow->estado_id    = $rowEstado->id;
-                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
-                $modelWorkflow->pedido_id    = $modelPedido->id;
-                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
-                $modelWorkflow->save();
-                if (!$modelWorkflow) {
-                    throw new \Exception("model Workflow fallo al salvar.");
-                }
                 try {
+                    $modelWorkflow->estado_id    = $rowEstado->id;
+                    $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                    $modelWorkflow->pedido_id    = $modelPedido->id;
+                    $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+                    $modelWorkflow->save();
+                    if (!$modelWorkflow) {
+                        throw new \Exception("model Workflow fallo al salvar.");
+                    }
+                    
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
