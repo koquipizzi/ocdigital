@@ -21,7 +21,8 @@ $js = 'function refresh() {
         $.ajax({
             url: ajaxHomeIndex,
             success: function(data) {
-            $("#cant").html(data);
+                console.log(data);
+                $("#cant").html(data.pendientes);
             }
         });
       //  $.pjax.reload({container:"#cant"});

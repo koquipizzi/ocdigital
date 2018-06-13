@@ -259,5 +259,25 @@ class Pedido extends \yii\db\ActiveRecord
             return $modelEstado->descripcion;
         }
     }
+    
+    public static function countPedidosPendiente(){
+        return Pedido::find()->where(['estado_id' => 1])->count();
+    }
+    
+    public static function countPedidosAceptados(){
+        return Pedido::find()->where(['estado_id' => 2])->count();
+    }
+    
+    public static function countPedidosExpedicion(){
+        return Pedido::find()->where(['estado_id' => 3])->count();
+    }
+    
+    public static function countPedidosDespacho(){
+        return Pedido::find()->where(['estado_id' => 4])->count();
+    }
+    
+    public static function countPedidosCancelado(){
+        return Pedido::find()->where(['estado_id' => 5])->count();
+    }
 
 }
