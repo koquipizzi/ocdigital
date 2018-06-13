@@ -117,6 +117,7 @@ if(!empty($info)){
           'filterModel' => $searchModel,
           'columns' => [
               ['class' => 'yii\grid\SerialColumn'],
+              'codigo',
               'nombre',
               [
                 'label' => 'Categoría',

@@ -4,9 +4,60 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use eleiva\noty\Noty;
+use app\models\Unidad;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pedido */
+-
+$mensaje = Yii::$app->getRequest()->getQueryParam('mensaje'); 
+$error = Yii::$app->getRequest()->getQueryParam('error'); 
+
+
+if(!empty($mensaje))
+{
+  if ($mensaje){
+    echo Noty::widget([
+      'text' => $mensaje,
+      'type' => Noty::ERROR,
+      'useAnimateCss' => true,
+      'clientOptions' => [
+          'timeout' => 5000,
+          'layout' => 'topCenter',
+          'dismissQueue' => true,
+          'progressBar'=> true,
+          'killer' => true,
+          'theme' => 'metroui',
+          'animation' => [
+              'open' => 'animated bounceInLeft',
+              'close' => 'animated bounceOutLeft',
+              'easing' => 'swing',
+              'speed' => 500
+          ]
+      ]
+  ]);
+  }else{
+    echo Noty::widget([
+      'text' => $mensaje,
+      'type' => Noty::SUCCESS,
+      'useAnimateCss' => true,
+      'clientOptions' => [
+          'timeout' => 2000,
+          'layout' => 'topCenter',
+          'dismissQueue' => true,
+          'theme' => 'metroui',
+          'progressBar'=> true,
+          'killer' => true,
+          'animation' => [
+              'open' => 'animated bounceInLeft',
+              'close' => 'animated bounceOutLeft',
+              'easing' => 'swing',
+              'speed' => 500
+          ]
+      ]
+  ]);
+  }
+
+} 
 
 $this->title = 'Pedido Nro: '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index']];
@@ -18,35 +69,18 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= Html::encode($this->title) ?>
       <div class="pull-right">
         <?= Html::a('<i class="fa fa-arrow-left"></i> Volver',Yii::$app->request->referrer, ['class'=>'btn btn-primary']) ?>
-        <?php
-        if (empty($model['comanda_id'])) {
-          echo Html::a(Yii::t('app', 'Confirmar Pedido'), ['confirm', 'id' => $model->id], ['class' => 'btn btn-primary']);  
-        }
-        if (empty($model['comanda_id']))
-        {
-
-        }
-        ?>
-        <?php
-        if (empty($model['comanda_id']))
-        {
-          echo  Html::a(Yii::t('app', 'Agregar a Comanda'), ['comanda/asignar-comanda', 'id' => $model->id],
-          [
-              'class' => 'btn btn-danger',
-              'data' => [
-                  'confirm' => Yii::t('app', 'Esta seguro que desea asignar pedido a la ultima comanda activa?'),
-                  'method' => 'post',
-                ]
-          ]);
-        }
-        ?>
-        <?php
-        if (empty($model['comanda_id']))
-        {
-          echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
-        }else{
-
-        } ?>
+          <?php
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name !='Viajante')
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            if ( current($userRole)->name == 'Viajante' && $model->estado_id==1)
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            
+           ?>
     </div>
   </div>
   <div class="box-body">
@@ -54,41 +88,47 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             [
-            'label' => 'Razon Social / Nombre',
-            'value' => $model->getClienteRazonSocial(),
+                'label' => 'Razon Social / Nombre',
+                'value' => $model->getClienteRazonSocial(),
             ],
             [
-              'label' => 'Fecha del Pedido',
-              'attribute' => 'fecha_hora',
-              'format' => ['date', 'php:d/m/Y  H:i'],
+                'label' => 'Fecha del Pedido',
+                'attribute' => 'fecha_hora',
+                'format' => ['date', 'php:d/m/Y  H:i'],
             ],
             [
-              'label' => 'Fecha de Entrega',
-              'attribute' => 'fecha_entrega',
-              'format' => ['date', 'php:d/m/Y '],
+                'label' => 'Fecha de Entrega',
+                'attribute' => 'fecha_entrega',
+                'format' => ['date', 'php:d/m/Y '],
             ],
             [
-            'label' => 'Total',
-            'attribute' => 'precio_total',
-            'format' => ['currency'],
-            ],
+                'label' => 'Gestor Del Pedido',
+                'value' => function($model){
+                    return $model->getGestorPedidoName();
+                },
+            ]
         ],
     ]) ?>
   </div>
   <div class="box-body">
     <?= GridView::widget(['dataProvider' => $dataProvider,  'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'Producto','value' => 'producto.nombre'],
-        ['label' => 'Categoría','value' => 'producto.categoria.nombre'],
+        [   'attribute' => 'Producto',
+            'value' => 'producto.nombre',
+            'headerOptions' => ['style' => 'width:54%'],
+        ],
+//        ['label' => 'Categoría','value' => 'producto.categoria.nombre'],
         [
           'label' => 'Cantidad',
           'attribute' => 'cantidad',
           'contentOptions' => ['class' => 'text-right'],
-          'headerOptions' => ['class' => 'text-right']
+          'headerOptions' => ['class' => 'text-right'],
+          'headerOptions' => ['style' => 'width:23px;'],
         ],
+        ['label' => 'Unidad', 'value' => 'unidad.nombre_unidad'],
         [
-          'label' => 'Subtotal',
-          'attribute' => 'precio_linea',
+          'label' => 'Precio Unitario',
+          'attribute' => 'precio_unitario',
           'format' => ['currency'],
           'contentOptions' => ['class' => 'text-right'],
           'headerOptions' => ['class' => 'text-right']

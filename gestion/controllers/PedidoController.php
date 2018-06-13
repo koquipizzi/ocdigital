@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use app\commands\SyncController;
+use app\models\EstadoProximo;
 use Yii;
 use app\models\Pedido;
 use app\models\PedidoSearch;
@@ -26,6 +27,11 @@ use app\models\ComandaDetalle;
 use app\models\ProductoSearch;
 use app\models\ComandaSearch;
 use app\models\Comanda;
+use app\models\Event;
+use app\models\Workflow;
+use app\models\Estado;
+
+use kartik\mpdf\Pdf;
 
 use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
@@ -34,7 +40,8 @@ use bedezign\yii2\audit\models\AuditTrailSearch;
 
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-
+use \DateTime;
+use yii\db\Query;
 
 /**
  * PedidoController implements the CRUD actions for Pedido model.
@@ -69,21 +76,80 @@ class PedidoController extends Controller
     public function actionIndex()
     {
         $searchModel = new PedidoSearch();
-        $dataProviderSinComandas = $searchModel->searchSinComandas(Yii::$app->request->queryParams);
-
-        $orden_entrega = $this->orden_entrega;
-        foreach ($dataProviderSinComandas->getModels() as $value)
-            {
-              $this->orden_entrega[] = $value['orden_reparto'];
-            }
+        $dataProvider = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProviderSinComandas,
+            'dataProvider' => $dataProvider,
             'orden_reparto'=> $orden_entrega,
         ]);
     }
-    
+
+    public function actionIndex_pendientes()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosEnEspera(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndex_pendientes_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosEnEsperaViajante(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndex_aceptados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosAceptados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionIndex_expedicion()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosExpedicion(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionIndex_despachados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+    public function actionIndex_cancelados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosCancelados(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
 	public function actionHindex($info='')
     {
         $searchModel = new PedidoSearch();
@@ -233,12 +299,22 @@ class PedidoController extends Controller
     public function actionCreate()
     {
         $modelPedido = new Pedido();
+        $modelEvent = new Event();
         $modelsPedidoDetalle = [new PedidoDetalle];
         $total = 0; //Cálculo de total de pedido
         $error = null;
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-
+            $modelPedido->gestor_id = Yii::$app->user->id;
+            $modelPedido->save();
+            $modelWorkflow = new Workflow();
+            $modelEstado   = new Estado();
+            $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
+            if (empty($rowEstado)) {
+                throw new \Exception("model Estado es vacío.");
+           }
+            
+            
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
 
@@ -248,7 +324,15 @@ class PedidoController extends Controller
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
-
+ 
+                $modelWorkflow->estado_id    = $rowEstado->id;
+                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                $modelWorkflow->pedido_id    = $modelPedido->id;
+                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+                $modelWorkflow->save();
+                if (empty($modelWorkflow)) {
+                    throw new \Exception("model Workflow fallo al salvar.");
+                }
                 try {
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
@@ -264,11 +348,21 @@ class PedidoController extends Controller
                         }
                         $modelPedido->precio_total = $total;
                         $modelPedido->estado = Pedido::ESTADO_MANUAL;
+                        $modelPedido->estado_id=1;
                         $modelPedido->save();
                     }
 
                     if ($flag) {
                         $transaction->commit();
+                        $pedido = Pedido::findOne($modelPedido->id);
+                        $modelEvent->start = $pedido->fecha_hora;
+                        $modelEvent->end = $pedido->fecha_hora;
+                        $modelEvent->entrega = $pedido->fecha_entrega;
+                        $modelEvent->title = $pedido->cliente->nombre;
+                        
+                        if (!$modelEvent->save()) {
+                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelEvent->id}.");
+                        }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
                 } catch (Exception $e) {
@@ -293,14 +387,16 @@ class PedidoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $proceso=null)
     {
+
+        
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
+        $mensaje = array();
 
         if ($modelPedido->load(Yii::$app->request->post())) {
-
             $oldIDs = ArrayHelper::map($modelsPedidoDetalle, 'id', 'id');
             $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle);
             Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
@@ -308,10 +404,12 @@ class PedidoController extends Controller
 
             // validate all models
             $valid = $modelPedido->validate();
-         //   $valid = Model::validateMultiple($modelsPedidoDetalle) && $valid;
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
+                if(!empty($modelPedido->estado_id)) {
+                    $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
+                }
                 try {
                     if ($flag = $modelPedido->save(false)) {
                         if (!empty($deletedIDs)) {
@@ -320,37 +418,64 @@ class PedidoController extends Controller
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
+                            
+                             //Actualmente no calculamos el total del pedido
                             $modelPedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$modelPedidoDetalle->cantidad) ;
                             $total = $modelPedidoDetalle->precio_linea + $total;
-
+                            
                             if (! ($flag = $modelPedidoDetalle->save())) {
                                 $transaction->rollBack();
                                 break;
                             }
                         }
                         $modelPedido->precio_total = $total;
-                        $modelPedido->save();
-                    }
-                    if ($flag) {
-                        $transaction->commit();
-                        if ($modelPedido->estado <> Pedido::ESTADO_MANUAL) {
-                            $pedidoNuevo = Yii::$app->woocomponent->newPedido($this->createPedidoJSON($modelPedido));
-                            $pedido = Yii::$app->woocomponent->deletePedido($modelPedido->web_id);
-                            $modelPedido->web_id = $pedidoNuevo['id'];
-                            $modelPedido->save();
+                        if(!$modelPedido->save()) {
+                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelPedido->id}.");
                         }
-                        return $this->redirect(['view', 'id' => $modelPedido->id]);
+                        if ($flag) {
+                            $transaction->commit();
+                        }
+                        
                     }
+                    return $this->redirect(['view', 'id' => $modelPedido->id]);
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
             }
         }
 
-        return $this->render('update', [
-            'model' => $modelPedido,
-            'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle
-        ]);
+        if ($proceso == 'aceptar') {
+            $query = new Query;
+            $query->select('estado.id,estado.descripcion')
+             ->from('estado')
+             ->join(
+              'join',
+              'estado_proximo',
+              'estado.id =estado_proximo.estado_destino_id'
+             )
+             ->where(["estado_proximo.estado_origen_id" =>$modelPedido->estado_id]);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $arrayDataEstadoskv = array();
+            if (!empty($data) && is_array($data) && is_array($data[0])) {
+              //  var_dump($data[0]);
+                foreach ($data as $k => $v) {
+                    $arrayDataEstadoskv[$v['id']] = $v['descripcion'];
+                }
+            }
+            return $this->render('update', [
+             'model' => $modelPedido,
+             'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+             'vista' => 'form_aceptar',
+             'arrayDataEstadoskv' => $arrayDataEstadoskv
+            ]);
+        }
+        else 
+            return $this->render('update', [
+                'model' => $modelPedido,
+                'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+                'vista' => ''
+                ]);
 
 
 
@@ -365,6 +490,32 @@ class PedidoController extends Controller
         }
     }
 
+    
+    
+    private function updateEstado($stado_destino_id,$pedido_id){
+     
+            $idLastWorkflow              = Workflow::lastStatePedido($pedido_id);
+            $modelLastWorkflow           = Workflow::find()->where(["id"=>$idLastWorkflow])->one();
+            $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
+       
+            if(!$modelLastWorkflow->update() ){
+                throw new \Exception("fallo al actualizar el modelo workflol. id={$modelLastWorkflow->id}.");
+            }
+ 
+            $modelWorkflow               = new Workflow();
+            $modelWorkflow->estado_id    = $stado_destino_id;
+            $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+            $modelWorkflow->pedido_id    = $pedido_id;
+            $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+            if(!$modelWorkflow->save() ){
+                throw new \Exception("fallo al actualizar el modelo workflow.");
+            }
+    }
+    
+    
+    
+    
+    
     /**
      * Deletes an existing Pedido model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -528,13 +679,12 @@ class PedidoController extends Controller
       ];
       return $data;
     }
-	
-	
-	/**
-	 * @param      $clienteId
-	 * @param null $q
-	 */
-	public function actionProductosPorCliente($clienteId, $q=null)
+    
+    /**
+     * @param      $clienteId
+     * @param null $q
+     */
+    public function actionProductosPorCliente($clienteId, $q=null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
@@ -553,19 +703,19 @@ class PedidoController extends Controller
             }
             if (!is_null($q)) {
                 $productos = Producto::find()->Where(['in','id', $pr])
-                                            ->andFilterWhere(['like', 'nombre', $q])->all();
+                 ->andFilterWhere(['like', 'codigo_nombre_producto', $q])->all();
             }
             else {
                 $productos = Producto::find()->Where(['in','id', $pr])->all();
             }
             foreach ($productos as $producto){
-                $out[] = ['id' => $producto->id, 'text' => $producto->nombre];
+                $out[] = ['id' => $producto->id, 'text' => $producto->codigo_nombre_producto];
             }
         }
         echo  json_encode(['results'=>$out]);
         die();
     }
-	
+
 	/**
 	 * @param $id
 	 * @throws NotFoundHttpException
@@ -943,13 +1093,17 @@ class PedidoController extends Controller
 
     public function actionGetClienteDireccion()
     {
+        $response = ['rta' => false];
         $id = (int) Yii::$app->request->getQueryParam('id');
-        $cliente = Cliente::find()->select('direccion')->where(['id' => $id])->one();
-        $response = $cliente->direccion;
-        if (empty($response)) {
-            $response = ' ';
+        $cliente = Cliente::find()->where(['id' => $id])->asArray()->one();
+    
+        if (!empty($cliente)){
+            $response = ['rta' => true, 'results'=>$cliente];
         }
-        echo  $response;
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+
     }
 
 
@@ -973,5 +1127,42 @@ class PedidoController extends Controller
             'submodelo' => $submodelo,
         ]);
    }
-
+    private function crearPdf($model,$form,$css=null)
+    {
+        $pedido_id = $model->id;
+        $date = new \DateTime();
+        $fecha =   $date->format('d-m-Y');
+        $pdf = new Pdf ( [
+            'mode' => Pdf::MODE_CORE,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            'cssFile' => $css ? $css : '@app/web/css/print/informe.css',
+            'content' => $this->renderPartial($form,[
+                'model' => $model,
+            ]),
+            'options' => [
+                'title' => 'Forestal Pico: Sistema de Gestión de Pedidos'
+            ],
+            'methods' => [
+                'SetHeader' => ['Forestal Pico: Sistema de Gestión de Pedidos'.'<BR>Pedido Nro: '.$pedido_id.' - Fecha: '.$fecha	],
+                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO}'],
+            ]
+        ] );
+        
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'application/pdf');
+        return $pdf->render ();
+    }
+    
+    public function actionPrint(){
+        $pedido_id = Yii::$app->request->get('id');
+        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
+        $form = '_print_expedicion';
+        $css =  '@app/web/css/print/expedicion.css';
+        $this->crearPdf($model_pedido,$form,$css);
+        
+    }
+    
+    
 }
