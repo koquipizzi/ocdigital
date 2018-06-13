@@ -144,10 +144,10 @@ JS;
 ?>
 
 <div class="pedido-form">
-    
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <input id="clienteID" name="clienteID" type="hidden" value="xm234jq">
     <div class="row">
+      
         <div class="col-sm-6">
             <?php
                 $clientes = Cliente::find()->all();
@@ -333,6 +333,19 @@ JS;
     <div class="form-group" style="float:right;">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?php
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name ==='Viajante')
+            {
+                $urlIndex = Url::to(['/pedido/index_pendientes_viajante']);
+            }else{
+                $urlIndex = Url::to(['/pedido/index_pendientes']);
+            }
+          
+            echo Html::a('Cancelar',$urlIndex, ['class'=>'btn btn-danger'])
+        ?>
+
+
     </div>
     
     <?php DynamicFormWidget::end(); ?>
