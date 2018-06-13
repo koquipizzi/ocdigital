@@ -333,7 +333,6 @@ class PedidoController extends Controller
 
             // validate all models
             $valid = $modelPedido->validate();
-        //    $valid = Model::validateMultiple($modelsPedidoDetalle) && $valid;
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
@@ -342,8 +341,8 @@ class PedidoController extends Controller
                     $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
                     $modelWorkflow->pedido_id    = $modelPedido->id;
                     $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
-                    if ($modelWorkflow->save()) {
-                        throw new \Exception("model Workflow fallo al salvar.");
+                    if (!$modelWorkflow->save()) {
+                        throw new \Exception("model Workflow error al salvar.");
                     }
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
