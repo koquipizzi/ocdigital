@@ -1,5 +1,21 @@
 <?php
 use mdm\admin\components\Helper;
+use yii\helpers\Url;
+
+$this->registerJs('var ajaxurlp = "' .Url::to(['pedido/cantidad']). '";', \yii\web\View::POS_HEAD);
+$js = 'function refresh() {
+        $.ajax({
+            url: ajaxurlp,
+            success: function(data) {
+            $("#cant").html(data);
+            }
+        });
+      //  $.pjax.reload({container:"#cant"});
+        setTimeout(refresh, 50000); // restart the function every 5 seconds
+        }
+        refresh();';
+
+ $this->registerJs($js, $this::POS_READY);
 ?>
 
 <aside class="main-sidebar">
@@ -20,6 +36,8 @@ use mdm\admin\components\Helper;
         </div>
         <?php
             $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            $cant_pedidos = '<span class="pull-right-container"><small class="label pull-right bg-red"><div id="cant">
+            </div></small></span>';
             
             if ( current($userRole)->name != 'Viajante'){
                 echo dmstr\widgets\Menu::widget(
@@ -29,7 +47,7 @@ use mdm\admin\components\Helper;
                             [
                                 ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                                 ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
-                                ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes']],
+                                ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos.'</a>'],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados']],
                                 ['label' => 'Pedidos En Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion']],
                                 ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados']],
@@ -37,7 +55,7 @@ use mdm\admin\components\Helper;
                                 //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
                                 ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
-                                ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index'],  'template'=>'<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">123</small></span></a>'],
+                                ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
                                 //['label' => 'Productos Pendientes', 'icon' => 'clock-o', 'url' => ['/producto/pindex']],
                                 [
                                     'label' => 'Configuración',
