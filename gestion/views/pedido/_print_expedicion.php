@@ -53,7 +53,7 @@
                 <tr>
                     <td style="text-align: left"  colspan="4">
                         <?php
-                            echo "<h4>Formulario de Expedición</h4>";
+                            echo "<h3>Formulario de Expedición</h3>";
                             echo "<p>DE USO INTERNO</p>";
                         ?>
                     </td>

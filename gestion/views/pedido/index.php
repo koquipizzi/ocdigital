@@ -85,10 +85,14 @@ if(!empty($info))
     
     <div class="box box-warning with-border">
     <div class="box-header">
-      <?= Html::encode(Yii::t('app', 'Listado de Pedidos')) ?>
+        <div class="pull-left">
+           <h2 class="page-header"><?php echo $titulo; ?></h2>
+        </div>
+        
         <div class="pull-right">
             <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
+    </div>
     <div class="box-body">
         <?php
             echo GridView::widget([
