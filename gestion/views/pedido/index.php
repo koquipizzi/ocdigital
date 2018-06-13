@@ -227,23 +227,7 @@ if(!empty($info))
                                 else
                                     return "";
                             },
-                           /* 'delete' => function ($url, $model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante')
-                                {
-                                    $url =  Url::toRoute(['/pedido/delete', 'id' => $model["id"]]);
-                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
-                                }
-                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1)
-                                {
-                                    $url =  Url::toRoute(['/pedido/delete', 'id' => $model["id"]]);
-                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
-                                }
-                                else
-                                    return "";
-                            },*/
-                         'delete' => function ($url, $model) {
-                             
+                         'delete' => function ($url, $model) {                 
                              return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
                               'title' => Yii::t('app', 'Restart Production'),
                               'class'=> '',
