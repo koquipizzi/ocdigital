@@ -2,10 +2,10 @@
 use mdm\admin\components\Helper;
 use yii\helpers\Url;
 
-$this->registerJs('var ajaxurlp = "' .Url::to(['pedido/cantidad']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var ajaxHome = "' .Url::to(['pedido/cantidad']). '";', \yii\web\View::POS_HEAD);
 $js = 'function refresh() {
         $.ajax({
-            url: ajaxurlp,
+            url: ajaxHome,
             success: function(data) {
             $("#cant").html(data);
             }

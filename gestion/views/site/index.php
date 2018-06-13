@@ -16,10 +16,10 @@ use yii\bootstrap\Modal;
 
 $this->title = "Sistema de Gestión de Toma de Pedidos";
 
-$this->registerJs('var ajaxurlp = "' .Url::to(['pedido/cantidad']). '";', \yii\web\View::POS_HEAD);
+$this->registerJs('var ajaxHomeIndex = "' .Url::to(['pedido/cantidad']). '";', \yii\web\View::POS_HEAD);
 $js = 'function refresh() {
         $.ajax({
-            url: ajaxurlp,
+            url: ajaxHomeIndex,
             success: function(data) {
             $("#cant").html(data);
             }
@@ -40,10 +40,34 @@ $js = 'function refresh() {
   ?>
 
   <div class="row">
-
-  <div class="col-lg-4 col-xs-6">
-
-   <?php echo LteInfoBox::widget([
+    <div class="col-lg-8 col-xs-6">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Pedidos Realizados</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+      
+          <?php
+              echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
+              'events'=> $e,
+              'id' => 'calendar',
+            /* 'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+                      $("#myModalHeader").html(calEvent.title);
+                      $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
+                      $("#myModal").modal();
+                  }',
+                  */
+              ));
+          ?>
+          </div>
+      </div> 
+    </div>
+    
+    <div class="col-lg-4 col-xs-6">
+              <?php echo LteInfoBox::widget([
                       'bgIconColor'=>LteConst::COLOR_ORANGE,
                       'bgColor'=>'',
                       'number'=>Pedido::getTotalPedidosPendientes(),
@@ -53,9 +77,7 @@ $js = 'function refresh() {
                       'progressNumber'=>66,
                       //'description'=>'P'
                   ])?>
-</div>
 
-  <div class="col-lg-4 col-xs-6">
     <?php echo LteInfoBox::widget([
                       'bgIconColor'=>LteConst::COLOR_YELLOW,
                       'bgColor'=>'',
@@ -67,9 +89,7 @@ $js = 'function refresh() {
                       //'description'=>'P'
                   ])?>
 
-  </div>
 
-  <div class="col-lg-4 col-xs-6">
       <?php echo LteInfoBox::widget([
                       'bgIconColor'=>LteConst::COLOR_GRAY,
                       'bgColor'=>'',
@@ -81,33 +101,6 @@ $js = 'function refresh() {
                       //'description'=>'P'
                   ])?>
 
-  </div>
 
-</div>
-
-
-  <div class="box box-info">
-    <div class="box-header with-border">
-      <h3 class="box-title">Pedidos Realizados</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
     </div>
-    <div class="box-body">
-  
-      <?php
-          echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
-          'events'=> $e,
-          'id' => 'calendar',
-         /* 'eventClick'=> 'js:function(calEvent, jsEvent, view) {
-                  $("#myModalHeader").html(calEvent.title);
-                  $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
-                  $("#myModal").modal();
-              }',
-              */
-           ));
-      ?>
-      </div>
-  </div> 
-
 
