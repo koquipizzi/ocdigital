@@ -60,7 +60,7 @@ if(!empty($mensaje))
 } 
 
 $this->title = 'Pedido Nro: '.$model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index_pendientes']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pedido-view">
@@ -102,7 +102,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['date', 'php:d/m/Y '],
             ],
             [
-                'label' => 'Gestor Del Pedido',
+                'label' => 'Estado',
+                'value' => function($model){
+                    return $model->EstadoNombre;
+                }
+            ],
+            [
+                'label' => 'Gestor',
                 'value' => function($model){
                     return $model->getGestorPedidoName();
                 },

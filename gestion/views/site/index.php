@@ -51,16 +51,18 @@ $js = 'function refresh() {
         <div class="box-body">
       
           <?php
-              echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
+              echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget([
               'events'=> $e,
               'id' => 'calendar',
-            /* 'eventClick'=> 'js:function(calEvent, jsEvent, view) {
-                      $("#myModalHeader").html(calEvent.title);
-                      $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
-                      $("#myModal").modal();
-                  }',
-                  */
-              ));
+                  'options' => [
+                      'eventLimit' => 3,
+                      'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+                          $("#myModalHeader").html(calEvent.title);
+                          $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
+                          $("#myModal").modal();
+                      }',
+                  ],
+              ]);
           ?>
           </div>
       </div> 
@@ -70,9 +72,9 @@ $js = 'function refresh() {
               <?php echo LteInfoBox::widget([
                       'bgIconColor'=>LteConst::COLOR_ORANGE,
                       'bgColor'=>'',
-                      'number'=>Pedido::getTotalPedidosPendientes(),
-                      'text'=>'<a href="/">Pedidos Pendientes</a>',
-                      'icon'=>'fa fa-clock-o',
+                      'number'=> Pedido::getTotalPedidos(),
+                      'text'=>'<a href="/">Total de Pedidos</a>',
+                      'icon'=>'fa fa-briefcase',
                       'showProgress'=>false,
                       'progressNumber'=>66,
                       //'description'=>'P'
