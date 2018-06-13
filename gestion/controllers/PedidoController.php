@@ -330,7 +330,7 @@ class PedidoController extends Controller
                 $modelWorkflow->pedido_id    = $modelPedido->id;
                 $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
                 $modelWorkflow->save();
-                if (empty($modelWorkflow)) {
+                if (!$modelWorkflow) {
                     throw new \Exception("model Workflow fallo al salvar.");
                 }
                 try {
