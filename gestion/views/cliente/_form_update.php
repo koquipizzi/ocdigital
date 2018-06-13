@@ -61,6 +61,8 @@ $this->registerJs($js);
     <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->input('email') ?>
+    
+    <?= $form->field($model, 'direccion')->input('direccion') ?>
 
     <?= $form->field($model, 'telefono')->input('telefono') ?>
 
