@@ -54,7 +54,7 @@
                     <td style="text-align: left"  colspan="4">
                         <?php
                             echo "<h4>Formulario de Expedición</h4>";
-                            echo "<p>de uso interno </p>";
+                            echo "<p>DE USO INTERNO</p>";
                         ?>
                     </td>
                 </tr>
@@ -121,9 +121,9 @@
                         ?>
                         <?php
                             echo "<strong> N° de Doc.: </strong>" ;
-                            if (!empty($model->ClienteDocumento)) { 
+                            if (!empty($model->ClienteDocumento)){
                                 $documento = number_format($model->ClienteDocumento,0,'.','.');
-                                echo $documento; 
+                                echo $documento;
                             }
                             echo "<br>";
                         ?>
@@ -164,7 +164,7 @@
                         <td style="text-align: left"  colspan="4">
                             <?php
                                 echo "<h4>Formulario de Administración</h4>";
-                                echo "<p>de uso interno </p>";
+                                echo "<p>DE USO INTERNO</p>";
                             ?>
                         </td>
                     </tr>

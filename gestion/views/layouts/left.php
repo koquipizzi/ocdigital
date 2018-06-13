@@ -77,8 +77,9 @@ $js = 'function refresh() {
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                                ['label' => 'Pedidos', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus','options' => ['class' => 'bg-orange'], 'url' => ['/pedido/create']],
+                                ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
+                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']]
                             ]
                     ]);
             }

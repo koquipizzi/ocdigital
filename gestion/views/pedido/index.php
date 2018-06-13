@@ -82,7 +82,7 @@ if(!empty($info))
 } ?>
 
 <div class="pedido-index">
-    <?php Pjax::begin(['id' => 'pedidos']); ?>
+    
     <div class="box box-warning with-border">
     <div class="box-header">
       <?= Html::encode(Yii::t('app', 'Listado de Pedidos')) ?>
@@ -238,11 +238,12 @@ if(!empty($info))
                                     return "";
                             },
                         ]
+
                     ],
                 ],
             ]); ?>
         <?= Html::endForm();?>
-        <?php Pjax::end(); ?>
+        
     </div>
 
 </div>
