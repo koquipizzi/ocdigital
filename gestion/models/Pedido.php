@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\Cliente;
+use app\models\Estado;
 use Empathy\Validators\DateTimeCompareValidator;
 /**
  * This is the model class for table "pedido".
@@ -197,12 +198,9 @@ class Pedido extends \yii\db\ActiveRecord
         return (float) $this->precio_total + (float) $this->flete_valor;
     }
 
-    public static function getTotalPedidosPendientes()
+    public static function getTotalPedidos()
     {
-       return Pedido::find()->where(['comanda_id' => null])
-                            ->andWhere(['or',['estado'=> Pedido::ESTADO_MANUAL],
-                                             ['estado'=> Pedido::ESTADO_PROCESANDO]
-                                       ])->count();
+       return Pedido::find()->where([])->count();
     }
 
     public function afterSave($insert, $changeAttributes){
@@ -250,6 +248,15 @@ class Pedido extends \yii\db\ActiveRecord
             return '';
         }else{
             return $modelCliente->codigo;
+        }
+    }
+    
+    public function getEstadoNombre(){
+        $modelEstado = Estado::find()->where(['id' => $this->estado_id])->one();
+        if (empty($modelEstado->descripcion)){
+            return '';
+        }else{
+            return $modelEstado->descripcion;
         }
     }
 
