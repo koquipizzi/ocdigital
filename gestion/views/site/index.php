@@ -54,12 +54,19 @@ $js = 'function refresh() {
               echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget(array(
               'events'=> $e,
               'id' => 'calendar',
-            /* 'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+              'options' => [
+                'language' => 'es',
+                'eventLimit' => true,
+                //... more options to be defined here!
+                'eventClick'=> 'js:function(calEvent, jsEvent, view) {
                       $("#myModalHeader").html(calEvent.title);
                       $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
                       $("#myModal").modal();
                   }',
-                  */
+              ],
+              
+            
+                  
               ));
           ?>
           </div>
