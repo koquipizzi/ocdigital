@@ -1163,6 +1163,13 @@ class PedidoController extends Controller
         $this->crearPdf($model_pedido,$form,$css);
         
     }
+
+    public function actionCantidad()
+    {
+        $modelos = Pedido::find()->where(['estado_id' => 1])->count();
+
+       return $modelos;
+    }
     
     
 }
