@@ -8,6 +8,56 @@ use app\models\Unidad;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pedido */
+-
+$mensaje = Yii::$app->getRequest()->getQueryParam('mensaje'); 
+$error = Yii::$app->getRequest()->getQueryParam('error'); 
+
+
+if(!empty($mensaje))
+{
+  if ($mensaje){
+    echo Noty::widget([
+      'text' => $mensaje,
+      'type' => Noty::ERROR,
+      'useAnimateCss' => true,
+      'clientOptions' => [
+          'timeout' => 5000,
+          'layout' => 'topCenter',
+          'dismissQueue' => true,
+          'progressBar'=> true,
+          'killer' => true,
+          'theme' => 'metroui',
+          'animation' => [
+              'open' => 'animated bounceInLeft',
+              'close' => 'animated bounceOutLeft',
+              'easing' => 'swing',
+              'speed' => 500
+          ]
+      ]
+  ]);
+  }else{
+    echo Noty::widget([
+      'text' => $mensaje,
+      'type' => Noty::SUCCESS,
+      'useAnimateCss' => true,
+      'clientOptions' => [
+          'timeout' => 2000,
+          'layout' => 'topCenter',
+          'dismissQueue' => true,
+          'theme' => 'metroui',
+          'progressBar'=> true,
+          'killer' => true,
+          'animation' => [
+              'open' => 'animated bounceInLeft',
+              'close' => 'animated bounceOutLeft',
+              'easing' => 'swing',
+              'speed' => 500
+          ]
+      ]
+  ]);
+  }
+
+} 
 
 $this->title = 'Pedido Nro: '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index']];
@@ -19,7 +69,18 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= Html::encode($this->title) ?>
       <div class="pull-right">
         <?= Html::a('<i class="fa fa-arrow-left"></i> Volver',Yii::$app->request->referrer, ['class'=>'btn btn-primary']) ?>
-          <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary'])?>
+          <?php
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name !='Viajante')
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            if ( current($userRole)->name == 'Viajante' && $model->estado_id==1)
+            {
+                echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
+            }
+            
+           ?>
     </div>
   </div>
   <div class="box-body">
