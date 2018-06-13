@@ -134,7 +134,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->contacto);
         return $condicion ? $modelCliente->contacto : "" ;
@@ -145,7 +145,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->telefono);
         return $condicion ? $modelCliente->telefono : "" ;
@@ -156,7 +156,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->hora_reparto);
         return $condicion ? $modelCliente->hora_reparto : "" ;
@@ -175,7 +175,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->razon_social);
         return $condicion ? $modelCliente->razon_social : $modelCliente->nombre ;
@@ -186,7 +186,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
         $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
         if (empty($modelCliente)){
-          return ' ';
+          return '';
         }else{
           return $modelCliente->email;
         }
@@ -247,7 +247,7 @@ class Pedido extends \yii\db\ActiveRecord
     public function getCodigoCliente(){
         $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
         if (empty($modelCliente->codigo)){
-            return ' ';
+            return '';
         }else{
             return $modelCliente->codigo;
         }
