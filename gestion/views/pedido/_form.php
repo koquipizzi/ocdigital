@@ -151,7 +151,7 @@ JS;
         <div class="col-sm-6">
             <?php
                 $clientes = Cliente::find()->all();
-                $listData = ArrayHelper::map($clientes,'id', 'nombre');
+                $listData = ArrayHelper::map($clientes,'id', 'codigo_nombre_cliente');
                 echo $form->field ($model, 'cliente_id', ['template' => "{label} {input} {hint} {error}"]
                 )->widget(select2::classname(), [
                     'data' => $listData ,
@@ -292,7 +292,7 @@ JS;
                                                     //    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                                                 ],
                                             ]       ,
-                                            'options' => [
+                                           /* 'options' => [
                                                 'onchange' => "
                                                         var idProducto = $(this).val();
                                                         url = ajaxurlp+'&id='+idProducto;
@@ -302,7 +302,7 @@ JS;
                                                                 $('#pedidodetalle-'+linea+'-unidad_id').val(data.data.unidad_id);
                                                             }
                                                         });"
-                                            ],
+                                            ],*/
                                         ]);
                                 ?>
                             </div>

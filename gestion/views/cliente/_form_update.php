@@ -58,15 +58,43 @@ $this->registerJs($js);
 
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
-    <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'codigo')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
+        </div>
 
-    <?= $form->field($model, 'email')->input('email') ?>
+    </div>
 
-    <?= $form->field($model, 'telefono')->input('telefono') ?>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
+        </div>
 
-    <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
+        <div class="col-md-4">
+            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'hora_reparto')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'email')->input('email') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'hora_reparto')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
     <?php
     DynamicFormWidget::begin([

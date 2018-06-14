@@ -29,6 +29,7 @@ use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
 use app\models\Workflow;
+use app\models\WorkflowSearch;
 use app\models\Estado;
 
 use kartik\mpdf\Pdf;
@@ -136,18 +137,7 @@ class PedidoController extends Controller
         ]);
     }
 
-    public function actionIndex_despachados()
-    {
-        $searchModel = new PedidoSearch();
-        $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
-        $titulo = "Pedidos Despachados";
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'titulo' => $titulo,
-        ]);
-    }
     public function actionIndex_cancelados()
     {
         $searchModel = new PedidoSearch();
@@ -184,10 +174,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoDetalleSearch();
         $dataProvider = $searchModel->searchDetalle($id);
-
+        $searchModelWorkflow = new WorkflowSearch();
+        $dataProviderWorkflow = $searchModelWorkflow->searchDetalleWorkflow(null,$id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider
+            'model'                 => $this->findModel($id),
+            'dataProvider'          => $dataProvider,
+            'dataProviderWorkflow'  =>$dataProviderWorkflow
         ]);
     }
 	
@@ -502,11 +494,8 @@ class PedidoController extends Controller
             ]);
         }
     }
-
-    
     
     private function updateEstado($stado_destino_id,$pedido_id){
-     
             $idLastWorkflow              = Workflow::lastStatePedido($pedido_id);
             $modelLastWorkflow           = Workflow::find()->where(["id"=>$idLastWorkflow])->one();
             $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
@@ -1154,7 +1143,7 @@ class PedidoController extends Controller
             'submodelo' => $submodelo,
         ]);
    }
-    private function crearPdf($model,$form,$css=null)
+    private function crearPdf($model,$form,$header,$css=null)
     {
         $pedido_id = $model->id;
         $date = new \DateTime();
@@ -1172,8 +1161,8 @@ class PedidoController extends Controller
                 'title' => 'Forestal Pico: Sistema de Gestión de Pedidos'
             ],
             'methods' => [
-                'SetHeader' => ['Forestal Pico: Sistema de Gestión de Pedidos'.'<BR>Pedido Nro: '.$pedido_id.' - Fecha: '.$fecha	],
-                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO}'],
+                'SetHeader' => $this->renderPartial($header,['model' => $model]),
+                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO} de {nbpg}'],
             ]
         ] );
         
@@ -1186,9 +1175,18 @@ class PedidoController extends Controller
         $pedido_id = Yii::$app->request->get('id');
         $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
         $form = '_print_expedicion';
+        $header = 'headerPDF';
         $css =  '@app/web/css/print/expedicion.css';
-        $this->crearPdf($model_pedido,$form,$css);
-        
+        $this->crearPdf($model_pedido,$form,$header,$css);
+    }
+    
+    public function actionPrintAdministracion(){
+        $pedido_id = Yii::$app->request->get('id');
+        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
+        $form = '_print_administracion';
+        $header = 'headerAdministracionPDF';
+        $css =  '@app/web/css/print/expedicion.css';
+        $this->crearPdf($model_pedido,$form,$header,$css);
     }
 
     public function actionCantidad()
