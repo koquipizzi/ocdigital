@@ -103,7 +103,7 @@ class PedidoController extends Controller
         $dataProvider = $searchModel->searchTodos(Yii::$app->request->queryParams);
         $titulo = "Todos los Pedidos";
         
-        return $this->render('index', [
+        return $this->render('index_todos', [
          'searchModel' => $searchModel,
          'dataProvider' => $dataProvider,
          'titulo' => $titulo,
@@ -1204,14 +1204,14 @@ class PedidoController extends Controller
     public function actionCantidad()
     {
     
-        $cantPendiente = Pedido::countPedidosPendiente();
-        $cantAceptados = Pedido::countPedidosAceptados();
+        $cantPendiente   = Pedido::countPedidosPendiente();
+        $cantAceptados  = Pedido::countPedidosAceptados();
         $cantExpedicion = Pedido::countPedidosExpedicion();
-        $cantDespacho = Pedido::countPedidosDespacho();
-        $cantCancelado = Pedido::countPedidosCancelado();
-        
+        $cantDespacho   = Pedido::countPedidosDespacho();
+        $cantCancelado  = Pedido::countPedidosCancelado();
+        $cantTodos      = Pedido::countTodosLosPedidos();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado];
+        return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado,'todos'=>$cantTodos];
     }
     
     

@@ -8,7 +8,8 @@ use yii\helpers\Url;
 use kartik\spinner\Spinner;
 use eleiva\noty\Noty;
 use app\models\Pedido;
-
+use yii\helpers\ArrayHelper;
+use app\models\Estado;
 $this->title = Yii::t('app', 'Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -107,35 +108,14 @@ if(!empty($info))
                     [
                         'label' => 'Nro. Pedido',
                         'attribute' => 'id',
-                        'headerOptions' => ['style' => 'width:1%']
+                        'headerOptions' => ['style' => 'width:10%']
                     ],
                     [
-                        'label' => 'Fecha de Entrega',
-                        'attribute' => 'fecha_entrega',
-                        'contentOptions' => ['style' => 'width:10%;'],
-                        'format' => ['date', 'php:d/m/Y'],
-                        'filter' => DateRangePicker::widget([
-                        'template' => '
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                    {input}
-                                </div>
-                            ',
-                            'model' => $searchModel,
-                            'locale'    => 'es-ES',
-                            'attribute' => 'fecha_entrega',
-                            'pluginOptions' => [
-                                'locale'=> [
-                                    'format'=>'DD/MM/YYYY',
-                                    'separator'=>' - ',
-                                    'applyLabel' => 'Seleccionar',
-                                    'cancelLabel' => 'Cancelar',
-                                ],
-                                'autoUpdateInput' => false,
-                            ]
-                        ])
+                     'label'=>Yii::t('app', 'Estado'),
+                     'contentOptions' => ['style' => 'width:10%;'],
+                     'attribute'=>'estado_id',
+                     'value'=>'estado_descripcion',
+                     'filter' => Html::activeDropDownList($searchModel, 'estado_id', ArrayHelper::map(Estado::find()->select('id as estado_id,descripcion')->asArray()->all(), 'estado_id', 'descripcion'),['class'=>'form-control','prompt' => 'Estado...']),
                     ],
                     [
                         'label' => 'Fecha de Ingreso',
@@ -172,13 +152,8 @@ if(!empty($info))
                         'contentOptions' => ['style' => 'width:20px;'],
                     ],
                     [
-                        'label' => 'Gestor Del Pedido',
-                        'format' => 'raw',
-                        'value' => function($model){
-                            return $model["username"];
-                        },
-                        'headerOptions' => ['style' => 'width:10%'],
-                        'contentOptions' => ['style' => 'width:10px;'],
+                      'label' => 'Gestor Del Pedido',
+                      'attribute' => 'username',
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',
@@ -198,7 +173,7 @@ if(!empty($info))
                                         $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                         return Html::a('<span class="fa fa-check"></span>',Url::to($url));
                                     }
-                                else      
+                                else
                                     return "";
                             },
                             'print' => function ($url,$model) {
@@ -252,4 +227,3 @@ if(!empty($info))
 
 $this->registerJsFile('@web/js/pedido.js', ['depends' => [yii\web\AssetBundle::className()]]);
 ?>
- 

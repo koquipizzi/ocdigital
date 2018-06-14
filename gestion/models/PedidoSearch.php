@@ -15,6 +15,8 @@ class PedidoSearch extends Pedido
 {
     public $razon_social;
     public $estado_id;
+    public $gestor_id;
+    public $username;
 
     /**
      * @inheritdoc
@@ -22,8 +24,8 @@ class PedidoSearch extends Pedido
     public function rules()
     {
         return [
-            [['id', 'web_id', 'cliente_id', 'comanda_id'], 'integer'],
-            [['fecha_hora', 'fecha_produccion', 'fecha_entrega', 'ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'estado','estado_id'], 'safe'],
+            [['id', 'web_id', 'cliente_id', 'comanda_id','gestor_id'], 'integer'],
+            [['fecha_hora', 'fecha_produccion', 'fecha_entrega', 'ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'estado','estado_id','username'], 'safe'],
             [['precio_total'], 'number'],
             [['razon_social'], 'string', 'max' => 255]
         ];
@@ -148,6 +150,29 @@ class PedidoSearch extends Pedido
             $where = $this->addWhereSentence($where, "detalle_pedido.fecha_minima_produccion BETWEEN STR_TO_DATE(:fecha_inicio_minima_produccion,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin_minima_produccion,'%d/%m/%Y')");
         }
     }
+    
+    /**
+     * Filtro de estado
+     */
+    private function estadoFilterFilter($params, &$where, &$queryParams) {
+        if($this->paramExists($params, 'estado_id')) {
+            $queryParams[':estado_id'] = $params['estado_id'];
+            $where = $this->addWhereSentence($where, "estado.id= :estado_id");
+        }
+    }
+    
+    /**
+     * Filtro de username
+     */
+    private function usernameFilter($params, &$where, &$queryParams) {
+        if($this->paramExists($params, 'username')) {
+            $queryParams[':username'] = "%".$params['username']."%";
+            $where = $this->addWhereSentence($where, "user.username like :username");
+        }
+    }
+
+
+
     
     /**
      * Creates data provider instance with search query applied
@@ -556,13 +581,14 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
+            ,pedido.fecha_hora
             ,pedido.confirmado
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
             ,user.username
             ,estado.id as estado_id
+            ,estado.descripcion as estado_descripcion
         ";
         $fromTables = '
             pedido
@@ -577,7 +603,10 @@ class PedidoSearch extends Pedido
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
-        
+    
+        $this->estadoFilterFilter($formParams, $where, $queryParams);
+    
+        $this->usernameFilter($formParams, $where, $queryParams);
         
         if(!empty($where)) {
             
@@ -616,8 +645,9 @@ class PedidoSearch extends Pedido
           'attributes' => [
            'razon_social',
            'nro_pedido',
-           'fecha_entrega',
+           'fecha_hora',
            'estado_id',
+           'username',
            'id' => [
             'asc' => [new Expression('id')],
             'desc' => [new Expression('id DESC ')],
