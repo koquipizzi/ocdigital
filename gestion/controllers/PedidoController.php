@@ -136,18 +136,7 @@ class PedidoController extends Controller
         ]);
     }
 
-    public function actionIndex_despachados()
-    {
-        $searchModel = new PedidoSearch();
-        $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
-        $titulo = "Pedidos Despachados";
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'titulo' => $titulo,
-        ]);
-    }
     public function actionIndex_cancelados()
     {
         $searchModel = new PedidoSearch();

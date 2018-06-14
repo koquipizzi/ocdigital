@@ -62,13 +62,10 @@ $js = 'function refresh() {
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos.'</a>'],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados'] ,'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_a.'</a>'],
                                 ['label' => 'Pedidos Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_e.'</a>'],
-                                ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_d.'</a>'],
                                 ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
-                                //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
                                 ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
                                 ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
-                                //['label' => 'Productos Pendientes', 'icon' => 'clock-o', 'url' => ['/producto/pindex']],
                                 [
                                     'label' => 'Configuración',
                                     'icon' => 'cogs',
