@@ -98,10 +98,8 @@ if(!empty($info))
                 'showFooter' => true,
                 'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
                 'rowOptions'=> function($model){
-                        if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
+                        if(is_array($model) && array_key_exists("estado_id",$model) && $model["estado_id"]==1){
                             return ['class' => 'danger'];
-                        }else{
-                            return ['class' => 'success'];
                         }
                 },
                 'columns' => [
@@ -163,12 +161,7 @@ if(!empty($info))
                         'buttons' => [
                             'confirm' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    {
-                                        $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
-                                        return Html::a('<span class="fa fa-check"></span>',Url::to($url));
-                                    }
-                                if ( current($userRole)->name =='Gerente' && $model["estado_id"]==1)
+                                if ( current($userRole)->name !='Viajante')
                                     {
                                         $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
                                         return Html::a('<span class="fa fa-check"></span>',Url::to($url));
