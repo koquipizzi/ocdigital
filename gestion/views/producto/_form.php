@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\Categoria;
 use app\models\Unidad;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
@@ -27,7 +28,7 @@ use app\models\Unidad;
             [
                 'data' => $listData ,
                 'language' => 'es',
-                'options' => ['placeholder' => 'Seleccione la unidad por defecto...'],
+                'options' => ['placeholder' => 'Seleccione la Unidad por defecto...'],
                 'pluginOptions' => [
                     'allowClear' => false
                 ]
@@ -43,7 +44,7 @@ use app\models\Unidad;
             [
                 'data' => $listData ,
                 'language' => 'es',
-                'options' => ['placeholder' => 'Seleccione una Categoria...'],
+                'options' => ['placeholder' => 'Seleccione una Categoría...'],
                 'pluginOptions' => [
                     'allowClear' => false
                 ]
@@ -52,9 +53,10 @@ use app\models\Unidad;
 
         <?= $form->field($model, 'precio_unitario')->textInput(['type' => 'real']) ?>
 
-      <div class="form-group" style="float:right;">
-          <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-      </div>
+        <div class="form-group" style="float:right;">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <a class="btn btn-default" href="<?php echo Url::to(["/producto/index"]) ?>">Cancelar</a>
+        </div>
 
 
 
