@@ -40,7 +40,7 @@ class Event extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['start', 'end', 'entrega'], 'required'],
+            [['start', 'end'], 'required'],
             [['start', 'end', 'entrega'], 'safe'],
             [['title', 'allDay', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'string', 'max' => 255],
         ];
