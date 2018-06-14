@@ -42,11 +42,11 @@ $js = 'function refresh() {
             $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
             $cant_pedidos = '<span class="pull-right-container"><small class="label pull-right bg-red"><div id="cant">
             </div></small></span>';
-             $cant_pedidos_a = '<span class="pull-right-container"><small class="label pull-right bg-red"><div id="canta">
+             $cant_pedidos_a = '<span class="pull-right-container"><small class="label pull-right bg-orange"><div id="canta">
             </div></small></span>';
-             $cant_pedidos_e = '<span style="border-left: 12px;" class="pull-right-container"><small class="label pull-right bg-red"><div id="cante">
+             $cant_pedidos_e = '<span style="border-left: 12px;" class="pull-right-container"><small class="label pull-right bg-blue"><div id="cante">
             </div></small></span>';
-             $cant_pedidos_d = '<span class="pull-right-container"><small class="label pull-right bg-red"><div id="cantd">
+             $cant_pedidos_d = '<span class="pull-right-container"><small class="label pull-right bg-teal"><div id="cantd">
             </div></small></span>';
              $cant_pedidos_c = '<span class="pull-right-container"><small class="label pull-right bg-red"><div id="cantc">
             </div></small></span>';
@@ -57,13 +57,13 @@ $js = 'function refresh() {
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                                ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
+                             //   ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                                 ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos.'</a>'],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados'] ,'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_a.'</a>'],
                                 ['label' => 'Pedidos Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_e.'</a>'],
                                 ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_d.'</a>'],
-                                ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
+                                ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados']],
                                 //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
                                 ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
