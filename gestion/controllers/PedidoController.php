@@ -96,6 +96,19 @@ class PedidoController extends Controller
             'titulo' => $titulo,
         ]);
     }
+    public function actionIndex_todos()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchTodos(Yii::$app->request->queryParams);
+        $titulo = "Todos los Pedidos";
+        
+        return $this->render('index', [
+         'searchModel' => $searchModel,
+         'dataProvider' => $dataProvider,
+         'titulo' => $titulo,
+        ]);
+    }
+    
 
     public function actionIndex_pendientes_viajante()
     {
@@ -346,7 +359,7 @@ class PedidoController extends Controller
                 if (empty($modelWorkflow)) {
                     throw new \Exception("model Workflow fallo al salvar.");
                 }
-                try {
+             //   try {
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
@@ -374,13 +387,13 @@ class PedidoController extends Controller
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
-                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelEvent->id}.");
+                            throw new \Exception("Error al salvar el modelo event.");
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
-                } catch (Exception $e) {
+               /* } catch (Exception $e) {
                     $transaction->rollBack();
-                }
+                }*/
             }
 
             $error = 'No se pudo crear el pedido correctamente. El pedido debe contener un producto al menos';
