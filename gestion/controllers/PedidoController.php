@@ -344,7 +344,7 @@ class PedidoController extends Controller
                 $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
                 $modelWorkflow->save();
                 if (empty($modelWorkflow)) {
-                    throw new \Exception("model Workflow fallo al salvar.");
+                    throw new \Exception("Error al salvar el modelo Workflow.");
                 }
                 try {
                     if ($flag = $modelPedido->save(false)) {
@@ -374,7 +374,7 @@ class PedidoController extends Controller
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
-                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelEvent->id}.");
+                            throw new \Exception("Error al actualizar el modelo pedido. id={$modelEvent->id}.");
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
@@ -443,7 +443,7 @@ class PedidoController extends Controller
                         }
                         $modelPedido->precio_total = $total;
                         if(!$modelPedido->save()) {
-                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelPedido->id}.");
+                            throw new \Exception("Error al actualizar el modelo pedido. id={$modelPedido->id}.");
                         }
                         if ($flag) {
                             $transaction->commit();
@@ -512,7 +512,7 @@ class PedidoController extends Controller
             $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
        
             if(!$modelLastWorkflow->update() ){
-                throw new \Exception("fallo al actualizar el modelo workflol. id={$modelLastWorkflow->id}.");
+                throw new \Exception("Error al actualizar el modelo workflow. id={$modelLastWorkflow->id}.");
             }
  
             $modelWorkflow               = new Workflow();
@@ -521,7 +521,7 @@ class PedidoController extends Controller
             $modelWorkflow->pedido_id    = $pedido_id;
             $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
             if(!$modelWorkflow->save() ){
-                throw new \Exception("fallo al actualizar el modelo workflow.");
+                throw new \Exception("Error al actualizar el modelo workflow.");
             }
     }
     
