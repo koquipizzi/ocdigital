@@ -346,7 +346,6 @@ class PedidoController extends Controller
 
             // validate all models
             $valid = $modelPedido->validate();
-        //    $valid = Model::validateMultiple($modelsPedidoDetalle) && $valid;
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
@@ -359,7 +358,7 @@ class PedidoController extends Controller
                 if (empty($modelWorkflow)) {
                     throw new \Exception("model Workflow fallo al salvar.");
                 }
-             //   try {
+                try {
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
@@ -391,9 +390,9 @@ class PedidoController extends Controller
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
-               /* } catch (Exception $e) {
+                } catch (Exception $e) {
                     $transaction->rollBack();
-                }*/
+                }
             }
 
             $error = 'No se pudo crear el pedido correctamente. El pedido debe contener un producto al menos';
