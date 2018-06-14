@@ -111,6 +111,19 @@ class PedidoController extends Controller
         ]);
     }
 
+    public function actionIndex_aceptados_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosAceptadosViajante(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Pendientes";
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
+        ]);
+    }
+
     public function actionIndex_aceptados()
     {
         $searchModel = new PedidoSearch();

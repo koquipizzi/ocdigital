@@ -57,7 +57,6 @@ $js = 'function refresh() {
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                             //   ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                                 ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos.'</a>'],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados'] ,'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_a.'</a>'],
@@ -66,8 +65,8 @@ $js = 'function refresh() {
                                 //['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados']],
                                 //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
                                 ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
-                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
-                                ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
+                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create'],  'options' => ['class' => 'bg-yellow-active color-palette']],
+                                ['label' => 'Clientes', 'icon' => ' fa-users', 'url' => ['/cliente/index']],
                                 ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
                                 [
                                     'label' => 'Configuración',
@@ -90,8 +89,8 @@ $js = 'function refresh() {
                         'items' =>
                             [
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
-                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']]
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados_viajante']],
+                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create'], 'options' => ['class' => 'bg-yellow color-palette']]
                             ]
                     ]);
             }
