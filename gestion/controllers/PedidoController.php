@@ -29,6 +29,7 @@ use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
 use app\models\Workflow;
+use app\models\WorkflowSearch;
 use app\models\Estado;
 
 use kartik\mpdf\Pdf;
@@ -173,10 +174,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoDetalleSearch();
         $dataProvider = $searchModel->searchDetalle($id);
-
+        $searchModelWorkflow = new WorkflowSearch();
+        $dataProviderWorkflow = $searchModelWorkflow->searchDetalleWorkflow(null,$id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider
+            'model'                 => $this->findModel($id),
+            'dataProvider'          => $dataProvider,
+            'dataProviderWorkflow'  =>$dataProviderWorkflow
         ]);
     }
 	
@@ -491,26 +494,27 @@ class PedidoController extends Controller
             ]);
         }
     }
-
-    
     
     private function updateEstado($stado_destino_id,$pedido_id){
-     
             $idLastWorkflow              = Workflow::lastStatePedido($pedido_id);
             $modelLastWorkflow           = Workflow::find()->where(["id"=>$idLastWorkflow])->one();
-            $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
-       
-            if(!$modelLastWorkflow->update() ){
-                throw new \Exception("fallo al actualizar el modelo workflol. id={$modelLastWorkflow->id}.");
+            if(empty($modelLastWorkflow)){
+                throw new \Exception("fallo al obtener el utlimo estado del pedido {$pedido_id}.");
             }
- 
-            $modelWorkflow               = new Workflow();
-            $modelWorkflow->estado_id    = $stado_destino_id;
-            $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
-            $modelWorkflow->pedido_id    = $pedido_id;
-            $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
-            if(!$modelWorkflow->save() ){
-                throw new \Exception("fallo al actualizar el modelo workflow.");
+            if($modelLastWorkflow->estado_id!=$stado_destino_id){
+                $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
+                if(!$modelLastWorkflow->update() ){
+                    throw new \Exception("fallo al actualizar el modelo workflol. id={$modelLastWorkflow->id}.");
+                }
+    
+                $modelWorkflow               = new Workflow();
+                $modelWorkflow->estado_id    = $stado_destino_id;
+                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                $modelWorkflow->pedido_id    = $pedido_id;
+                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+                if(!$modelWorkflow->save() ){
+                    throw new \Exception("fallo al actualizar el modelo workflow.");
+                }
             }
     }
     

@@ -140,5 +140,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
       ] ]);?>
   </div>
-
+      <div class="box-body">
+          <h4>Historial de cambios de estado del pedido</h4>
+          <?= GridView::widget([
+           'dataProvider' => $dataProviderWorkflow,
+           'columns' => [
+            'estado',
+            'responsable',
+            [
+             'attribute' => 'fecha_inicio',
+             'format' => ['date', 'php:d/m/Y  H:i'],
+            ],
+            [
+             'attribute' => 'fecha_fin',
+             'format' => ['date', 'php:d/m/Y  H:i'],
+            ],
+            
+          ] ]);?>
+      </div>
 </div>
