@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="pull-right">
         <?= Html::a('<i class="fa fa-arrow-left"></i> Volver', ['cliente/index'], ['class'=>'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Sincronizar Web'), ['create-web', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
       </div>
     </div>
 
@@ -33,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'codigo',
             'nombre',
             'apellido',
             'razon_social',
             'email',
-            'usuario_web',
             'direccion',
             'telefono',
             'hora_reparto',

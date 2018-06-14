@@ -42,7 +42,7 @@
 <div class="login-box">
   <div class="login-logo">
     <!--a href="../../index2.html"><b>Lab</b>NET</a-->
-    <img src="<?= Yii::$app->getHomeUrl().'images/prospero_logo.jpg' ?>" alt="admin" >
+    <img src="<?= Yii::$app->getHomeUrl().'images/fp_login.jpg' ?>" height="250" alt="admin" >
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

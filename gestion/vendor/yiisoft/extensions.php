@@ -463,15 +463,6 @@ return array (
       '@eleiva/noty' => $vendorDir . '/eleiva/yii2-noty',
     ),
   ),
-  'kartik-v/yii2-grid' => 
-  array (
-    'name' => 'kartik-v/yii2-grid',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
-    ),
-  ),
   'yiisoft/yii2-httpclient' => 
   array (
     'name' => 'yiisoft/yii2-httpclient',
@@ -571,5 +562,14 @@ return array (
       '@bedezign/yii2/audit' => $vendorDir . '/bedezign/yii2-audit/src',
     ),
     'bootstrap' => 'bedezign\\yii2\\audit\\Bootstrap',
+  ),
+  'kartik-v/yii2-grid' => 
+  array (
+    'name' => 'kartik-v/yii2-grid',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
+    ),
   ),
 );

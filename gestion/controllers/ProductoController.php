@@ -99,7 +99,6 @@ class ProductoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->creatWebProduct($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -285,6 +284,20 @@ class ProductoController extends Controller
           'dataProvider' => $dataProvider,
           'info' => $mensaje
       ]);
+    }
+    
+    public function actionGetDetalles(){
+        $idProducto = Yii::$app->getRequest()->get('id');
+        $response = ['rta' => false];
+        if (!empty($idProducto)){
+            $producto = Producto::find()->where(['id' => $idProducto])->asArray()->one();
+            if  (!empty($producto)){
+                $response = ['rta' => true, 'data' => $producto];
+            }
+        }
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
     }
 
 

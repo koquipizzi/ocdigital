@@ -8,10 +8,9 @@ use yii\helpers\Url;
 use kartik\spinner\Spinner;
 use eleiva\noty\Noty;
 use app\models\Pedido;
+use xj\bootbox\BootboxAsset;
+BootboxAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\PedidoSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
@@ -82,174 +81,218 @@ if(!empty($info))
 } ?>
 
 <div class="pedido-index">
-    <?php Pjax::begin(['id' => 'pedidos']); ?>
-  <div class="box box-warning with-border">
+    
+    <div class="box box-warning with-border">
     <div class="box-header">
-      <?= Html::encode(Yii::t('app', 'Listado de Pedidos')) ?>
-      <div class="pull-right">
-        <?= Html::beginForm(['comanda/get-action'],'post');?>
-        <?= Html::submitButton('Agregar Última Comanda', ['name'=> 'alter-comanda','class' => 'btn btn-success']);?>
-        <?= Html::submitButton('Nueva Comanda', ['name'=> 'new-comanda', 'class' => 'btn btn-success']);?>
-        <?php
-          $url = Url::toRoute('sync');
-          echo Html::a('Sincronizar Pedidos', '#', [
-            'class' => 'btn btn-success nspinner',
-            'title' => Yii::t('yii', 'Close'),
-                'onclick'=>'
-                $.ajax("'.$url.'",  {data: {id: 1},
-                  type: "POST",
-              }).done(function(data) {
-                $(".wspinner").hide();
-                $(".nspinner").show();
-              });
-                ',                         ]);
-        ?>
-        <?php
-          echo '<button style="display:none;" class="btn btn-success wspinner"';
-          echo Spinner::widget(['preset' => 'tiny', 'align' => 'left', 'caption' => 'Sincronizando Pedidos &hellip;']);
-          echo '</button>';
-        ?>
+        <div class="pull-left">
+           <h2 class="page-header"><?php echo $titulo; ?></h2>
+        </div>
+        
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
     </div>
     <div class="box-body">
-         <?= GridView::widget([
+        <?php
+            Pjax::begin(["id"=>"pedidos"]);
+            echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'showFooter' => true,
                 'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
                 'rowOptions'=> function($model){
-                        if(!$model->confirmado){
+                        if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
                             return ['class' => 'danger'];
                         }else{
                             return ['class' => 'success'];
                         }
                 },
                 'columns' => [
-                [
-                    'class' => 'yii\grid\CheckboxColumn',
-                    'checkboxOptions' => function($model, $key, $index, $widget) {
-                                                        return ['value' => $model['id']];
-                                            },
-                    'contentOptions' => function($model){
-                                               if(!$model->confirmado){
-                                                  return ['class' => 'ocultar'];
-                                               }else{
-                                                  return ['class' => ''];
-                                               }
-                                           }
-                ],
-                [
-                    'label' => 'Nro. Pedido',
-                    'attribute' => 'id',
-                    'headerOptions' => ['style' => 'width:1%']
-                ],
-                [
-                    'label' => 'Fecha Hora',
-                    'attribute' => 'fecha_hora',
-                    'headerOptions' => ['style' => 'width:15%'],
-                    'contentOptions' => ['style' => 'width:15%;'],
-                    'format' => ['date', 'php:d/m/Y  H:i'],
-                    'filter' => DateRangePicker::widget([
-                    'template' => '
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                {input}
-                            </div>
-                        ',
-                         'model' => $searchModel,
-                         'locale'    => 'es-ES',
+                    [
+                        'label' => 'Nro. Pedido',
+                        'attribute' => 'id',
+                        'headerOptions' => ['style' => 'width:1%']
+                    ],
+                    [
+                        'label' => 'Fecha de Ingreso',
                         'attribute' => 'fecha_hora',
-                        'pluginOptions' => [
-                            'locale'=> [
-                                'format'=>'DD/MM/YYYY',
-                                'separator'=>' - ',
-                                'applyLabel' => 'Seleccionar',
-                                'cancelLabel' => 'Cancelar',
-                            ],
-                            'autoUpdateInput' => false,
+                        'contentOptions' => ['style' => 'width:10%;'],
+                        'format' => ['date', 'php:d/m/Y'],
+                        'filter' => DateRangePicker::widget([
+                        'template' => '
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    {input}
+                                </div>
+                            ',
+                            'model' => $searchModel,
+                            'locale'    => 'es-ES',
+                            'attribute' => 'fecha_hora',
+                            'pluginOptions' => [
+                                'locale'=> [
+                                    'format'=>'DD/MM/YYYY',
+                                    'separator'=>' - ',
+                                    'applyLabel' => 'Seleccionar',
+                                    'cancelLabel' => 'Cancelar',
+                                ],
+                                'autoUpdateInput' => false,
+                            ]
+                        ])
+                    ],
+                    [
+                        'label' => 'Razón Social / Nombre',
+                        'attribute' => 'razon_social',
+                        'headerOptions' => ['style' => 'width:20%'],
+                        'contentOptions' => ['style' => 'width:20px;'],
+                    ],
+                    [
+                        'label' => 'Gestor Del Pedido',
+                        'format' => 'raw',
+                        'value' => function($model){
+                            return $model["username"];
+                        },
+                        'headerOptions' => ['style' => 'width:10%'],
+                        'contentOptions' => ['style' => 'width:10px;'],
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{print} {print-administracion} ',
+                        'headerOptions' => ['style' => 'width:13%'],
+                        'contentOptions' => ['style' => 'width:13px;'],
+                        'buttons' => [
+                            'print' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                return Html::a(Html::encode('IMPRIMIR EXPEDICION '), Url::to($url), [
+                                    'class' => 'label label-warning rounded','target'=>'_blank'
+                                ]);
+                            },
+                            'print-administracion' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    return Html::a(Html::encode('IMPRIMIR ADMINISTRACION '), Url::to($url), [
+                                        'class' => 'label label-primary rounded','target'=>'_blank'
+                                    ]);
+                            },
                         ]
-                    ])
-                ],
-                [
-                    'attribute' => 'ship_address_1',
-                    'headerOptions' => ['style' => 'width:20%'],
-                    'contentOptions' => ['style' => 'width:20%;'],
-                ],
-                [
-                    'label' => 'Estado',
-                    'attribute' => 'estado',
-                    'value' => function($data){
-                      if ($data->estado == Pedido::ESTADO_PROCESANDO) {
-                        return 'Pendiente';
-                      }else if ($data->estado == Pedido::ESTADO_COMPLETADO){
-                        return 'Completado';
-                      }else if ($data->estado == Pedido::ESTADO_CANCELADO){
-                        return 'Cancelado';
-                      }else{
-                        return $data->estado;
-                      }
-                    }
-                ],
-                [
-                    'label' => 'Fecha de Entrega',
-                    'attribute' => 'fecha_entrega',
-                    'contentOptions' => ['style' => 'width:10%;'],
-                    'format' => ['date', 'php:d/m/Y'],
-                    'filter' => DateRangePicker::widget([
-                    'template' => '
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                {input}
-                            </div>
-                        ',
-                         'model' => $searchModel,
-                         'locale'    => 'es-ES',
-                        'attribute' => 'fecha_entrega',
-                        'pluginOptions' => [
-                            'locale'=> [
-                                'format'=>'DD/MM/YYYY',
-                                'separator'=>' - ',
-                                'applyLabel' => 'Seleccionar',
-                                'cancelLabel' => 'Cancelar',
-                            ],
-                            'autoUpdateInput' => false,
-                        ]
-                    ])
-                ],
-                [
-                    'label' => 'Razón Social / Nombre',
-                    'attribute' => 'razon_social',
-                    'value' => function($model){
-                        return $model->getClienteRazonSocial();
-                    },
-                    'headerOptions' => ['style' => 'width:20%'],
-                    'contentOptions' => ['style' => 'width:20px;'],
-                ],
-                [
-                   'label' => 'Total',
-                   'attribute' => 'precio_total',
-                   'footer' => Pedido::getPTotal($dataProvider->models, 'precio_total'),
-                   'format' => ['currency'],
-                   'contentOptions' => ['style' => 'text-align: right;'],
-                ],
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {update} {delete} {confirm} ',
-                    'headerOptions' => ['style' => 'width:13%'],
-                    'contentOptions' => ['style' => 'width:13px;'],
-                    'buttons' => [
-                      'confirm' => function ($url) {
-                          return Html::a('<span class="fa fa-check"></span>',Url::to($url));
-                      },
-                    ]
-                ],
-                ],
-         ]); ?>
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update} {delete} {confirm} {print} {printA} ',
+                        'headerOptions' => ['style' => 'width:13%'],
+                        'contentOptions' => ['style' => 'width:13px;'],
+                        'buttons' => [
+                            'confirm' => function ($url, $model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    {
+                                        $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
+                                        return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                                    }
+                                if ( current($userRole)->name =='Gerente' && $model["estado_id"]==1)
+                                    {
+                                        $url =  Url::toRoute(['pedido/update', 'id' => $model["id"], 'proceso' => 'aceptar']);
+                                        return Html::a('<span class="fa fa-check"></span>',Url::to($url));
+                                    }
+                                else      
+                                    return "";
+                            },
+                            'print' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank', 'data-pjax' => 0]);
+                            },
+                            'update' => function ($url, $model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante')
+                                {
+                                    $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
+                                }
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                {
+                                    $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
+                                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
+                                }
+            
+                                else
+                                    return "";
+                            },
+                         'delete' => function ($url, $model) {                 
+                             return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
+                              'title' => Yii::t('app', 'Delete'),
+                              'class'=> '',
+                              'onclick' => "
+                                bootbox.dialog({
+                                
+                                    message: '¿Confirma que desea eliminar el pedido {$model["id"]} ?',
+                                    title: 'Sistema OCDIGITAL',
+                                    // className: 'modal-info modal-center',
+                                    buttons: {
+                                    success: {
+                                        label: 'Aceptar',
+                                        className: 'btn-primary',
+                                        callback: function () {
+                                            $.ajax('{$url}', {
+                                            type: 'POST',
+                                            datatype: JSON,
+                                            success: function (response)
+                                            {
+                                                if(response.rta=='ok'){
+                                                   
+                                                    var n = noty
+                                                        ({
+                                                            text:   'El pedido {$model["id"]} se eliminó.',
+                                                            type:   'success',
+                                                            class:  'animated pulse',
+                                                            layout: 'topCenter',
+                                                            theme:  'relax',
+                                                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                            force:  false, // adds notification to the beginning of queue when set to true
+                                                            modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                            // maxVisible : 10
+                                                        });
+                                                 $.pjax.reload({container:'#pedidos'});
+                                                }
+                                                if(response.rta=='ko'){
+                                                    var n = noty
+                                                        ({
+                                                            text:   'Erro no se pudo eliminar el pedido {$model["id"]}.',
+                                                            type:   'error',
+                                                            class:  'animated pulse',
+                                                            layout: 'topCenter',
+                                                            theme:  'relax',
+                                                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                            force:  false, // adds notification to the beginning of queue when set to true
+                                                            modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                            // maxVisible : 10
+                                                        });
 
-          <?= Html::endForm();?>
+                                                }
+
+                                            },
+                                        });
+                                     }
+                                },
+                                cancel: {
+                                    label: 'Cancelar',
+                                    className: 'btn-danger',
+                                    }
+                                }
+                            });
+                            return false;
+                            "
+                             ]);
+     
+                         },
+                        ]
+
+                    ],
+                ],
+            ]); ?>
+        <?= Html::endForm();?>
         <?php Pjax::end(); ?>
     </div>
 

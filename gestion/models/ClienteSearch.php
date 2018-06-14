@@ -19,7 +19,7 @@ class ClienteSearch extends Cliente
     {
         return [
             [['id', 'web_customer_id'], 'integer'],
-            [['razon_social', 'usuario_web', 'password_web','email','nombre','apellido'], 'safe'],
+            [['razon_social', 'usuario_web', 'password_web','email','nombre','apellido','codigo'], 'safe'],
         ];
     }
 
@@ -66,6 +66,7 @@ class ClienteSearch extends Cliente
         $query->andFilterWhere(['like', 'razon_social', $this->razon_social])
             ->andFilterWhere(['like', 'usuario_web', $this->usuario_web])
             ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'codigo', $this->codigo])
             ->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'apellido', $this->apellido]);
 

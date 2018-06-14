@@ -118,6 +118,10 @@ class ClienteController extends Controller
         $model = new Cliente();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $clienteRol = new ClienteRol();
+            $clienteRol->cliente_id = $model->id;
+            $clienteRol->rol_id = Rol::DEFAULTROLID;
+            $clienteRol->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

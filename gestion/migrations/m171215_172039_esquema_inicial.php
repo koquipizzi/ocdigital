@@ -51,11 +51,6 @@ class m171215_172039_esquema_inicial extends Migration
                 PRIMARY KEY (`id`))
             ENGINE = InnoDB;
 
-            INSERT INTO comandas.mail
-            (id, accion, mails)
-            VALUES(1, 'Error de sincronización', 'alejandra@qwavee.com;faller@qwavee.com;hola@qwavee.com');
-
-
             -- -----------------------------------------------------
             -- Table `comanda`
             -- -----------------------------------------------------
@@ -268,87 +263,20 @@ class m171215_172039_esquema_inicial extends Migration
 
             CREATE INDEX `fk_cliente_has_rol_cliente1_idx` ON `cliente_rol` (`cliente_id` ASC);
 
-            -- -----------------------------------------------------
-            -- Data for table `categoria`
-            -- -----------------------------------------------------
-            INSERT INTO `categoria` (`id`, `nombre`,web_id) VALUES (1, 'Pastelería Fría',24);
-            INSERT INTO `categoria` (`id`, `nombre`,web_id) VALUES (2, 'Pastelería Seca',25);
-            INSERT INTO `categoria` (`id`, `nombre`,web_id) VALUES (3, 'Viennoiserie',23);
-            INSERT INTO `categoria` (`id`, `nombre`,`web_id`) VALUES (4, 'Panadería',22);
-            INSERT INTO `categoria` (`id`, `nombre`,`web_id`) VALUES (5, 'Salado',26);
-
             INSERT INTO `rol` (`id`, `nombre`, `defecto`) VALUES (0, 'customer', 1);
             INSERT INTO `rol` (`id`, `nombre`, `defecto`) VALUES (1, 'hidden', 0);
 
             COMMIT;
         ");
-        $this->execute("
-            DROP TRIGGER IF EXISTS ins_cliente;
-            DROP TRIGGER IF EXISTS ins_rol;
-            DROP TRIGGER IF EXISTS upd_rol;
-            DROP TRIGGER IF EXISTS upd_rol_restriccion_solo_1_defecto;
-            DROP TRIGGER IF EXISTS ins_rol_restriccion_solo_1_defecto;
-        ");
-        $this->execute("
-            CREATE TRIGGER ins_cliente
-            AFTER INSERT ON `cliente`
-            FOR EACH ROW
-            BEGIN
-                    DECLARE rol_id INT(11);
-                SET @rol_id := (SELECT ID FROM `rol` WHERE `defecto` = 1 LIMIT 1);
-                IF (@rol_id IS NOT NULL) THEN
-                            INSERT INTO `cliente_rol`(`cliente_id`, `rol_id`) VALUES(NEW.id,@rol_id);
-                END IF;
-            END
-        ");
-        $this->execute("
-            CREATE TRIGGER upd_rol
-            BEFORE UPDATE ON `rol`
-            FOR EACH ROW
-            SET
-                NEW.defecto = IFNULL(NEW.defecto,0);
-        ");
-        $this->execute("
-            CREATE TRIGGER ins_rol
-            BEFORE INSERT ON `rol`
-            FOR EACH ROW
-            SET
-                NEW.defecto = IFNULL(NEW.defecto,0);
-        ");
-        $this->execute("
-            CREATE TRIGGER ins_rol_restriccion_solo_1_defecto
-            AFTER INSERT ON `rol`
-            FOR EACH ROW
-            BEGIN
-                DECLARE cant INT(11);
-                SET @cant := (SELECT count(*) FROM `rol` WHERE `defecto` = 1);
-                IF (@cant>1) THEN
-                    SIGNAL SQLSTATE 'ERR0R' SET MESSAGE_TEXT = 'SOLO UN ROL PUEDE CONSIDERARSE COMO DEFAULT';
-                END IF;
-            END
-        ");
-        $this->execute("
-            CREATE TRIGGER upd_rol_restriccion_solo_1_defecto
-            AFTER UPDATE ON `rol`
-            FOR EACH ROW
-            BEGIN
-                DECLARE cant INT(11);
-                SET @cant := (SELECT count(*) FROM `rol` WHERE `defecto` = 1);
-                IF (@cant>1) THEN
-                    SIGNAL SQLSTATE 'ERR0R' SET MESSAGE_TEXT = 'SOLO UN ROL PUEDE CONSIDERARSE COMO DEFAULT';
-                END IF;
-            END
-        ");
+
+
+
     }
 
     public function safeDown()
     {
         echo "m171215_172039_esquema_inicial cannot be reverted.\n";
-        $this->execute("
-            DROP TRIGGER IF EXISTS ins_cliente;
-            DROP TRIGGER IF EXISTS ins_rol;
-            DROP TRIGGER IF EXISTS upd_rol;
-        ");
+
 
         return false;
     }

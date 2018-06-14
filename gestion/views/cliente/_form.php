@@ -60,23 +60,25 @@ $this->registerJs($js);
     
         <div class="row">
             <div class="col-md-4">
+                <?= $form->field($model, 'codigo')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-4">
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
             </div>
-            <div class="col-md-4">
-                <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
-            </div>
+            
         </div>
     
         <div class="row">
             <div class="col-md-4">
-                <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
             </div>
+            
             <div class="col-md-4">
                 <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
             </div>
@@ -88,6 +90,9 @@ $this->registerJs($js);
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'hora_reparto')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-4">
+                <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
     

@@ -76,6 +76,7 @@ if(!empty($error))
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
+                'codigo',
                 'nombre',
                 'apellido',
                 'razon_social',

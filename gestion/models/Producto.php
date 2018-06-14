@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $categoria_id
  * @property string $precio_unitario
  * @property integer $web_id
+ * @property string $codigo
+ * @property string $codigo_nombre_producto
  *
  * @property ComandaDetalle[] $comandaDetalles
  * @property PedidoDetalle[] $pedidoDetalles
@@ -34,9 +36,10 @@ class Producto extends \yii\db\ActiveRecord
     {
         return [
             [ 'categoria_id', 'required'],
-            [[ 'categoria_id', 'web_id','maxirest_id'], 'integer'],
+            [[ 'categoria_id', 'web_id','maxirest_id','unidad_id'], 'integer'],
             [['precio_unitario','web_id'], 'number'],
             [['nombre'], 'string', 'max' => 255],
+            [['codigo','codigo_nombre_producto'], 'string'],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_id' => 'id']],
         ];
     }
@@ -53,6 +56,8 @@ class Producto extends \yii\db\ActiveRecord
             'precio_unitario' => Yii::t('app', 'Precio Unitario'),
             'web_id' => Yii::t('app', 'Web ID'),
             'maxirest_id' => Yii::t('app', 'Maxirest ID'),
+            'codigo' => Yii::t('app', 'Código'),
+            'unidad_id' => Yii::t('app', 'Unidad'),
         ];
     }
 
@@ -62,6 +67,20 @@ class Producto extends \yii\db\ActiveRecord
     public function getComandaDetalles()
     {
         return $this->hasMany(ComandaDetalle::className(), ['producto_id' => 'id']);
+    }
+    
+    public function getUnidad()
+    {
+        return $this->hasOne(Unidad::className(), ['id' => 'unidad_id']);
+    }
+    
+    public function getUnidadName()
+    {
+        $unidad = Unidad::find()->where(['id' => $this->unidad_id])->one();
+        if (!empty($unidad)){
+            return $unidad->nombre_unidad;
+        }
+        return null;
     }
 
     /**
@@ -119,8 +138,7 @@ class Producto extends \yii\db\ActiveRecord
         return Producto::find()->count();
     }
 
-    public static function getProductosActivos()
-    {
+    public static function getProductosActivos(){
         $productosPendientes = ProductoRol::find()->all();
         $pd = [];
         foreach ($productosPendientes as $productoPendiente) {
@@ -129,4 +147,7 @@ class Producto extends \yii\db\ActiveRecord
         $productos = Producto::find()->where(['in', 'id' , $pd])->all();
         return $productos;
     }
+    
+   
+    
 }
