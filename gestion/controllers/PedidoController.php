@@ -1140,7 +1140,7 @@ class PedidoController extends Controller
             'submodelo' => $submodelo,
         ]);
    }
-    private function crearPdf($model,$form,$css=null)
+    private function crearPdf($model,$form,$header,$css=null)
     {
         $pedido_id = $model->id;
         $date = new \DateTime();
@@ -1158,8 +1158,8 @@ class PedidoController extends Controller
                 'title' => 'Forestal Pico: Sistema de Gestión de Pedidos'
             ],
             'methods' => [
-                'SetHeader' => ['Forestal Pico: Sistema de Gestión de Pedidos'.'<BR>Pedido Nro: '.$pedido_id.' - Fecha: '.$fecha	],
-                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO}'],
+                'SetHeader' => $this->renderPartial($header,['model' => $model]),
+                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO} de {nbpg}'],
             ]
         ] );
         
@@ -1172,9 +1172,18 @@ class PedidoController extends Controller
         $pedido_id = Yii::$app->request->get('id');
         $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
         $form = '_print_expedicion';
+        $header = 'headerPDF';
         $css =  '@app/web/css/print/expedicion.css';
-        $this->crearPdf($model_pedido,$form,$css);
-        
+        $this->crearPdf($model_pedido,$form,$header,$css);
+    }
+    
+    public function actionPrintAdministracion(){
+        $pedido_id = Yii::$app->request->get('id');
+        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
+        $form = '_print_administracion';
+        $header = 'headerAdministracionPDF';
+        $css =  '@app/web/css/print/expedicion.css';
+        $this->crearPdf($model_pedido,$form,$header,$css);
     }
 
     public function actionCantidad()
