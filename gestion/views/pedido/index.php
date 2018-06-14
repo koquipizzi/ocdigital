@@ -229,7 +229,7 @@ if(!empty($info))
                             },
                          'delete' => function ($url, $model) {                 
                              return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
-                              'title' => Yii::t('app', 'Restart Production'),
+                              'title' => Yii::t('app', 'Delete'),
                               'class'=> '',
                               'onclick' => "
                                 bootbox.dialog({
