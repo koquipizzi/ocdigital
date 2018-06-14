@@ -66,7 +66,7 @@ class Pedido extends \yii\db\ActiveRecord
         return [
             [['fecha_hora', 'fecha_produccion', 'fecha_entrega','estado_id'], 'safe'],
             [['web_id', 'cliente_id', 'comanda_id', 'orden_reparto', 'confirmado', 'facturable', 'flete_bonificado', 'sync', 'gestor_id'], 'integer'],
-            [['cliente_id', 'fecha_entrega'], 'required'],
+            [['cliente_id'], 'required'],
             [['precio_total', 'flete_valor'], 'number'],
             [['ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'cond_venta', 'notas', 'telefono', 'responsable_recepcion', 'hora_de_recepcion'], 'string', 'max' => 255],
             [['estado'], 'string', 'max' => 100],
