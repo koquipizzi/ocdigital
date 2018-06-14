@@ -8,9 +8,8 @@ use yii\helpers\Url;
 use kartik\spinner\Spinner;
 use eleiva\noty\Noty;
 use app\models\Pedido;
-    
-    use xj\bootbox\BootboxAsset;
-    BootboxAsset::register($this);
+use xj\bootbox\BootboxAsset;
+BootboxAsset::register($this);
 
 
 $this->title = Yii::t('app', 'Pedidos');
