@@ -99,7 +99,6 @@ class ProductoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->creatWebProduct($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
