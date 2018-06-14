@@ -29,6 +29,7 @@ use app\models\ComandaSearch;
 use app\models\Comanda;
 use app\models\Event;
 use app\models\Workflow;
+use app\models\WorkflowSearch;
 use app\models\Estado;
 
 use kartik\mpdf\Pdf;
@@ -136,18 +137,7 @@ class PedidoController extends Controller
         ]);
     }
 
-    public function actionIndex_despachados()
-    {
-        $searchModel = new PedidoSearch();
-        $dataProvider = $searchModel->searchPedidosDespachados(Yii::$app->request->queryParams);
-        $titulo = "Pedidos Despachados";
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'titulo' => $titulo,
-        ]);
-    }
     public function actionIndex_cancelados()
     {
         $searchModel = new PedidoSearch();
@@ -184,10 +174,12 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoDetalleSearch();
         $dataProvider = $searchModel->searchDetalle($id);
-
+        $searchModelWorkflow = new WorkflowSearch();
+        $dataProviderWorkflow = $searchModelWorkflow->searchDetalleWorkflow(null,$id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider
+            'model'                 => $this->findModel($id),
+            'dataProvider'          => $dataProvider,
+            'dataProviderWorkflow'  =>$dataProviderWorkflow
         ]);
     }
 	
@@ -344,7 +336,7 @@ class PedidoController extends Controller
                 $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
                 $modelWorkflow->save();
                 if (empty($modelWorkflow)) {
-                    throw new \Exception("model Workflow fallo al salvar.");
+                    throw new \Exception("Error al salvar el modelo Workflow.");
                 }
                 try {
                     if ($flag = $modelPedido->save(false)) {
@@ -374,7 +366,7 @@ class PedidoController extends Controller
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
-                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelEvent->id}.");
+                            throw new \Exception("Error al actualizar el modelo pedido. id={$modelEvent->id}.");
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
@@ -443,7 +435,7 @@ class PedidoController extends Controller
                         }
                         $modelPedido->precio_total = $total;
                         if(!$modelPedido->save()) {
-                            throw new \Exception("fallo al actualizar el modelo pedido. id={$modelPedido->id}.");
+                            throw new \Exception("Error al actualizar el modelo pedido. id={$modelPedido->id}.");
                         }
                         if ($flag) {
                             $transaction->commit();
@@ -502,17 +494,14 @@ class PedidoController extends Controller
             ]);
         }
     }
-
-    
     
     private function updateEstado($stado_destino_id,$pedido_id){
-     
             $idLastWorkflow              = Workflow::lastStatePedido($pedido_id);
             $modelLastWorkflow           = Workflow::find()->where(["id"=>$idLastWorkflow])->one();
             $modelLastWorkflow->fecha_fin= date('Y-m-d H:i:s');
        
             if(!$modelLastWorkflow->update() ){
-                throw new \Exception("fallo al actualizar el modelo workflol. id={$modelLastWorkflow->id}.");
+                throw new \Exception("Error al actualizar el modelo workflow. id={$modelLastWorkflow->id}.");
             }
  
             $modelWorkflow               = new Workflow();
@@ -521,13 +510,12 @@ class PedidoController extends Controller
             $modelWorkflow->pedido_id    = $pedido_id;
             $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
             if(!$modelWorkflow->save() ){
-                throw new \Exception("fallo al actualizar el modelo workflow.");
+                throw new \Exception("Error al actualizar el modelo workflow.");
             }
     }
     
     
-    
-    
+   
     
     /**
      * Deletes an existing Pedido model.
@@ -537,20 +525,35 @@ class PedidoController extends Controller
      */
     public function actionDelete($id)
     {
-      try {
+        $respuesta='ok';
+        $msj="";
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+    
+            $model          = $this->findModel($id);
+            $modelDetalle   = PedidoDetalle::find()->where(["pedido_id"=>$model->id])->all();
+            if(!empty($modelDetalle)){
+                foreach ($modelDetalle as $arr=>$md){
+                    $md->delete();
+                }
+            }
 
-        $model = $this->findModel($id);
-        $data = ['status' => Pedido::ESTADO_CANCELADO];
-        if ($model->estado != Pedido::ESTADO_MANUAL) {
-            $pedidos = Yii::$app->woocomponent->updatePedido($model->web_id,$data);
+            $modelWorkflow   = Workflow::find()->where(["pedido_id"=>$model->id])->all();
+            if(!empty($modelWorkflow)){
+                foreach ($modelWorkflow as $arr=>$mw){
+                    $mw->delete();
+                }
+            }
+            $model->delete();
+            $transaction->commit();
+        } catch (HttpClientException $e) {
+            $transaction->rollBack();
+            $respuesta='ko';
         }
-        $model->estado = Pedido::ESTADO_CANCELADO;
-        $model->save();
-        return $this->redirect(['index']);
-
-      } catch (HttpClientException $e) {
-
-      }
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ['rta'=>$respuesta,"msj"=>$msj];
+        
     }
 
     /**
@@ -1140,7 +1143,7 @@ class PedidoController extends Controller
             'submodelo' => $submodelo,
         ]);
    }
-    private function crearPdf($model,$form,$css=null)
+    private function crearPdf($model,$form,$header,$css=null)
     {
         $pedido_id = $model->id;
         $date = new \DateTime();
@@ -1158,8 +1161,8 @@ class PedidoController extends Controller
                 'title' => 'Forestal Pico: Sistema de Gestión de Pedidos'
             ],
             'methods' => [
-                'SetHeader' => ['Forestal Pico: Sistema de Gestión de Pedidos'.'<BR>Pedido Nro: '.$pedido_id.' - Fecha: '.$fecha	],
-                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO}'],
+                'SetHeader' => $this->renderPartial($header,['model' => $model]),
+                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO} de {nbpg}'],
             ]
         ] );
         
@@ -1172,9 +1175,18 @@ class PedidoController extends Controller
         $pedido_id = Yii::$app->request->get('id');
         $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
         $form = '_print_expedicion';
+        $header = 'headerPDF';
         $css =  '@app/web/css/print/expedicion.css';
-        $this->crearPdf($model_pedido,$form,$css);
-        
+        $this->crearPdf($model_pedido,$form,$header,$css);
+    }
+    
+    public function actionPrintAdministracion(){
+        $pedido_id = Yii::$app->request->get('id');
+        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
+        $form = '_print_administracion';
+        $header = 'headerAdministracionPDF';
+        $css =  '@app/web/css/print/expedicion.css';
+        $this->crearPdf($model_pedido,$form,$header,$css);
     }
 
     public function actionCantidad()

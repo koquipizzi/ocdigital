@@ -65,10 +65,10 @@ $js = 'function refresh() {
                                 ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_d.'</a>'],
                                 ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados']],
                                 //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
+                                ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
                                 ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
                                 ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
-                                //['label' => 'Productos Pendientes', 'icon' => 'clock-o', 'url' => ['/producto/pindex']],
                                 [
                                     'label' => 'Configuración',
                                     'icon' => 'cogs',
