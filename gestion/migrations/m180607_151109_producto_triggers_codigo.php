@@ -18,7 +18,7 @@ class m180607_151109_producto_triggers_codigo extends Migration
                 BEFORE UPDATE ON producto
                 FOR EACH ROW
             BEGIN
-                IF NEW.codigo THEN
+                IF NEW.codigo IS NOT NULL THEN
                    SET NEW.codigo_nombre_producto = CONCAT (NEW.codigo,'-',NEW.nombre) ;
                 ELSE
                    SET NEW.codigo_nombre_producto =  NEW.nombre;
@@ -30,7 +30,7 @@ class m180607_151109_producto_triggers_codigo extends Migration
                 BEFORE INSERT ON producto
                 FOR EACH ROW
             BEGIN
-                IF NEW.codigo THEN
+                IF NEW.codigo IS NOT NULL THEN
                    SET NEW.codigo_nombre_producto = CONCAT (NEW.codigo,'-',NEW.nombre) ;
                 ELSE
                    SET NEW.codigo_nombre_producto =  NEW.nombre;
