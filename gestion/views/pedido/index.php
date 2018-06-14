@@ -110,34 +110,6 @@ if(!empty($info))
                         'headerOptions' => ['style' => 'width:1%']
                     ],
                     [
-                        'label' => 'Fecha de Entrega',
-                        'attribute' => 'fecha_entrega',
-                        'contentOptions' => ['style' => 'width:10%;'],
-                        'format' => ['date', 'php:d/m/Y'],
-                        'filter' => DateRangePicker::widget([
-                        'template' => '
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                    {input}
-                                </div>
-                            ',
-                            'model' => $searchModel,
-                            'locale'    => 'es-ES',
-                            'attribute' => 'fecha_entrega',
-                            'pluginOptions' => [
-                                'locale'=> [
-                                    'format'=>'DD/MM/YYYY',
-                                    'separator'=>' - ',
-                                    'applyLabel' => 'Seleccionar',
-                                    'cancelLabel' => 'Cancelar',
-                                ],
-                                'autoUpdateInput' => false,
-                            ]
-                        ])
-                    ],
-                    [
                         'label' => 'Fecha de Ingreso',
                         'attribute' => 'fecha_hora',
                         'contentOptions' => ['style' => 'width:10%;'],
@@ -182,7 +154,29 @@ if(!empty($info))
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view} {update} {delete} {confirm} {print} ',
+                        'template' => '{print} {print-administracion} ',
+                        'headerOptions' => ['style' => 'width:13%'],
+                        'contentOptions' => ['style' => 'width:13px;'],
+                        'buttons' => [
+                            'print' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                return Html::a(Html::encode('IMPRIMIR EXPEDICION '), Url::to($url), [
+                                    'class' => 'label label-warning rounded','target'=>'_blank'
+                                ]);
+                            },
+                            'print-administracion' => function ($url,$model) {
+                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
+                                    return Html::a(Html::encode('IMPRIMIR ADMINISTRACION '), Url::to($url), [
+                                        'class' => 'label label-primary rounded','target'=>'_blank'
+                                    ]);
+                            },
+                        ]
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update} {delete} {confirm} {print} {printA} ',
                         'headerOptions' => ['style' => 'width:13%'],
                         'contentOptions' => ['style' => 'width:13px;'],
                         'buttons' => [
@@ -200,11 +194,6 @@ if(!empty($info))
                                     }
                                 else      
                                     return "";
-                            },
-                            'print' => function ($url,$model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
