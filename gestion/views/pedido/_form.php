@@ -332,7 +332,7 @@ JS;
     </div>
     <div class="form-group" style="float:right;">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-primary']) ?>
         <?php
             $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
             if ( current($userRole)->name ==='Viajante')
@@ -342,7 +342,7 @@ JS;
                 $urlIndex = Url::to(['/pedido/index_pendientes']);
             }
           
-            echo Html::a('Cancelar',$urlIndex, ['class'=>'btn btn-danger'])
+            echo Html::a('Cancelar',$urlIndex, ['class'=>'btn btn-default'])
         ?>
 
 
