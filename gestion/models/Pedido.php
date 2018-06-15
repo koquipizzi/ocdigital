@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\Cliente;
+use app\models\Estado;
 use Empathy\Validators\DateTimeCompareValidator;
 /**
  * This is the model class for table "pedido".
@@ -26,6 +27,8 @@ use Empathy\Validators\DateTimeCompareValidator;
  * @property string $ship_postcode
  * @property string $ship_country
  * @property string $estado
+ * @property string $cond_venta
+ * @property integer $estado_id
  *
  * @property Cliente $cliente
  * @property Comanda $comanda
@@ -38,6 +41,8 @@ class Pedido extends \yii\db\ActiveRecord
     const ESTADO_COMPLETADO = 'completed';
     const ESTADO_CANCELADO = 'cancelled';
     const ESTADO_MANUAL = 'Manual';
+    const ESTADO_ACEPTADO = 2;
+
 
     /**
      * @inheritdoc
@@ -60,15 +65,15 @@ class Pedido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fecha_hora', 'fecha_produccion', 'fecha_entrega'], 'safe'],
-            [['web_id', 'cliente_id', 'comanda_id','orden_reparto','confirmado','facturable','flete_bonificado','sync'], 'integer'],
-            [['cliente_id','ship_address_1','ship_city','ship_postcode','fecha_entrega'], 'required'],
-            [['precio_total','flete_valor'], 'number'],
-            [['ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country'], 'string', 'max' => 255],
+            [['fecha_hora', 'fecha_produccion', 'fecha_entrega','estado_id'], 'safe'],
+            [['web_id', 'cliente_id', 'comanda_id', 'orden_reparto', 'confirmado', 'facturable', 'flete_bonificado', 'sync', 'gestor_id'], 'integer'],
+            [['cliente_id'], 'required'],
+            [['precio_total', 'flete_valor'], 'number'],
+            [['ship_company', 'ship_address_1', 'ship_address_2', 'ship_city', 'ship_state', 'ship_postcode', 'ship_country', 'cond_venta', 'notas', 'telefono', 'responsable_recepcion', 'hora_de_recepcion'], 'string', 'max' => 255],
             [['estado'], 'string', 'max' => 100],
-            [['contacto'], 'string', 'max' => 100],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['comanda_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comanda::className(), 'targetAttribute' => ['comanda_id' => 'id']],
+            [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['gestor_id' => 'id']],
         ];
     }
 
@@ -99,7 +104,15 @@ class Pedido extends \yii\db\ActiveRecord
             'facturable' => Yii::t('app', 'Facturable'),
             'flete_bonificado' => Yii::t('app', 'Flete Bonificado'),
             'flete_valor' => Yii::t('app', 'Valor del Flete'),
-            'sync' => Yii::t('app','Sincronizado'),
+            'sync' => Yii::t('app','Sincronizado'), 
+            'cond_venta' => Yii::t('app', 'Cond. Venta'),
+            'notas' => Yii::t('app', 'Notas'),
+            'telefono' => Yii::t('app', 'Telefono'),
+            'responsable_recepcion' => Yii::t('app', 'Responsable Recepcion'),
+            'hora_de_recepcion' => Yii::t('app', 'Hora De Recepción'),
+            'gestor_id' => Yii::t('app', 'Gestor ID'),
+            'estado_id'=>Yii::t('app', 'Cambiar estado'),
+
         ];
     }
 
@@ -123,7 +136,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->contacto);
         return $condicion ? $modelCliente->contacto : "" ;
@@ -134,7 +147,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->telefono);
         return $condicion ? $modelCliente->telefono : "" ;
@@ -145,7 +158,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->hora_reparto);
         return $condicion ? $modelCliente->hora_reparto : "" ;
@@ -164,7 +177,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
       $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
       if (empty($modelCliente)){
-        return ' ';
+        return '';
       }else{
         $condicion = !empty($modelCliente->razon_social);
         return $condicion ? $modelCliente->razon_social : $modelCliente->nombre ;
@@ -175,7 +188,7 @@ class Pedido extends \yii\db\ActiveRecord
     {
         $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
         if (empty($modelCliente)){
-          return ' ';
+          return '';
         }else{
           return $modelCliente->email;
         }
@@ -186,12 +199,9 @@ class Pedido extends \yii\db\ActiveRecord
         return (float) $this->precio_total + (float) $this->flete_valor;
     }
 
-    public static function getTotalPedidosPendientes()
+    public static function getTotalPedidos()
     {
-       return Pedido::find()->where(['comanda_id' => null])
-                            ->andWhere(['or',['estado'=> Pedido::ESTADO_MANUAL],
-                                             ['estado'=> Pedido::ESTADO_PROCESANDO]
-                                       ])->count();
+       return Pedido::find()->where([])->count();
     }
 
     public function afterSave($insert, $changeAttributes){
@@ -213,5 +223,75 @@ class Pedido extends \yii\db\ActiveRecord
         
         return $total;
     }
-
+    
+    public function getGestorPedidoName(){
+        $gestorid = $this->gestor_id;
+        $usuario = User::find()->where(['id' => $gestorid ])->one();
+        if (!empty($usuario)){
+            $clienteNombre = $usuario->username;
+            return $clienteNombre;
+        }
+        return '';
+    }
+    
+    public function getClienteDocumento(){
+        $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
+        if (empty($modelCliente->documento)){
+            return '';
+        }else{
+            return $modelCliente->documento ;
+        }
+    }
+    
+    public function getCodigoCliente(){
+        $modelCliente = Cliente::find()->where(['id' => $this->cliente_id])->one();
+        if (empty($modelCliente->codigo)){
+            return '';
+        }else{
+            return $modelCliente->codigo;
+        }
+    }
+    
+    public function getEstadoNombre(){
+        $modelEstado = Estado::find()->where(['id' => $this->estado_id])->one();
+        if (empty($modelEstado->descripcion)){
+            return '';
+        }else{
+            return $modelEstado->descripcion;
+        }
+    }
+    
+    public function getResponsble(){
+        $user = '';
+        $WorkFlow = Workflow::find()->select('user_id')->where(['pedido_id' => $this->id, 'estado_id' => self::ESTADO_ACEPTADO])->orderBy('fecha_inicio','DESC')->limit(1)->one();
+         if (!empty($WorkFlow)){
+             $user = User::find()->where(['id' => $WorkFlow->user_id])->one();
+         }
+         
+        return $user->username;
+    }
+    
+    public static function countPedidosPendiente(){
+        return Pedido::find()->where(['estado_id' => 1])->count();
+    }
+    
+    public static function countPedidosAceptados(){
+        return Pedido::find()->where(['estado_id' => 2])->count();
+    }
+    
+    public static function countPedidosExpedicion(){
+        return Pedido::find()->where(['estado_id' => 3])->count();
+    }
+    
+    public static function countPedidosDespacho(){
+        return Pedido::find()->where(['estado_id' => 4])->count();
+    }
+    
+    public static function countPedidosCancelado(){
+        return Pedido::find()->where(['estado_id' => 5])->count();
+    }
+    
+    public static function countTodosLosPedidos(){
+        return Pedido::find()->count();
+    }
 }

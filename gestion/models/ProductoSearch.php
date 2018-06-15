@@ -21,7 +21,7 @@ class ProductoSearch extends Producto
         return [
             [['id', 'web_id'], 'integer'],
             [['nombre'], 'safe'],
-            [['precio_unitario'], 'number'],
+            [['precio_unitario','codigo'], 'number'],
             [[ 'categoria_id'], 'string']
 
         ];
@@ -83,6 +83,7 @@ class ProductoSearch extends Producto
         }
 
         $query->andFilterWhere(['in', 'producto.id', $productosRol]);
+        $query->andFilterWhere(['like', 'codigo', $this->codigo]);
 
         return $dataProvider;
     }
@@ -122,6 +123,7 @@ class ProductoSearch extends Producto
             'categoria_id' => $this->categoria_id,
             'precio_unitario' => $this->precio_unitario,
             'web_id' => $this->web_id,
+            'codigo' => $this->codigo,
         ]);
 
         $query->andFilterWhere(['not',[ 'id' => $productosPendientes]]);

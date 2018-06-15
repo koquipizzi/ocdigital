@@ -137,17 +137,12 @@ echo Noty::widget([
                     'contentOptions' => ['style' => 'text-align: right;'],
                   ],
                   [   'class' => 'yii\grid\ActionColumn',
-                      'template' => '{view} {syncmaxirest}',
+                      'template' => '{view} {print}',
                       'headerOptions' => ['style' => 'width:13%'],
                       'contentOptions' => ['style' => 'width:13px;'],
                       'buttons' => [
-                          'syncmaxirest' => function ($url,$data) {
-                            if (!$data->sync){
-                                return Html::a('<span class="fa fa-truck"></span>',Url::to($url));
-                            }else{
-                                return Html::a('<span class="fa fa-truck" style="opacity: 0.6;"></span>');
-                            }
-                            
+                          'print' => function ($url,$data) {
+                                return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank']);
                           },
                       ]
                   ],

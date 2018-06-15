@@ -78,7 +78,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index' );
+        $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+    
+        if ( current($userRole)->name != 'Viajante'){
+            return $this->render('index' );
+        }else{
+            return Yii::$app->runAction('pedido/index_pendientes_viajante');
+        }
+        
     }
 
     /**

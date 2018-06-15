@@ -24,6 +24,7 @@ use app\models\ClienteRol;
  * @property string $contacto 
  * @property string $telefono 
  * @property string $hora_reparto
+ * @property string $ciudad
 
  *
  * @property ClienteRol[] $clienteRols
@@ -48,11 +49,11 @@ class Cliente extends \yii\db\ActiveRecord
         return [
             [['web_customer_id'], 'integer'],
            // [['email'], 'required'],
-            [['razon_social', 'nombre', 'apellido', 'email'], 'string', 'max' => 255],
-            [['nombre', 'apellido'], 'required'],
-            [['web_customer_id', 'maxirest_id'], 'integer'],
+            [['razon_social', 'nombre', 'apellido', 'email', 'ciudad'], 'string', 'max' => 255],
+            [['nombre', 'apellido','razon_social'], 'required'],
+            [['web_customer_id', 'maxirest_id','documento'], 'integer'],
             [['ultima_modificacion'], 'safe'],
-            [['razon_social', 'nombre', 'apellido', 'email', 'direccion', 'contacto', 'telefono', 'hora_reparto'], 'string', 'max' => 255],
+            [['razon_social', 'nombre', 'apellido', 'email', 'direccion', 'contacto', 'telefono', 'hora_reparto', 'codigo', 'codigo_nombre_cliente'], 'string', 'max' => 255],
             [['usuario_web', 'password_web'], 'string', 'max' => 45],
         ];
     }
@@ -73,10 +74,14 @@ class Cliente extends \yii\db\ActiveRecord
             'maxirest_id' => Yii::t('app', 'Maxirest ID'), 
             'ultima_modificacion' => Yii::t('app', 'Ultima Modificacion'), 
             'email' => Yii::t('app', 'Email'),
-            'direccion' => Yii::t('app', 'Direccion'), 
+            'direccion' => Yii::t('app', 'Dirección'), 
             'contacto' => Yii::t('app', 'Contacto'), 
             'telefono' => Yii::t('app', 'Telefono'), 
             'hora_reparto' => Yii::t('app', 'Hora Reparto'),
+            'codigo' => Yii::t('app', 'Código'),
+            'codigo_nombre_cliente' => Yii::t('app', 'Codigo Nombre Cliente'),
+            'documento' => Yii::t('app', 'Documento'),
+            'ciudad' => Yii::t('app', 'Ciudad'),
         ];
     }
 
