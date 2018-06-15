@@ -180,7 +180,7 @@ class PedidoSearch extends Pedido
             list($fechaInicio,$fechaFin)= explode('-',$params['fecha_hora']);
             $queryParams[':fecha_inicio'] = trim($fechaInicio);
             $queryParams[':fecha_fin']    = trim($fechaFin);
-            $where = $this->addWhereSentence($where, "pedido.fecha_hora BETWEEN STR_TO_DATE(:fecha_inicio,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin,'%d/%m/%Y')");
+            $where = $this->addWhereSentence($where, "DATE_FORMAT(pedido.fecha_hora,'%d-%m-%Y')  BETWEEN STR_TO_DATE(:fecha_inicio,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin,'%d/%m/%Y')");
         }
     }
 
@@ -682,62 +682,35 @@ class PedidoSearch extends Pedido
     }
     
     
-    
     public function searchPedidosRealizados($params)
     {
         $gestor = Yii::$app->user->getId();
         $queryParams = [];
-        $where = null;
-        $where2 = null;
-        $condicionWhere=' pedido.gestor_id = '.$gestor;
-        $condicionWhere2 = ' user.id = '.$gestor;
-        $GROUP_BY ='pedido.id desc';
-        $formParams = [];
-        if(array_key_exists('PedidoSearch',$params)) {
-            $formParams = $params['PedidoSearch'];
-        }
-        
-        $fieldList = "
+        $where = " (gestor_id = ".$gestor." OR cliente.viajante_id = ".$gestor.")";
+       $GROUP_BY ="";
+       $formParams = [];
+       if(array_key_exists("PedidoSearch",$params)) {
+           $formParams = $params["PedidoSearch"];
+       }
+       
+       $fieldList = "
              pedido.id
             ,pedido.fecha_hora
             ,pedido.confirmado
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
-            ,user.username
+            ,user.username1
             ,user.id as user_id
             ,estado.id as estado_id
             ,estado.descripcion as estado_descripcion
-        ";
-        $fromTables = '
-            pedido
-            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-            JOIN user                         ON(pedido.gestor_id=user.id)
-            JOIN estado                       ON(pedido.estado_id=estado.id)
-        ';
-
-        $fieldList2 = "
-             pedido.id
-            ,pedido.fecha_hora
-            ,pedido.confirmado
-            ,cliente.razon_social
-            ,pedido.gestor_id
-            ,pedido.estado_id as pedido_estado_id
-            ,user2.username
-            ,user.id as user_id
-            ,estado.id as estado_id
-            ,estado.descripcion as estado_descripcion
-        ";
-        $fromTables2 = '
-            pedido
-            JOIN 	cliente ON(cliente.id=pedido.cliente_id)
-            JOIN 	user as user2    ON(user2.id=pedido.gestor_id)
-            JOIN 	user    ON(user.id=cliente.viajante_id)
-            JOIN    estado  ON(pedido.estado_id=estado.id)
-            
-          
-        ';
- 
+       ";
+       $fromTables = "
+           pedido
+           JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+           JOIN user                      ON(pedido.gestor_id=user.id)
+           JOIN estado                      ON(pedido.estado_id=estado.id)
+       ";
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
@@ -747,46 +720,39 @@ class PedidoSearch extends Pedido
         $this->estadoFilterFilter($formParams, $where, $queryParams);
         
         $this->usernameFilter($formParams, $where, $queryParams);
+    
         
-
-        if(!empty($condicionWhere2)) {
-            $where2.="WHERE {$condicionWhere2} ";
-            $where2.=!empty($where)? "and ".$where : "";
+    
+    
+        if(!empty($where)) {
+        
+            $where = " WHERE {$where} ";
         }
-        if(!empty($where) or !empty($condicionWhere)) {
-            $where.= !empty($where)? "and ".$condicionWhere : $condicionWhere;
-            $where = " WHERE {$where}";
-           
-        }
-       
-
         if(!empty($GROUP_BY)) {
+        
             $GROUP_BY = " GROUP BY {$GROUP_BY} ";
         }
-        
+    
+    
+    
         $query = "
             SELECT {$fieldList}
             FROM {$fromTables}
             {$where}
             {$GROUP_BY}
         ";
-        $query.= "
-             UNION
-            SELECT {$fieldList2}
-            FROM {$fromTables2}
-            {$where2}
-        ";
-        print_r($query);
-        die();
+        //  die($query);
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
         ";
         $itemsCount = Yii::$app->db->createCommand(
          $consultaCant,
          $queryParams
         )->queryScalar();
-        
+    
         $dataProvider = new \yii\data\SqlDataProvider([
          'sql' => $query,
          'params' => $queryParams,
@@ -795,9 +761,7 @@ class PedidoSearch extends Pedido
           'attributes' => [
            'razon_social',
            'nro_pedido',
-           'fecha_hora',
-           'estado_id',
-           'username',
+           'fecha_entrega',
            'id' => [
             'asc' => [new Expression('id')],
             'desc' => [new Expression('id DESC ')],
@@ -811,13 +775,17 @@ class PedidoSearch extends Pedido
           'pageSize' => 150,
          ],
         ]);
-        
+    
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-        
+    
         return $dataProvider;
     }
+    
+    
+    
+    
     
     public function searchPedidosCancelados($params)
     {
