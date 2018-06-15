@@ -9,7 +9,6 @@ $js = 'function refresh() {
             success: function(data) {
             $("#cant").html(data.pendientes);
             $("#canta").html(data.aceptados);
-            $("#cantd").html(data.despachados);
             $("#cante").html(data.expedicion);
             $("#cantc").html(data.cancelados);
             $("#cantt").html(data.todos);
@@ -66,7 +65,7 @@ $js = 'function refresh() {
                                 ['label' => 'Pedidos Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_e.'</a>'],
                                 ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
                                 ['label' => 'Todos los Pedidos', 'icon' =>  'server', 'url' => ['/pedido/index_todos'],  'template'=>'<a href="{url}">{icon} {label} '.$cant_pedidos_t.'</a>'],
-                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
+                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create'], 'options' => ['class' => 'bg-yellow color-palette']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
                                 ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
                                 [

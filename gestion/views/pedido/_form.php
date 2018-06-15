@@ -177,39 +177,64 @@ JS;
                 ]);
             ?>
         </div>
+        <?php 
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name ==='Viajante') {
+        ?>
+            <div class="col-md-6">
+                <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
+                    [
+                        'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
+                        'value' => $model->fecha_produccion,
+                        'type'=>DateControl::FORMAT_DATE,
+                        'language' => 'es',
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'convertFormat' => true,
+                            'format' => 'dd-m-yyyy hh:ii',
+                            'todayHighlight' => true,
+                        ]
+                    ]); ?>
+            </div>
+        <?php } 
+            else {
+        ?>
         <div class="col-md-6">
-            <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
-                [
-                    'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
-                    'value' => $model->fecha_produccion,
-                    'type'=>DateControl::FORMAT_DATE,
-                    'language' => 'es',
-                    'pluginOptions' => [
-                        'autoclose'=>true,
-                        'convertFormat' => true,
-                        'format' => 'dd-m-yyyy hh:ii',
-                        'todayHighlight' => true,
-                    ]
-                ]); ?>
-        </div>
+                <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
+                    [
+                        'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
+                        'value' => $model->fecha_produccion,
+                        'type'=>DateControl::FORMAT_DATE,
+                        'language' => 'es',
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'convertFormat' => true,
+                            'format' => 'dd-m-yyyy hh:ii',
+                            'todayHighlight' => true,
+                        ]
+                    ]); ?>
+            </div>
+        <?php } ?>    
+
+
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true,'value' => 'Buenos Aires']) ?>
-        </div>
-        <div class="col-sm-4">
-            <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true,'value' => 'C1010']) ?>
+            <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-sm-4">
             <?= $form->field($model, 'ship_address_1')->textInput(['maxlength' => true]) ?>
         </div>
+        <div class="col-sm-4">
+             <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true]) ?>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
-            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
             <?= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) ?>
