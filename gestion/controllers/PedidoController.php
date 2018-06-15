@@ -1152,7 +1152,7 @@ class PedidoController extends Controller
             'searchModel'  => $searchModel,
             'submodelo' => $submodelo,
         ]);
-   }
+    }
     private function crearPdf($model,$form,$header,$css=null)
     {
         $pedido_id = $model->id;
@@ -1186,15 +1186,6 @@ class PedidoController extends Controller
         $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
         $form = '_print_expedicion';
         $header = 'headerPDF';
-        $css =  '@app/web/css/print/expedicion.css';
-        $this->crearPdf($model_pedido,$form,$header,$css);
-    }
-    
-    public function actionPrintAdministracion(){
-        $pedido_id = Yii::$app->request->get('id');
-        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
-        $form = '_print_administracion';
-        $header = 'headerAdministracionPDF';
         $css =  '@app/web/css/print/expedicion.css';
         $this->crearPdf($model_pedido,$form,$header,$css);
     }

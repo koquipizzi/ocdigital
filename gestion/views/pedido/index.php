@@ -94,7 +94,6 @@ if(!empty($info))
     <div class="box box-warning with-border">
     <div class="box-body">
         <?php
-            Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
                 'tableOptions' => [
                     'id' => 'theDatatable',
@@ -115,22 +114,24 @@ if(!empty($info))
                     [
                         'label' => 'Nro. Pedido',
                         'attribute' => 'id',
-                        'headerOptions' => ['style' => 'width:1%']
+                        'headerOptions' => ['style' => 'width:1%'],
+                        'contentOptions' => ['style'=>'text-align:right'],
                     ],
                     [
-                        'label' => 'Fecha de Ingreso',
+                        'label' => 'Fecha Hora',
                         'attribute' => 'fecha_hora',
-                        'contentOptions' => ['style' => 'width:10%;'],
+                        'headerOptions' => ['style' => 'width:15%'],
+                        'contentOptions' => ['style' => 'width:15%;'],
                         'format' => ['date', 'php:d/m/Y'],
                         'filter' => DateRangePicker::widget([
-                        'template' => '
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                    {input}
-                                </div>
-                            ',
+                            'template' => '
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                {input}
+                            </div>
+                        ',
                             'model' => $searchModel,
                             'locale'    => 'es-ES',
                             'attribute' => 'fecha_hora',
@@ -162,29 +163,7 @@ if(!empty($info))
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{print} {print-administracion} ',
-                        'headerOptions' => ['style' => 'width:13%'],
-                        'contentOptions' => ['style' => 'width:13px;'],
-                        'buttons' => [
-                            'print' => function ($url,$model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                return Html::a(Html::encode('IMPRIMIR EXPEDICION '), Url::to($url), [
-                                    'class' => 'label label-warning rounded','target'=>'_blank'
-                                ]);
-                            },
-                            'print-administracion' => function ($url,$model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a(Html::encode('IMPRIMIR ADMINISTRACION '), Url::to($url), [
-                                        'class' => 'label label-primary rounded','target'=>'_blank'
-                                    ]);
-                            },
-                        ]
-                    ],
-                    [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view} {update} {delete} {confirm} {print} {printA} ',
+                        'template' => '{view} {update} {delete} {confirm} {print} ',
                         'headerOptions' => ['style' => 'width:13%'],
                         'contentOptions' => ['style' => 'width:13px;'],
                         'buttons' => [
@@ -206,7 +185,9 @@ if(!empty($info))
                             'print' => function ($url,$model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                                 if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank', 'data-pjax' => 0]);
+                                    return Html::a(Html::encode('IMPRIMIR'), Url::to($url), [
+                                        'class' => 'label label-warning rounded','target'=>'_blank'
+                                    ]);
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
@@ -297,7 +278,6 @@ if(!empty($info))
                 ],
             ]); ?>
         <?= Html::endForm();?>
-        <?php Pjax::end(); ?>
     </div>
 
 </div>
