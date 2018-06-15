@@ -149,18 +149,17 @@ $this->registerJs($set_date);
         </div>
         <div class="col-md-4 bg-orange color-palette" style=" opacity: .70;">
         <?php
-                echo $form->field ($model, 'estado_id', ['template' => "{label} 
-               {input} {hint} {error}"]
-                )->widget(select2::classname(), [
-                 'data' => $arrayDataEstadoskv ,
-                 'language' => 'es',
-                 'options' => [
-                  
-                  'placeholder' => 'Seleccionar estado...'],
-                 'pluginOptions' => [
-                  'allowClear' => false
-                 ],
-                ]);
+            echo $form->field ($model, 'estado_id', ['template' => "{label} {input} {hint} {error}"]
+            )->widget(select2::classname(), [
+            'data' => $arrayDataEstadoskv ,
+            'language' => 'es',
+            'options' => [
+                'onchange' => " if ($(this).val() == 3){ $('#footer').show();};",
+                'placeholder' => 'Seleccionar estado...'],
+                'pluginOptions' => [
+                'allowClear' => false
+                ],
+            ]);
             ?>
         </div>
     </div>
@@ -262,8 +261,8 @@ $this->registerJs($set_date);
                                                         'results' => new JsExpression($resultsJs),
                                                     //    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                                                   ],
-                                              ]       ,
-                                                'options' => [
+                                              /*],
+                                                /*'options' => [
                                                     'onchange' => "
                                                         var idProducto = $(this).val();
                                                         url = ajaxurlp+'&id='+idProducto;
@@ -272,7 +271,7 @@ $this->registerJs($set_date);
                                                                 $('#pedidodetalle-'+linea+'-precio_unitario').val(data.data.precio_unitario);
                                                                 $('#pedidodetalle-'+linea+'-unidad_id').val(data.data.unidad_id);
                                                             }
-                                                        });"
+                                                        });"*/
                                               ],
                                               ]);
                           ?>
@@ -301,7 +300,8 @@ $this->registerJs($set_date);
                     <?php endforeach; ?>
             </div>
         </div>
-        <div class="form-group" style="float:right;">
+        <div  class="form-group" style="float:right;">
+            <button id="footer" style="display: none" type="" class="btn btn-primary">Imprimir y Pasar a Expedición</button>'
             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
         </div>
