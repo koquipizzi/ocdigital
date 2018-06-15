@@ -97,6 +97,19 @@ class PedidoController extends Controller
             'titulo' => $titulo,
         ]);
     }
+    public function actionIndex_todos()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchTodos(Yii::$app->request->queryParams);
+        $titulo = "Todos los Pedidos";
+        
+        return $this->render('index_todos', [
+         'searchModel' => $searchModel,
+         'dataProvider' => $dataProvider,
+         'titulo' => $titulo,
+        ]);
+    }
+    
 
     public function actionIndex_pendientes_viajante()
     {
@@ -376,7 +389,7 @@ class PedidoController extends Controller
                         $modelEvent->title = $pedido->cliente->nombre;
                         
                         if (!$modelEvent->save()) {
-                            throw new \Exception("Error al actualizar el modelo pedido. id={$modelEvent->id}.");
+                            throw new \Exception("Error al salvar el modelo event.");
                         }
                         return $this->redirect(['view', 'id' => $modelPedido->id]);
                     }
@@ -1193,14 +1206,14 @@ class PedidoController extends Controller
     public function actionCantidad()
     {
     
-        $cantPendiente = Pedido::countPedidosPendiente();
-        $cantAceptados = Pedido::countPedidosAceptados();
+        $cantPendiente   = Pedido::countPedidosPendiente();
+        $cantAceptados  = Pedido::countPedidosAceptados();
         $cantExpedicion = Pedido::countPedidosExpedicion();
-        $cantDespacho = Pedido::countPedidosDespacho();
-        $cantCancelado = Pedido::countPedidosCancelado();
-        
+        $cantDespacho   = Pedido::countPedidosDespacho();
+        $cantCancelado  = Pedido::countPedidosCancelado();
+        $cantTodos      = Pedido::countTodosLosPedidos();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado];
+        return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado,'todos'=>$cantTodos];
     }
     
     

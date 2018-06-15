@@ -290,5 +290,8 @@ class Pedido extends \yii\db\ActiveRecord
     public static function countPedidosCancelado(){
         return Pedido::find()->where(['estado_id' => 5])->count();
     }
-
+    
+    public static function countTodosLosPedidos(){
+        return Pedido::find()->count();
+    }
 }
