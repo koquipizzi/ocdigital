@@ -94,15 +94,71 @@ $set_date = <<<JS
          }
      }
  });
+
 JS;
 
 $this->registerJs($set_date);
+
+
+
+$url = Url::to(['/pedido/print','id' => $model->id]);
+$urlPedidoUpdate = Url::to(['/pedido/update','id' => $model->id]);
+$urlPedidoview = Url::to(['/pedido/view','id' => $model->id]);
+$imprimir = <<<JS
+$( document ).ready(function() {
+    $(".btn_imprimir").click(function() {
+        var formData = $('#dynamic-form').serialize();
+        $.ajax({
+            url: '{$urlPedidoUpdate}',
+            type: 'post',
+            data: formData,
+            success: function (data) {
+                if(data.rta=='ok'){
+                    window.open('{$url}');
+                    $(location).attr("href", '{$urlPedidoview}');
+                }
+                if(data.rta=='ko'){
+                    $('#dynamic-form').yiiActiveForm('submitForm');
+                }
+                x
+            },
+            error: function () {
+                 $('#dynamic-form').yiiActiveForm('submitForm');
+            }
+
+        });
+    });
+   
+  
+  
+ 
+
+});
+JS;
+
+$this->registerJs($imprimir);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
 <div class="pedido-form">
 
   <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
   <input id="clienteID" name="clienteID" type="hidden" value="xm234jq">
+  <?php echo "<input id='estadoId' name='estadoId' type='hidden' value='{$model->estado_id}'> ";?>
     <div class="row">
         <div class="col-sm-4">
             <?php
@@ -110,26 +166,26 @@ $this->registerJs($set_date);
                 $listData = ArrayHelper::map($clientes,'id', 'nombre');
                 echo $form->field ($model, 'cliente_id', ['template' => "{label} {input} {hint} {error}"]
                                 )->widget(select2::classname(), [
-                                                                    'data' => $listData ,
-                                                                    'language' => 'es',
-                                                                    'options' => [
-                                                                      'onchange' => '
-                                                                            jQuery("#clienteID").val(this.value);
-                                                                            id = this.value;
-                                                                            aux = ajaxurl + "&id=" + id;
-                                                                            $.get( aux , function( data ) {
-                                                                                if (data.rta){
-                                                                                    jQuery("#pedido-ship_address_1").val(data.results.direccion);
-                                                                                    jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
-                                                                                    jQuery("#pedido-telefono").val(data.results.telefono);
-                                                                                    jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
-                                                                                }
-                                                                            });',
-                                                                        'placeholder' => 'Seleccione un Cliente...'],
-                                                                        'pluginOptions' => [
-                                                                        'allowClear' => false
-                                                                    ],
-                                                                ]);
+                                'data' => $listData ,
+                                'language' => 'es',
+                                'options' => [
+                                  'onchange' => '
+                                        jQuery("#clienteID").val(this.value);
+                                        id = this.value;
+                                        aux = ajaxurl + "&id=" + id;
+                                        $.get( aux , function( data ) {
+                                            if (data.rta){
+                                                jQuery("#pedido-ship_address_1").val(data.results.direccion);
+                                                jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
+                                                jQuery("#pedido-telefono").val(data.results.telefono);
+                                                jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
+                                            }
+                                        });',
+                                    'placeholder' => 'Seleccione un Cliente...'],
+                                    'pluginOptions' => [
+                                    'allowClear' => false
+                                ],
+                            ]);
             ?>
         </div>
         <div class="col-md-4">
@@ -154,7 +210,14 @@ $this->registerJs($set_date);
             'data' => $arrayDataEstadoskv ,
             'language' => 'es',
             'options' => [
-                'onchange' => " if ($(this).val() == 3){ $('#footer').show();};",
+                'onchange' => "
+                    if ( ($(this).val() == 3) ){
+                        if($('#estadoId').val()!=3){
+                         $('#footer').show();
+                        }
+                    }else{
+                     $('#footer').hide();
+                    };",
                 'placeholder' => 'Seleccionar estado...'],
                 'pluginOptions' => [
                 'allowClear' => false
@@ -261,17 +324,6 @@ $this->registerJs($set_date);
                                                         'results' => new JsExpression($resultsJs),
                                                     //    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                                                   ],
-                                              /*],
-                                                /*'options' => [
-                                                    'onchange' => "
-                                                        var idProducto = $(this).val();
-                                                        url = ajaxurlp+'&id='+idProducto;
-                                                        $.get( url , function( data ) {
-                                                            if (data.rta){
-                                                                $('#pedidodetalle-'+linea+'-precio_unitario').val(data.data.precio_unitario);
-                                                                $('#pedidodetalle-'+linea+'-unidad_id').val(data.data.unidad_id);
-                                                            }
-                                                        });"*/
                                               ],
                                               ]);
                           ?>
@@ -284,10 +336,6 @@ $this->registerJs($set_date);
                               $clientes = Unidad::find()->all();
                               $listData = ArrayHelper::map($clientes,'id', 'nombre_unidad');
                               echo $form->field($modelPedidoDetalle, "[{$index}]unidad_id")->dropDownList($listData, ['prompt' => 'Seleccione Unidad' ]);
-                             /* echo $form->field ($modelPedidoDetalle, "[{$index}]unidad_id")->widget(select2::classname(), [
-                                  'data' => $listData ,
-                                  'options' => ['placeholder' => 'Seleccione Unidad...'],
-                              ]);*/
                           ?>
                           </div>
                           <div class="col-sm-2">
@@ -301,7 +349,7 @@ $this->registerJs($set_date);
             </div>
         </div>
         <div  class="form-group" style="float:right;">
-            <button id="footer" style="display: none" type="" class="btn btn-primary">Imprimir y Pasar a Expedición</button>'
+            <button id="footer" style="display: none" type="button" class="btn btn-primary btn_imprimir">Imprimir y Pasar a Expedición</button>
             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
         </div>
