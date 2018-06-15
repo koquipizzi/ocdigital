@@ -118,10 +118,10 @@ if(!empty($info))
                         'contentOptions' => ['style'=>'text-align:right'],
                     ],
                     [
-                        'label' => 'Fecha Hora',
+                        'label' => 'Fecha Ingreso',
                         'attribute' => 'fecha_hora',
-                        'headerOptions' => ['style' => 'width:15%'],
-                        'contentOptions' => ['style' => 'width:15%;'],
+                        'headerOptions' => ['style' => 'width:8%'],
+                        'contentOptions' => ['style' => 'width:8%;'],
                         'format' => ['date', 'php:d/m/Y'],
                         'filter' => DateRangePicker::widget([
                             'template' => '
@@ -185,9 +185,7 @@ if(!empty($info))
                             'print' => function ($url,$model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                                 if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a(Html::encode('IMPRIMIR'), Url::to($url), [
-                                        'class' => 'label label-warning rounded','target'=>'_blank'
-                                    ]);
+                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url), ['target'=>'_blank']);
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
