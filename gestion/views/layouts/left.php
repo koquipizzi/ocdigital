@@ -94,6 +94,7 @@ $js = 'function refresh() {
                             [
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
+                                ['label' => 'Pedidos Realizados', 'icon' =>  'server', 'url' => ['/pedido/pedidos-realizados'],  'template'=>'<a href="{url}">{icon} {label} '.$cant_pedidos_t.'</a>'],
                                 ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']]
                             ]
                     ]);

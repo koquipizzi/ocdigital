@@ -670,7 +670,110 @@ class PedidoSearch extends Pedido
     }
     
     
-     public function searchPedidosCancelados($params)
+    
+    public function searchPedidosRealizados($params)
+    {
+        $gestor = Yii::$app->user->getId();
+        $queryParams = [];
+        $where = 'pedido.gestor_id = '.$gestor;
+        $GROUP_BY ='pedido.id desc';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_hora
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.gestor_id
+            ,pedido.estado_id as pedido_estado_id
+            ,user.username
+            ,estado.id as estado_id
+            ,estado.descripcion as estado_descripcion
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            LEFT JOIN cliente as cliente_viajante  ON(pedido.gestor_id=cliente_viajante.viajante_id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+            JOIN estado                       ON(pedido.estado_id=estado.id)
+        ';
+        
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        $this->estadoFilterFilter($formParams, $where, $queryParams);
+        
+        $this->usernameFilter($formParams, $where, $queryParams);
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+        
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['id' => SORT_DESC],
+          'attributes' => [
+           'razon_social',
+           'nro_pedido',
+           'fecha_hora',
+           'estado_id',
+           'username',
+           'id' => [
+            'asc' => [new Expression('id')],
+            'desc' => [new Expression('id DESC ')],
+            'default' => SORT_DESC,
+           ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+    
+    public function searchPedidosCancelados($params)
     {
         
        
