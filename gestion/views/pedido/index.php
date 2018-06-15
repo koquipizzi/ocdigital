@@ -12,11 +12,15 @@ use xj\bootbox\BootboxAsset;
 BootboxAsset::register($this);
 
 
-$this->title = Yii::t('app', 'Pedidos');
+//echo $titulo.Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']);
+$this->title = $titulo;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php
+$url = \yii\helpers\Url::to([
+    'pedido/create'
+]);
 
 $script = <<< JS
 $('.ocultar input:checkbox').remove();
@@ -29,6 +33,11 @@ $(document).ready(function(){
         $('.nspinner').hide();
         $('.wspinner').show();
     });
+
+    var sum = $('h1').html();
+    sum = sum + '<a class="btn btn-app2" href="$url"><i class="fa fa-plus"></i></a>';
+    $('h1').html(sum);
+
 
 });
 JS;
@@ -83,29 +92,24 @@ if(!empty($info))
 <div class="pedido-index">
     
     <div class="box box-warning with-border">
-    <div class="box-header">
-        <div class="pull-left">
-           <h2 class="page-header"><?php echo $titulo; ?></h2>
-        </div>
-        
-        <div class="pull-right">
-            <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
     <div class="box-body">
         <?php
             Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
+                'tableOptions' => [
+                    'id' => 'theDatatable',
+                    'class'=>'table table-hover table-striped table-bordered table-condensed'
+                    ],
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'showFooter' => true,
                 'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
                 'rowOptions'=> function($model){
-                        if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
-                            return ['class' => 'danger'];
-                        }else{
-                            return ['class' => 'success'];
-                        }
+                 //       if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
+                 //           return ['class' => 'danger'];
+                 //       }else{
+                 //           return ['class' => 'success'];
+                //        }
                 },
                 'columns' => [
                     [
