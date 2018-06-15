@@ -82,6 +82,7 @@ class Cliente extends \yii\db\ActiveRecord
             'codigo_nombre_cliente' => Yii::t('app', 'Codigo Nombre Cliente'),
             'documento' => Yii::t('app', 'Documento'),
             'ciudad' => Yii::t('app', 'Ciudad'),
+            'viajante_id' => Yii::t('app', 'Vendedor'),
         ];
     }
 
