@@ -41,6 +41,7 @@ class Pedido extends \yii\db\ActiveRecord
     const ESTADO_COMPLETADO = 'completed';
     const ESTADO_CANCELADO = 'cancelled';
     const ESTADO_MANUAL = 'Manual';
+    const ESTADO_ACEPTADO = 2;
 
 
     /**
@@ -258,6 +259,16 @@ class Pedido extends \yii\db\ActiveRecord
         }else{
             return $modelEstado->descripcion;
         }
+    }
+    
+    public function getResponsble(){
+        $user = '';
+        $WorkFlow = Workflow::find()->select('user_id')->where(['pedido_id' => $this->id, 'estado_id' => self::ESTADO_ACEPTADO])->orderBy('fecha_inicio','DESC')->limit(1)->one();
+         if (!empty($WorkFlow)){
+             $user = User::find()->where(['id' => $WorkFlow->user_id])->one();
+         }
+         
+        return $user->username;
     }
     
     public static function countPedidosPendiente(){
