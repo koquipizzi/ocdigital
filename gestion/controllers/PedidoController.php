@@ -418,7 +418,6 @@ class PedidoController extends Controller
     public function actionUpdate($id, $proceso=null)
     {
 
-        
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
@@ -444,6 +443,9 @@ class PedidoController extends Controller
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
                         }
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
+                            if (!$modelPedidoDetalle->validate()) {
+                                throw new \Exception("Error al validar el modelo pedido detalle.");
+                            }
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
                             
@@ -465,13 +467,22 @@ class PedidoController extends Controller
                         }
                         
                     }
+                   
+                    if(Yii::$app->request->isAjax){
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ['rta'=>'ok'];
+                    }
+ 
                     return $this->redirect(['view', 'id' => $modelPedido->id]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $transaction->rollBack();
+                    if(Yii::$app->request->isAjax){
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ['rta'=>'ko'];
+                    }
                 }
             }
         }
-
         if ($proceso == 'aceptar') {
             $query = new Query;
             $query->select('estado.id,estado.descripcion')
