@@ -573,7 +573,7 @@ class PedidoSearch extends Pedido
         
         $queryParams = [];
         $where = '';
-        $GROUP_BY ='';
+        $GROUP_BY ='pedido.id desc';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
             $formParams = $params['PedidoSearch'];
