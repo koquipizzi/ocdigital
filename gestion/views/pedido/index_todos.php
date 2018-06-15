@@ -16,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 
+$url = \yii\helpers\Url::to([
+    'pedido/create'
+]);
+
 $script = <<< JS
 $('.ocultar input:checkbox').remove();
 $(document).on('pjax:complete', function(event) {
@@ -27,6 +31,10 @@ $(document).ready(function(){
         $('.nspinner').hide();
         $('.wspinner').show();
     });
+
+    var sum = $('h1').html();
+    sum = sum + '<a class="btn btn-app2" href="$url"><i class="fa fa-plus"></i></a>';
+    $('h1').html(sum);
 
 });
 JS;
@@ -81,15 +89,6 @@ if(!empty($info))
 <div class="pedido-index">
     
     <div class="box box-warning with-border">
-    <div class="box-header">
-        <div class="pull-left">
-           <h2 class="page-header"><?php echo $titulo; ?></h2>
-        </div>
-        
-        <div class="pull-right">
-            <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
     <div class="box-body">
         <?php
             echo GridView::widget([

@@ -247,7 +247,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -294,7 +294,7 @@ class PedidoSearch extends Pedido
     {
         $gestor = Yii::$app->user->getId();
         $queryParams = [];
-        $where = 'pedido.estado_id =1 and gestor_id = '.$gestor;
+        $where = 'pedido.estado_id =1 and (gestor_id = '.$gestor.' OR cliente.viajante_id = '.$gestor.')';
         $GROUP_BY ='';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
@@ -303,8 +303,6 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
-            ,pedido.confirmado
             ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
@@ -346,7 +344,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -446,7 +444,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -493,7 +491,7 @@ class PedidoSearch extends Pedido
     {
         $gestor = Yii::$app->user->getId();
         $queryParams = [];
-        $where = 'pedido.estado_id =2 and pedido.gestor_id = '.$gestor;
+        $where = 'pedido.estado_id =2 and (gestor_id = '.$gestor.' OR cliente.viajante_id = '.$gestor.')';
         $GROUP_BY ='';
         $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
@@ -502,8 +500,6 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
-            ,pedido.confirmado
             ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
@@ -541,7 +537,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -642,7 +638,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -745,7 +741,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-        //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}
@@ -848,7 +844,7 @@ class PedidoSearch extends Pedido
             {$where}
             {$GROUP_BY}
         ";
-      //  die($query);
+
         $consultaCant = "
             SELECT count(*) as total
             FROM {$fromTables}

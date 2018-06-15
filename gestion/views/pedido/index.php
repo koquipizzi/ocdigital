@@ -191,12 +191,13 @@ if(!empty($info))
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                $user = Yii::$app->user->getId();
                                 if ( current($userRole)->name !='Viajante')
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1 && $model["gestor_id"]== $user)
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
