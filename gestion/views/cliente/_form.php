@@ -73,7 +73,7 @@ $this->registerJs($js);
             <div class="col-md-3">
                 <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
             </div>
-             <div class="col-md-2">
+            <div class="col-md-2">
                 <?php
 
                 $query = new Query;
@@ -102,7 +102,7 @@ $this->registerJs($js);
                                                                             'allowClear' => true
                                                                     ],
                                                                 ]);
-            ?>
+                ?>
             </div>
         </div>
     
