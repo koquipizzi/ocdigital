@@ -9,7 +9,6 @@ $js = 'function refresh() {
             success: function(data) {
             $("#cant").html(data.pendientes);
             $("#canta").html(data.aceptados);
-            $("#cantd").html(data.despachados);
             $("#cante").html(data.expedicion);
             $("#cantc").html(data.cancelados);
             $("#cantt").html(data.todos);
@@ -60,16 +59,13 @@ $js = 'function refresh() {
                         'options' => ['class' => 'sidebar-menu', 'data-widget' => 'tree'],
                         'items' =>
                             [
-                             //   ['label' => 'Gestión de Comandas', 'options' => ['class' => 'header']],
                                 ['label' => 'Panel de Control', 'icon' => 'tachometer', 'url' => ['/']],
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos.'</a>'],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados'] ,'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_a.'</a>'],
                                 ['label' => 'Pedidos Expedición', 'icon' =>  'rocket', 'url' => ['/pedido/index_expedicion'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_e.'</a>'],
-                                ['label' => 'Pedidos Despachados', 'icon' =>  'truck', 'url' => ['/pedido/index_despachados'], 'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_d.'</a>'],
-                                //['label' => 'Pedidos Históricos', 'icon' => 'history', 'url' => ['/pedido/index']],
                                 ['label' => 'Pedidos Cancelados', 'icon' =>  'close', 'url' => ['/pedido/index_cancelados'],  'template'=>'<a href="{url}">{icon} {label}'.$cant_pedidos_c.'</a>'],
                                 ['label' => 'Todos los Pedidos', 'icon' =>  'server', 'url' => ['/pedido/index_todos'],  'template'=>'<a href="{url}">{icon} {label} '.$cant_pedidos_t.'</a>'],
-                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create']],
+                                ['label' => 'Crear Pedido', 'class' => 'text-yellow', 'icon' =>  'plus', 'url' => ['/pedido/create'], 'options' => ['class' => 'bg-yellow color-palette']],
                                 ['label' => 'Clientes', 'icon' => ' fa-user', 'url' => ['/cliente/index']],
                                 ['label' => 'Productos', 'icon' => 'shopping-basket', 'url' => ['/producto/index']],
                                 [
@@ -93,9 +89,8 @@ $js = 'function refresh() {
                         'items' =>
                             [
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
-                                ['label' => 'Pedidos Aceptados', 'icon' =>  'clock-o', 'url' => ['/pedido/index_aceptados']],
-                                ['label' => 'Pedidos Realizados', 'icon' =>  'server', 'url' => ['/pedido/pedidos-realizados'],  'template'=>'<a href="{url}">{icon} {label} '.$cant_pedidos_t.'</a>'],
-                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create']]
+                                ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados_viajante']],
+                                ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create'], 'options' => ['class' => 'bg-yellow color-palette']]
                             ]
                     ]);
             }

@@ -177,39 +177,64 @@ JS;
                 ]);
             ?>
         </div>
+        <?php 
+            $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+            if ( current($userRole)->name ==='Viajante') {
+        ?>
+            <div class="col-md-6">
+                <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
+                    [
+                        'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
+                        'value' => $model->fecha_produccion,
+                        'type'=>DateControl::FORMAT_DATE,
+                        'language' => 'es',
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'convertFormat' => true,
+                            'format' => 'dd-m-yyyy hh:ii',
+                            'todayHighlight' => true,
+                        ]
+                    ]); ?>
+            </div>
+        <?php } 
+            else {
+        ?>
         <div class="col-md-6">
-            <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
-                [
-                    'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
-                    'value' => $model->fecha_produccion,
-                    'type'=>DateControl::FORMAT_DATE,
-                    'language' => 'es',
-                    'pluginOptions' => [
-                        'autoclose'=>true,
-                        'convertFormat' => true,
-                        'format' => 'dd-m-yyyy hh:ii',
-                        'todayHighlight' => true,
-                    ]
-                ]); ?>
-        </div>
+                <?= $form->field($model, 'fecha_entrega')->widget(DateControl::className(),
+                    [
+                        'options' => ['placeholder' => 'Seleccione fecha de Entrega ...'],
+                        'value' => $model->fecha_produccion,
+                        'type'=>DateControl::FORMAT_DATE,
+                        'language' => 'es',
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'convertFormat' => true,
+                            'format' => 'dd-m-yyyy hh:ii',
+                            'todayHighlight' => true,
+                        ]
+                    ]); ?>
+            </div>
+        <?php } ?>    
+
+
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true,'value' => 'Buenos Aires']) ?>
-        </div>
-        <div class="col-sm-4">
-            <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true,'value' => 'C1010']) ?>
+            <?= $form->field($model, 'ship_city')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-sm-4">
             <?= $form->field($model, 'ship_address_1')->textInput(['maxlength' => true]) ?>
         </div>
+        <div class="col-sm-4">
+             <?= $form->field($model, 'ship_postcode')->textInput(['maxlength' => true]) ?>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
-            <?= $form->field($model, 'telefono')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
         </div>
         <div class="col-sm-4">
             <?= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) ?>
@@ -332,7 +357,7 @@ JS;
     </div>
     <div class="form-group" style="float:right;">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-primary']) ?>
         <?php
             $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
             if ( current($userRole)->name ==='Viajante')
@@ -342,7 +367,7 @@ JS;
                 $urlIndex = Url::to(['/pedido/index_pendientes']);
             }
           
-            echo Html::a('Cancelar',$urlIndex, ['class'=>'btn btn-danger'])
+            echo Html::a('Cancelar',$urlIndex, ['class'=>'btn btn-default'])
         ?>
 
 

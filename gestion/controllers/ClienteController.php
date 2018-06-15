@@ -314,7 +314,7 @@ class ClienteController extends Controller
           $productoRol->producto_id = $nuevoID;
           $productoRol->rol_id = $rol->id;
           if (!$productoRol->save()) {
-            throw new Exception('No se pudo agrega el producto al cliente');
+            throw new \Exception('No se pudo agrega el producto al cliente');
           }
           $pubicProduct = ProductoRol::find()->where(['producto_id' => $nuevoID, 'rol_id' => Rol::DEFAULTROLID])->one();
           if (!empty($pubicProduct)){ //Si estaba publico,lo borro, para ser consistente con la base de datos de Woocomerce

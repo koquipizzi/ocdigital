@@ -5,7 +5,9 @@ use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\ArrayHelper;
 use app\models\Producto;
+use app\models\User;
 use kartik\select2\Select2;
+use yii\db\Query;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Cliente */
@@ -59,32 +61,70 @@ $this->registerJs($js);
 	<?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <?= $form->field($model, 'codigo')->textInput(['maxlength' => true]) ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
             </div>
-            
+            <div class="col-md-3">
+                <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-2">
+                <?php
+
+                $query = new Query;
+                $query	->select([
+                        'user.username AS username', 
+                        'user.id']
+                        )  
+                        ->from('user')
+                        ->join('LEFT OUTER JOIN', 'auth_assignment',
+                            'auth_assignment.user_id = user.id')
+                        ->where ('auth_assignment.item_name = "Viajante"'); 
+                        
+                $command = $query->createCommand();
+                $data = $command->queryAll();
+
+
+             //   $users = User::find()->with('auth_assignment')->where(['auth_assignment.item_name' => 'Viajante'])->all();
+                $listData = ArrayHelper::map($data,'id', 'username');
+                echo $form->field ($model, 'viajante_id', ['template' => "{label} {input} {hint} {error}"]
+                                )->widget(select2::classname(), [
+                                                                    'data' => $listData ,
+                                                                    'language' => 'es',
+                                                                    'options' => [
+                                                                        'placeholder' => 'Seleccione un Vendedor...'],
+                                                                        'pluginOptions' => [
+                                                                            'allowClear' => true
+                                                                    ],
+                                                                ]);
+                ?>
+            </div>
         </div>
     
         <div class="row">
-            <div class="col-md-4">
-                <?= $form->field($model, 'razon_social')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
             </div>
-            
-            <div class="col-md-4">
+             <div class="col-md-2">
+                <?= $form->field($model, 'ciudad')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-2">
                 <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'email')->input('email') ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
         
-        <div class="row">
+        <!--div class="row">
             <div class="col-md-4">
                 <?= $form->field($model, 'email')->input('email') ?>
             </div>
@@ -94,12 +134,12 @@ $this->registerJs($js);
             <div class="col-md-4">
                 <?= $form->field($model, 'contacto')->textInput(['maxlength' => true]) ?>
             </div>
-        </div>
+        </div-->
     
     
         <div class="form-group" style="float:right;">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Guardar') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::resetButton('Restablecer', ['class' => 'btn btn-default']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>

@@ -137,6 +137,19 @@ class PedidoController extends Controller
         ]);
     }
 
+    public function actionIndex_aceptados_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosAceptadosViajante(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Pendientes";
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
+        ]);
+    }
+
     public function actionIndex_aceptados()
     {
         $searchModel = new PedidoSearch();
@@ -354,16 +367,14 @@ class PedidoController extends Controller
 
             if ($valid && !empty($modelsPedidoDetalle)) {
                 $transaction = \Yii::$app->db->beginTransaction();
- 
-                $modelWorkflow->estado_id    = $rowEstado->id;
-                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
-                $modelWorkflow->pedido_id    = $modelPedido->id;
-                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
-                $modelWorkflow->save();
-                if (empty($modelWorkflow)) {
-                    throw new \Exception("Error al salvar el modelo Workflow.");
-                }
                 try {
+                    $modelWorkflow->estado_id    = $rowEstado->id;
+                    $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                    $modelWorkflow->pedido_id    = $modelPedido->id;
+                    $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+                    if (!$modelWorkflow->save()) {
+                        throw new \Exception("model Workflow error al salvar.");
+                    }
                     if ($flag = $modelPedido->save(false)) {
                         foreach ($modelsPedidoDetalle as $pedidoDetalle) {
                             $pedidoDetalle->pedido_id = $modelPedido->id;
@@ -420,7 +431,6 @@ class PedidoController extends Controller
     public function actionUpdate($id, $proceso=null)
     {
 
-        
         $modelPedido = $this->findModel($id);
         $modelsPedidoDetalle = $modelPedido->pedidoDetalles;
         $total = 0; //Cálculo de total de pedido
@@ -446,6 +456,9 @@ class PedidoController extends Controller
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
                         }
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
+                            if (!$modelPedidoDetalle->validate()) {
+                                throw new \Exception("Error al validar el modelo pedido detalle.");
+                            }
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
                             
@@ -467,13 +480,22 @@ class PedidoController extends Controller
                         }
                         
                     }
+                   
+                    if(Yii::$app->request->isAjax){
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ['rta'=>'ok'];
+                    }
+ 
                     return $this->redirect(['view', 'id' => $modelPedido->id]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $transaction->rollBack();
+                    if(Yii::$app->request->isAjax){
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ['rta'=>'ko'];
+                    }
                 }
             }
         }
-
         if ($proceso == 'aceptar') {
             $query = new Query;
             $query->select('estado.id,estado.descripcion')
@@ -1167,7 +1189,7 @@ class PedidoController extends Controller
             'searchModel'  => $searchModel,
             'submodelo' => $submodelo,
         ]);
-   }
+    }
     private function crearPdf($model,$form,$header,$css=null)
     {
         $pedido_id = $model->id;
@@ -1201,15 +1223,6 @@ class PedidoController extends Controller
         $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
         $form = '_print_expedicion';
         $header = 'headerPDF';
-        $css =  '@app/web/css/print/expedicion.css';
-        $this->crearPdf($model_pedido,$form,$header,$css);
-    }
-    
-    public function actionPrintAdministracion(){
-        $pedido_id = Yii::$app->request->get('id');
-        $model_pedido = Pedido::find()->where(['id' => $pedido_id])->one();
-        $form = '_print_administracion';
-        $header = 'headerAdministracionPDF';
         $css =  '@app/web/css/print/expedicion.css';
         $this->crearPdf($model_pedido,$form,$header,$css);
     }

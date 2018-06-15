@@ -39,8 +39,8 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b>Version</b> 2.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://www.qwavee.com">Qwavee </a>.</strong> All rights
-    reserved.
+    <strong>Copyright &copy; <?php echo date("Y"); ?>
+ <a href="http://www.qwavee.com">Qwavee </a>.</strong> Todos los derechos reservados.
 </footer>
 
 <!-- Control Sidebar -->

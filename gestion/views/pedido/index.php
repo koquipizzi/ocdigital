@@ -12,11 +12,15 @@ use xj\bootbox\BootboxAsset;
 BootboxAsset::register($this);
 
 
-$this->title = Yii::t('app', 'Pedidos');
+//echo $titulo.Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']);
+$this->title = $titulo;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php
+$url = \yii\helpers\Url::to([
+    'pedido/create'
+]);
 
 $script = <<< JS
 $('.ocultar input:checkbox').remove();
@@ -29,6 +33,11 @@ $(document).ready(function(){
         $('.nspinner').hide();
         $('.wspinner').show();
     });
+
+    var sum = $('h1').html();
+    sum = sum + '<a class="btn btn-app2" href="$url"><i class="fa fa-plus"></i></a>';
+    $('h1').html(sum);
+
 
 });
 JS;
@@ -83,50 +92,46 @@ if(!empty($info))
 <div class="pedido-index">
     
     <div class="box box-warning with-border">
-    <div class="box-header">
-        <div class="pull-left">
-           <h2 class="page-header"><?php echo $titulo; ?></h2>
-        </div>
-        
-        <div class="pull-right">
-            <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
     <div class="box-body">
         <?php
-            Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
+                'tableOptions' => [
+                    'id' => 'theDatatable',
+                    'class'=>'table table-hover table-striped table-bordered table-condensed'
+                    ],
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'showFooter' => true,
                 'footerRowOptions'=>  ['style' => 'text-align: right; font-weight:bold;'],
                 'rowOptions'=> function($model){
-                        if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
-                            return ['class' => 'danger'];
-                        }else{
-                            return ['class' => 'success'];
-                        }
+                 //       if(is_array($model) && array_key_exists("aceptado",$model) && !$model["aceptado"]){
+                 //           return ['class' => 'danger'];
+                 //       }else{
+                 //           return ['class' => 'success'];
+                //        }
                 },
                 'columns' => [
                     [
                         'label' => 'Nro. Pedido',
                         'attribute' => 'id',
-                        'headerOptions' => ['style' => 'width:1%']
+                        'headerOptions' => ['style' => 'width:1%'],
+                        'contentOptions' => ['style'=>'text-align:right'],
                     ],
                     [
-                        'label' => 'Fecha de Ingreso',
+                        'label' => 'Fecha Ingreso',
                         'attribute' => 'fecha_hora',
-                        'contentOptions' => ['style' => 'width:10%;'],
+                        'headerOptions' => ['style' => 'width:8%'],
+                        'contentOptions' => ['style' => 'width:8%;'],
                         'format' => ['date', 'php:d/m/Y'],
                         'filter' => DateRangePicker::widget([
-                        'template' => '
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                    {input}
-                                </div>
-                            ',
+                            'template' => '
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                {input}
+                            </div>
+                        ',
                             'model' => $searchModel,
                             'locale'    => 'es-ES',
                             'attribute' => 'fecha_hora',
@@ -158,29 +163,7 @@ if(!empty($info))
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{print} {print-administracion} ',
-                        'headerOptions' => ['style' => 'width:13%'],
-                        'contentOptions' => ['style' => 'width:13px;'],
-                        'buttons' => [
-                            'print' => function ($url,$model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                return Html::a(Html::encode('IMPRIMIR EXPEDICION '), Url::to($url), [
-                                    'class' => 'label label-warning rounded','target'=>'_blank'
-                                ]);
-                            },
-                            'print-administracion' => function ($url,$model) {
-                                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-                                if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a(Html::encode('IMPRIMIR ADMINISTRACION '), Url::to($url), [
-                                        'class' => 'label label-primary rounded','target'=>'_blank'
-                                    ]);
-                            },
-                        ]
-                    ],
-                    [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view} {update} {delete} {confirm} {print} {printA} ',
+                        'template' => '{view} {update} {delete} {confirm} {print} ',
                         'headerOptions' => ['style' => 'width:13%'],
                         'contentOptions' => ['style' => 'width:13px;'],
                         'buttons' => [
@@ -202,16 +185,17 @@ if(!empty($info))
                             'print' => function ($url,$model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                                 if ( current($userRole)->name !='Viajante' && $model["estado_id"]!=1)
-                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url),['target'=>'_blank', 'data-pjax' => 0]);
+                                    return Html::a('<span class="fa fa-print"></span>',Url::to($url), ['target'=>'_blank']);
                             },
                             'update' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                $user = Yii::$app->user->getId();
                                 if ( current($userRole)->name !='Viajante')
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1 && $model["gestor_id"]== $user)
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
@@ -293,7 +277,6 @@ if(!empty($info))
                 ],
             ]); ?>
         <?= Html::endForm();?>
-        <?php Pjax::end(); ?>
     </div>
 
 </div>
