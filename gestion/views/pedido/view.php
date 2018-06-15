@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             [
-                'label' => 'Razon Social / Nombre',
+                'label' => 'Razón Social / Nombre',
                 'value' => $model->getClienteRazonSocial(),
             ],
             [
@@ -96,18 +96,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['date', 'php:d/m/Y  H:i'],
             ],
             [
-                'label' => 'Fecha de Entrega',
-                'attribute' => 'fecha_entrega',
-                'format' => ['date', 'php:d/m/Y '],
-            ],
-            [
                 'label' => 'Estado',
                 'value' => function($model){
                     return $model->EstadoNombre;
                 }
             ],
             [
-                'label' => 'Gestor',
+                'label' => 'Gestor del Pedido',
                 'value' => function($model){
                     return $model->getGestorPedidoName();
                 },
@@ -141,21 +136,21 @@ $this->params['breadcrumbs'][] = $this->title;
       ] ]);?>
   </div>
       <div class="box-body">
-          <h4>Historial de cambios de estado del pedido</h4>
-          <?= GridView::widget([
-           'dataProvider' => $dataProviderWorkflow,
-           'columns' => [
-            'estado',
-            'responsable',
-            [
-             'attribute' => 'fecha_inicio',
-             'format' => ['date', 'php:d/m/Y  H:i'],
-            ],
-            [
-             'attribute' => 'fecha_fin',
-             'format' => ['date', 'php:d/m/Y  H:i'],
-            ],
+            <h4>Historial de Cambios de Estado del Pedido</h4>
+            <?= GridView::widget([
+            'dataProvider' => $dataProviderWorkflow,
+            'columns' => [
+                'estado',
+                [
+                'attribute' => 'fecha_inicio',
+                'format' => ['date', 'php:d/m/Y  H:i'],
+                ],
+                [
+                'attribute' => 'fecha_fin',
+                'format' => ['date', 'php:d/m/Y  H:i'],
+                ],
+                'responsable'
             
-          ] ]);?>
+            ] ]);?>
       </div>
 </div>

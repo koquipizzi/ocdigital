@@ -103,6 +103,15 @@ class PedidoSearch extends Pedido
         }
     }
     
+    private function fechaHoraFilter($params, &$where, &$queryParams) {
+        if($this->paramExists($params, 'fecha_hora')) {
+            list($fechaInicio,$fechaFin)= explode('-',$params['fecha_hora']);
+            $queryParams[':fecha_inicio_h'] = trim($fechaInicio);
+            $queryParams[':fecha_fin_h']    = trim($fechaFin);
+            $where = $this->addWhereSentence($where, "pedido.fecha_hora BETWEEN STR_TO_DATE(:fecha_inicio_h,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin_h,'%d/%m/%Y')");
+        }
+    }
+    
    
     /**
      * Filtro de razon_social
@@ -195,6 +204,7 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
+            ,pedido.fecha_hora
             ,pedido.fecha_entrega
             ,pedido.confirmado
             ,cliente.razon_social
@@ -214,6 +224,8 @@ class PedidoSearch extends Pedido
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
+    
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
@@ -254,6 +266,7 @@ class PedidoSearch extends Pedido
             'defaultOrder' => ['id' => SORT_DESC],
             'attributes' => [
                 'razon_social',
+                'fecha_hora',
                 'nro_pedido',
                 'fecha_entrega',
                 'id' => [
@@ -292,6 +305,7 @@ class PedidoSearch extends Pedido
              pedido.id
             ,pedido.fecha_entrega
             ,pedido.confirmado
+            ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
@@ -309,6 +323,8 @@ class PedidoSearch extends Pedido
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
+    
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
@@ -350,6 +366,7 @@ class PedidoSearch extends Pedido
             'attributes' => [
                 'razon_social',
                 'nro_pedido',
+                'fecha_hora',
                 'fecha_entrega',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -388,6 +405,7 @@ class PedidoSearch extends Pedido
              pedido.id
             ,pedido.fecha_entrega
             ,pedido.confirmado
+            ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
@@ -405,6 +423,8 @@ class PedidoSearch extends Pedido
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
@@ -446,6 +466,102 @@ class PedidoSearch extends Pedido
             'attributes' => [
                 'razon_social',
                 'nro_pedido',
+                'fecha_hora',
+                'fecha_entrega',
+                'id' => [
+                        'asc' => [new Expression('id')],
+                        'desc' => [new Expression('id DESC ')],
+                        'default' => SORT_DESC,
+                ],
+            ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+        
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        
+        return $dataProvider;
+    }
+
+     public function searchPedidosAceptadosViajante($params)
+    {
+        $gestor = Yii::$app->user->getId();
+        $queryParams = [];
+        $where = 'pedido.estado_id =2 and pedido.gestor_id = '.$gestor;
+        $GROUP_BY ='';
+        $formParams = [];
+        if(array_key_exists('PedidoSearch',$params)) {
+            $formParams = $params['PedidoSearch'];
+        }
+        
+        $fieldList = "
+             pedido.id
+            ,pedido.fecha_entrega
+            ,pedido.confirmado
+            ,pedido.fecha_hora
+            ,cliente.razon_social
+            ,pedido.gestor_id
+            ,pedido.estado_id as pedido_estado_id
+            ,user.username
+            ,estado.id as estado_id
+        ";
+        $fromTables = '
+            pedido
+            JOIN cliente                      ON(pedido.cliente_id=cliente.id)
+            JOIN user                         ON(pedido.gestor_id=user.id)
+            JOIN estado                       ON(pedido.estado_id=estado.id)
+        ';
+        
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);     
+        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
+        
+        
+        if(!empty($where)) {
+            
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+            
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+        
+
+        
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+      //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+        
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'razon_social',
+                'nro_pedido',
+                'fecha_hora',
                 'fecha_entrega',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -485,6 +601,7 @@ class PedidoSearch extends Pedido
              pedido.id
             ,pedido.fecha_entrega
             ,pedido.confirmado
+            ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
@@ -504,6 +621,8 @@ class PedidoSearch extends Pedido
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+    
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
         
         if(!empty($where)) {
@@ -543,6 +662,7 @@ class PedidoSearch extends Pedido
             'attributes' => [
                 'razon_social',
                 'nro_pedido',
+                'fecha_hora',
                 'fecha_entrega',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -686,6 +806,7 @@ class PedidoSearch extends Pedido
              pedido.id
             ,pedido.fecha_entrega
             ,pedido.confirmado
+            ,pedido.fecha_hora
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
@@ -696,7 +817,7 @@ class PedidoSearch extends Pedido
             pedido
             JOIN cliente                      ON(pedido.cliente_id=cliente.id)
             JOIN user                         ON(pedido.gestor_id=user.id)
-             JOIN estado                      ON(pedido.estado_id=estado.id)
+            JOIN estado                      ON(pedido.estado_id=estado.id)
         ';
         
         
@@ -706,6 +827,8 @@ class PedidoSearch extends Pedido
         $this->fechaEntregaFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+    
+        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
         
         if(!empty($where)) {
@@ -744,6 +867,7 @@ class PedidoSearch extends Pedido
                 'defaultOrder' => ['id' => SORT_DESC],
                 'attributes' => [
                     'razon_social',
+                    'fecha_hora',
                     'nro_pedido',
                     'fecha_entrega',
                     'id' => [
