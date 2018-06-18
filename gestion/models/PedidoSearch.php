@@ -179,7 +179,19 @@ class PedidoSearch extends Pedido
             $where = $this->addWhereSentence($where, "user.username like :username");
         }
     }
-
+    
+    
+    /**
+     * Filtro de fecha horaa
+     */
+    private function fechaHoraIngresoFilter($params, &$where, &$queryParams) {
+        if($this->paramExists($params, 'fecha_hora')) {
+            list($fechaInicio,$fechaFin)= explode('-',$params['fecha_hora']);
+            $queryParams[':fecha_inicio'] = trim($fechaInicio);
+            $queryParams[':fecha_fin']    = trim($fechaFin);
+            $where = $this->addWhereSentence($where, "DATE_FORMAT(pedido.fecha_hora,'%Y-%m-%d')   BETWEEN STR_TO_DATE(:fecha_inicio,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin,'%d/%m/%Y')");
+        }
+    }
 
 
     
@@ -816,7 +828,7 @@ class PedidoSearch extends Pedido
         
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
-        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
     
@@ -886,7 +898,116 @@ class PedidoSearch extends Pedido
     }
     
     
-     public function searchPedidosCancelados($params)
+    public function searchPedidosRealizados($params)
+    {
+        $gestor = Yii::$app->user->getId();
+        $queryParams = [];
+        $where = " (gestor_id = ".$gestor." OR cliente.viajante_id = ".$gestor.")";
+       $GROUP_BY ="";
+       $formParams = [];
+       if(array_key_exists("PedidoSearch",$params)) {
+           $formParams = $params["PedidoSearch"];
+       }
+       
+       $fieldList = "
+             pedido.id
+            ,pedido.fecha_hora
+            ,pedido.confirmado
+            ,cliente.razon_social
+            ,pedido.gestor_id
+            ,pedido.estado_id as pedido_estado_id
+            ,user.username
+            ,user.id as user_id
+            ,estado.id as estado_id
+            ,estado.descripcion as estado_descripcion
+       ";
+       $fromTables = "
+           pedido
+           JOIN cliente                     ON(pedido.cliente_id=cliente.id)
+           JOIN user                        ON(pedido.gestor_id=user.id)
+           JOIN estado                      ON(pedido.estado_id=estado.id)
+       ";
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
+        
+        $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
+        
+        $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
+        
+        $this->estadoFilterFilter($formParams, $where, $queryParams);
+        
+        $this->usernameFilter($formParams, $where, $queryParams);
+    
+        
+    
+    
+        if(!empty($where)) {
+        
+            $where = " WHERE {$where} ";
+        }
+        if(!empty($GROUP_BY)) {
+        
+            $GROUP_BY = " GROUP BY {$GROUP_BY} ";
+        }
+    
+    
+    
+        $query = "
+            SELECT {$fieldList}
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        //  die($query);
+        $consultaCant = "
+            SELECT count(*) as total
+            FROM {$fromTables}
+            {$where}
+            {$GROUP_BY}
+        ";
+        $itemsCount = Yii::$app->db->createCommand(
+         $consultaCant,
+         $queryParams
+        )->queryScalar();
+    
+        $dataProvider = new \yii\data\SqlDataProvider([
+         'sql' => $query,
+         'params' => $queryParams,
+         'sort' => [
+          'defaultOrder' => ['id' => SORT_DESC],
+          'attributes' => [
+           'razon_social',
+           'nro_pedido',
+           'fecha_entrega',
+           'gestor_id',
+           'fecha_hora',
+           'estado_id',
+           'username',
+           'id' => [
+            'asc' => [new Expression('id')],
+            'desc' => [new Expression('id DESC ')],
+            'default' => SORT_DESC,
+           ],
+          ],
+         ],
+         'totalCount' => $itemsCount,
+         'key'        => 'id' ,
+         'pagination' => [
+          'pageSize' => 150,
+         ],
+        ]);
+    
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+    
+        return $dataProvider;
+    }
+    
+    
+    
+    
+    
+    public function searchPedidosCancelados($params)
     {
         
        
