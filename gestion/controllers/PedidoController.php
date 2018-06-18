@@ -141,7 +141,7 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosAceptadosViajante(Yii::$app->request->queryParams);
-        $titulo = "Pedidos Pendientes";
+        $titulo = "Pedidos Aceptados";
 
         return $this->render('index', [
             'searchModel' => $searchModel,
