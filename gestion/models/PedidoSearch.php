@@ -216,8 +216,7 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_hora
-            ,pedido.fecha_entrega
+            ,pedido.fecha_hora 
             ,pedido.confirmado
             ,cliente.razon_social
             ,pedido.gestor_id
@@ -235,11 +234,10 @@ class PedidoSearch extends Pedido
         
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         
-        $this->fechaEntregaFilter($formParams, $where, $queryParams);
-    
         $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
     
-    
+        $this->usernameFilter($formParams, $where, $queryParams);
+        
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
         
@@ -338,7 +336,8 @@ class PedidoSearch extends Pedido
     
         $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
     
-    
+        $this->usernameFilter($formParams, $where, $queryParams);
+        
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
         
@@ -442,6 +441,7 @@ class PedidoSearch extends Pedido
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         
+        $this->usernameFilter($formParams, $where, $queryParams);
         
         if(!empty($where)) {
             
@@ -518,7 +518,6 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
             ,pedido.confirmado
             ,pedido.fecha_hora
             ,cliente.razon_social
@@ -581,7 +580,6 @@ class PedidoSearch extends Pedido
                 'razon_social',
                 'nro_pedido',
                 'fecha_hora',
-                'fecha_entrega',
                 'username',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -631,11 +629,10 @@ class PedidoSearch extends Pedido
             JOIN estado                       ON(pedido.estado_id=estado.id)
         ';
         
-        $this->nroPedidoIdFilter($formParams, $where, $queryParams);     
-        $this->fechaEntregaFilter($formParams, $where, $queryParams);
+        $this->nroPedidoIdFilter($formParams, $where, $queryParams);
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
         $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
-    
+        $this->usernameFilter($formParams, $where, $queryParams);
     
     
         if(!empty($where)) {
@@ -676,7 +673,6 @@ class PedidoSearch extends Pedido
                 'razon_social',
                 'nro_pedido',
                 'fecha_hora',
-                'fecha_entrega',
                 'username',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -714,7 +710,7 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
+            ,pedido.fecha_hora
             ,pedido.confirmado
             ,pedido.fecha_hora
             ,cliente.razon_social
@@ -738,7 +734,8 @@ class PedidoSearch extends Pedido
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
     
         $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
-        
+    
+        $this->usernameFilter($formParams, $where, $queryParams);
         
         if(!empty($where)) {
             
@@ -778,7 +775,6 @@ class PedidoSearch extends Pedido
                 'razon_social',
                 'nro_pedido',
                 'fecha_hora',
-                'fecha_entrega',
                 'username',
                 'id' => [
                         'asc' => [new Expression('id')],
@@ -1029,7 +1025,7 @@ class PedidoSearch extends Pedido
         
         $fieldList = "
              pedido.id
-            ,pedido.fecha_entrega
+            ,pedido.fecha_hora
             ,pedido.confirmado
             ,pedido.fecha_hora
             ,cliente.razon_social
@@ -1052,9 +1048,8 @@ class PedidoSearch extends Pedido
         $this->fechaHoraIngresoFilter($formParams, $where, $queryParams);
         
         $this->clienteRazonSocialFilter($formParams, $where, $queryParams);
-    
-        $this->fechaHoraFilter($formParams, $where, $queryParams);
         
+        $this->usernameFilter($formParams, $where, $queryParams);
         
         if(!empty($where)) {
             
