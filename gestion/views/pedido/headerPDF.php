@@ -27,11 +27,6 @@
                         echo "<br>";
                     ?>
                     <?php
-                        echo "<strong> Hora de Descarga: </strong>";
-                        echo $model->hora_de_recepcion;
-                        echo "<br>";
-                    ?>
-                    <?php
                         echo "<strong> Contacto y Teléfono: </strong>";
                         echo $model->responsable_recepcion.' - '.$model->telefono;
                         echo "<br>";
