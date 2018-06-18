@@ -116,7 +116,7 @@ if(!empty($error))
 
                 ['class' => 'yii\grid\ActionColumn',
                 'headerOptions' => ['style' => 'width:7%'],
-                'template' => '{view} {edit} {createWeb}',
+                'template' => '{view} {edit} ',
                 'buttons' => [
                                   'view' => function ($url, $model) {
                                       return Html::a('<span class="fa fa-eye "></span>', $url, [
