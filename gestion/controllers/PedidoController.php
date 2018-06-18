@@ -141,7 +141,7 @@ class PedidoController extends Controller
     {
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->searchPedidosTodosViajante(Yii::$app->request->queryParams);
-        $titulo = "Todos los Pedidos";
+        $titulo = "Todos los Pendientes";
 
         return $this->render('index_todos', [
             'searchModel' => $searchModel,
