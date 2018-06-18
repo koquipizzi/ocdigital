@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'direccion',
             'telefono',
             'hora_reparto',
+            'vendedor'
         ],
     ]) ?>
     <hr>
