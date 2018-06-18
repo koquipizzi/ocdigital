@@ -121,7 +121,7 @@ if(!empty($info))
                     [
                         'label' => 'Fecha de Ingreso',
                         'attribute' => 'fecha_hora',
-                        'contentOptions' => ['style' => 'width:10%;'],
+                        'contentOptions' => ['style' => 'width:20%;'],
                         'format' => ['date', 'php:d/m/Y'],
                         'filter' => DateRangePicker::widget([
                         'template' => '
