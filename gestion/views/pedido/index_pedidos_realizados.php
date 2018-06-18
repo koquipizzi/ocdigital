@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Estado;
 use xj\bootbox\BootboxAsset;
 BootboxAsset::register($this);
-$this->title = Yii::t('app', 'Pedidos');
+$this->title = $titulo;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -84,13 +84,6 @@ if(!empty($info))
     
     <div class="box box-warning with-border">
     <div class="box-header">
-        <div class="pull-left">
-           <h2 class="page-header"><?php echo $titulo; ?></h2>
-        </div>
-        
-        <div class="pull-right">
-            <?= Html::a(Yii::t('app', 'Nuevo Pedido'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
     </div>
     <div class="box-body">
         <?php
