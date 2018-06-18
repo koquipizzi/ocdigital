@@ -406,6 +406,7 @@ class PedidoSearch extends Pedido
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
+            ,estado.descripcion as estado_descripcion
             ,user.username
             ,estado.id as estado_id
         ";

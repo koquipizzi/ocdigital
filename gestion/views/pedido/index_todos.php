@@ -106,6 +106,7 @@ if(!empty($info))
                     [
                         'label' => 'Nro. Pedido',
                         'attribute' => 'id',
+                        'contentOptions' => ['style'=>'text-align:right'],
                         'headerOptions' => ['style' => 'width:10%']
                     ],
                     [
