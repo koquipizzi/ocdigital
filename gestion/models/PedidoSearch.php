@@ -189,7 +189,7 @@ class PedidoSearch extends Pedido
             list($fechaInicio,$fechaFin)= explode('-',$params['fecha_hora']);
             $queryParams[':fecha_inicio'] = trim($fechaInicio);
             $queryParams[':fecha_fin']    = trim($fechaFin);
-            $where = $this->addWhereSentence($where, "DATE_FORMAT(pedido.fecha_hora,'%d-%m-%Y')  BETWEEN STR_TO_DATE(:fecha_inicio,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin,'%d/%m/%Y')");
+            $where = $this->addWhereSentence($where, "DATE_FORMAT(pedido.fecha_hora,'%Y-%m-%d')   BETWEEN STR_TO_DATE(:fecha_inicio,'%d/%m/%Y') AND STR_TO_DATE(:fecha_fin,'%d/%m/%Y')");
         }
     }
 
@@ -816,15 +816,15 @@ class PedidoSearch extends Pedido
             ,cliente.razon_social
             ,pedido.gestor_id
             ,pedido.estado_id as pedido_estado_id
-            ,user.username1
+            ,user.username
             ,user.id as user_id
             ,estado.id as estado_id
             ,estado.descripcion as estado_descripcion
        ";
        $fromTables = "
            pedido
-           JOIN cliente                      ON(pedido.cliente_id=cliente.id)
-           JOIN user                      ON(pedido.gestor_id=user.id)
+           JOIN cliente                     ON(pedido.cliente_id=cliente.id)
+           JOIN user                        ON(pedido.gestor_id=user.id)
            JOIN estado                      ON(pedido.estado_id=estado.id)
        ";
         $this->nroPedidoIdFilter($formParams, $where, $queryParams);
@@ -878,6 +878,10 @@ class PedidoSearch extends Pedido
            'razon_social',
            'nro_pedido',
            'fecha_entrega',
+           'gestor_id',
+           'fecha_hora',
+           'estado_id',
+           'username',
            'id' => [
             'asc' => [new Expression('id')],
             'desc' => [new Expression('id DESC ')],
