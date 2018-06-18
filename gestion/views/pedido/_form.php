@@ -236,9 +236,9 @@ JS;
         <div class="col-sm-4">
             <?= $form->field($model, 'responsable_recepcion')->textInput(['maxlength' => true,]) ?>
         </div>
-        <div class="col-sm-4">
-            <?= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) ?>
-        </div>
+       <!-- <div class="col-sm-4">
+            <?/*= $form->field($model, 'hora_de_recepcion')->textInput(['maxlength' => true,]) */?>
+        </div>-->
 
     </div>
 

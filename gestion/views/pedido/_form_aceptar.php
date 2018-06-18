@@ -106,7 +106,8 @@ $urlPedidoUpdate = Url::to(['/pedido/update','id' => $model->id]);
 $urlPedidoview = Url::to(['/pedido/view','id' => $model->id]);
 $imprimir = <<<JS
 $( document ).ready(function() {
-    $(".btn_imprimir").click(function() {
+    $(".btn_imprimir").click(function(e) {
+        event.preventDefault();
         var formData = $('#dynamic-form').serialize();
         $.ajax({
             url: '{$urlPedidoUpdate}',
@@ -120,39 +121,17 @@ $( document ).ready(function() {
                 if(data.rta=='ko'){
                     $('#dynamic-form').yiiActiveForm('submitForm');
                 }
-                x
+                
             },
             error: function () {
                  $('#dynamic-form').yiiActiveForm('submitForm');
             }
-
         });
     });
-   
-  
-  
- 
-
 });
 JS;
 
 $this->registerJs($imprimir);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
 <div class="pedido-form">
 
