@@ -151,6 +151,10 @@ JS;
         <div class="col-sm-6">
             <?php
                 $clientes = Cliente::find()->all();
+                $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                if ( current($userRole)->name =='Viajante' ){
+                    $clientes = Cliente::find()->where(['viajante_id' => Yii::$app->user->getId()])->all();
+                }
                 $listData = ArrayHelper::map($clientes,'id', 'codigo_nombre_cliente');
                 echo $form->field ($model, 'cliente_id', ['template' => "{label} {input} {hint} {error}"]
                 )->widget(select2::classname(), [
@@ -158,18 +162,18 @@ JS;
                     'language' => 'es',
                     'options' => [
                         'onchange' => '
-                                                                        jQuery("#clienteID").val(this.value);
-                                                                        id = this.value;
-                                                                        aux = ajaxurl + "&id=" + id;
-                                                                        $.get( aux , function( data ) {
-                                                                           if (data.rta){
-                                                                                jQuery("#pedido-ship_address_1").val(data.results.direccion);
-                                                                                jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
-                                                                                jQuery("#pedido-telefono").val(data.results.telefono);
-                                                                                jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
-                                                                            }
-                                                                        });
-                                                                         ',
+                            jQuery("#clienteID").val(this.value);
+                            id = this.value;
+                            aux = ajaxurl + "&id=" + id;
+                            $.get( aux , function( data ) {
+                               if (data.rta){
+                                    jQuery("#pedido-ship_address_1").val(data.results.direccion);
+                                    jQuery("#pedido-responsable_recepcion").val(data.results.contacto);
+                                    jQuery("#pedido-telefono").val(data.results.telefono);
+                                    jQuery("#pedido-hora_de_recepcion").val(data.results.hora_reparto);
+                                }
+                            });
+                             ',
                         'placeholder' => 'Seleccione un Cliente...'],
                     'pluginOptions' => [
                         'allowClear' => false
