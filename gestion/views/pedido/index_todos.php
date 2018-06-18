@@ -90,6 +90,7 @@ if(!empty($info))
     
     <div class="box box-warning with-border">
     <div class="box-body">
+        <div class="box-body table-responsive">
         <?php
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -211,6 +212,7 @@ if(!empty($info))
             ]); ?>
         <?= Html::endForm();?>
         
+    </div>
     </div>
 
 </div>

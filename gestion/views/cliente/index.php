@@ -72,6 +72,7 @@ if(!empty($error))
       </div>
     </div>
   <div class="box-body">
+      <div class="box-body table-responsive">
     <?php Pjax::begin(['id' => 'clientes']); ?>    <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
@@ -159,6 +160,7 @@ if(!empty($error))
             ]);
          ?>
     <?php Pjax::end(); ?>
+  </div>
   </div>
 </div>
 </div>

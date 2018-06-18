@@ -115,7 +115,7 @@ $( document ).ready(function() {
             data: formData,
             success: function (data) {
                 if(data.rta=='ok'){
-                    window.open('{$url}');
+                    window.open('{$url}','_blank');
                     $(location).attr("href", '{$urlPedidoview}');
                 }
                 if(data.rta=='ko'){

@@ -38,18 +38,8 @@
                             echo "<br>";
                         ?>
                         <?php
-                            echo "<strong> Hora de Entrega: </strong>";
-                            echo $model->hora_de_recepcion;
-                            echo "<br>";
-                        ?>
-                        <?php
                             echo "<strong> Localidad: </strong>";
                             echo $model->ship_city;
-                            echo "<br>";
-                        ?>
-                        <?php
-                            echo "<strong> Hora de Descarga: </strong>";
-                            echo $model->hora_de_recepcion;
                             echo "<br>";
                         ?>
                         <?php
@@ -163,7 +153,7 @@
                 </table>
             </td>
         </tr>
-        </table>
+        </pagebreak>
         <?php $cont = $cont + 1; if ($cont > 6) { echo "  <pagebreak style='padding-top: 140px'> " ; $cont = 0;}  } ?>
     <?php
           echo "<hr>";
