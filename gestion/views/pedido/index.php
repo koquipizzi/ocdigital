@@ -156,10 +156,7 @@ if(!empty($info))
                     ],
                     [
                         'label' => 'Gestor Del Pedido',
-                        'format' => 'raw',
-                        'value' => function($model){
-                            return $model["username"];
-                        },
+                        'attribute' => "username",
                         'headerOptions' => ['style' => 'width:10%'],
                         'contentOptions' => ['style' => 'width:10px;'],
                     ],
