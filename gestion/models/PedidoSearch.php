@@ -388,13 +388,17 @@ class PedidoSearch extends Pedido
     public function searchPedidosTodosViajante($params)
     {
         $gestor = Yii::$app->user->getId();
-        $queryParams = [];
-        $where = 'gestor_id = '.$gestor.' OR cliente.viajante_id = '.$gestor;
-        $GROUP_BY ='';
-        $formParams = [];
         if(array_key_exists('PedidoSearch',$params)) {
             $formParams = $params['PedidoSearch'];
+            $estado_id = $params['PedidoSearch']['estado_id'];
         }
+        $queryParams = [];
+        if (empty($estado_id))
+            $where = '(gestor_id = '.$gestor.' OR cliente.viajante_id = '.$gestor.')';
+        else $where = '(gestor_id = '.$gestor.' OR cliente.viajante_id = '.$gestor.') AND pedido.estado_id = '.$estado_id;
+        $GROUP_BY ='';
+        $formParams = [];
+        
         
         $fieldList = "
              pedido.id

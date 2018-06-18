@@ -112,7 +112,7 @@ if(!empty($info))
                      'contentOptions' => ['style' => 'width:10%;'],
                      'attribute'=>'estado_id',
                      'value'=>'estado_descripcion',
-                     'filter' => Html::activeDropDownList($searchModel, 'estado_id', ArrayHelper::map(Estado::find()->select('id as estado_id,descripcion')->asArray()->all(), 'estado_id', 'descripcion'),['class'=>'form-control','prompt' => 'Estado...']),
+                     'filter' => Html::activeDropDownList($searchModel, 'estado_id', ArrayHelper::map(Estado::find()->select('id as estado_id, descripcion')->asArray()->all(), 'estado_id', 'descripcion'),['class'=>'form-control','prompt' => 'Estado...']),
                     ],
                     [
                         'label' => 'Fecha de Ingreso',
