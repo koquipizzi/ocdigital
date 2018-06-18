@@ -10,7 +10,7 @@ use eleiva\noty\Noty;
 use app\models\Pedido;
 use yii\helpers\ArrayHelper;
 use app\models\Estado;
-$this->title = Yii::t('app', 'Pedidos');
+$this->title = Yii::t('app', 'Todos los Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
