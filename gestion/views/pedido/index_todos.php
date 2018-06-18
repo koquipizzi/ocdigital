@@ -180,7 +180,7 @@ if(!empty($info))
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1 && $model["gestor_id"]==Yii::$app->user->getId())
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
@@ -196,7 +196,7 @@ if(!empty($info))
                                     $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1 && $model["gestor_id"]==Yii::$app->user->getId())
                                 {
                                     $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));

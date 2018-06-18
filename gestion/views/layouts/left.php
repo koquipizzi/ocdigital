@@ -90,6 +90,7 @@ $js = 'function refresh() {
                             [
                                 ['label' => 'Pedidos Pendientes', 'icon' =>  'clock-o', 'url' => ['/pedido/index_pendientes_viajante']],
                                 ['label' => 'Pedidos Aceptados', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_aceptados_viajante']],
+                                ['label' => 'Todos los Pedidos', 'icon' =>  'check-square-o', 'url' => ['/pedido/index_todos_viajante']],
                                 ['label' => 'Crear Pedido', 'icon' =>  'plus', 'url' => ['/pedido/create'], 'options' => ['class' => 'bg-yellow color-palette']]
                             ]
                     ]);

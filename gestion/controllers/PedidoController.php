@@ -137,6 +137,19 @@ class PedidoController extends Controller
         ]);
     }
 
+    public function actionIndex_todos_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosTodosViajante(Yii::$app->request->queryParams);
+        $titulo = "Todos los Pedidos";
+
+        return $this->render('index_todos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
+        ]);
+    }
+
     public function actionIndex_aceptados()
     {
         $searchModel = new PedidoSearch();
