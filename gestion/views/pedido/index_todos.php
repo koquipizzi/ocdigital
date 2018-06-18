@@ -10,7 +10,7 @@ use eleiva\noty\Noty;
 use app\models\Pedido;
 use yii\helpers\ArrayHelper;
 use app\models\Estado;
-$this->title = Yii::t('app', 'Pedidos');
+$this->title = Yii::t('app', 'Todos los Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -90,6 +90,7 @@ if(!empty($info))
     
     <div class="box box-warning with-border">
     <div class="box-body">
+        <div class="box-body table-responsive">
         <?php
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -105,6 +106,7 @@ if(!empty($info))
                     [
                         'label' => 'Nro. Pedido',
                         'attribute' => 'id',
+                        'contentOptions' => ['style'=>'text-align:right'],
                         'headerOptions' => ['style' => 'width:10%']
                     ],
                     [
@@ -112,7 +114,7 @@ if(!empty($info))
                      'contentOptions' => ['style' => 'width:10%;'],
                      'attribute'=>'estado_id',
                      'value'=>'estado_descripcion',
-                     'filter' => Html::activeDropDownList($searchModel, 'estado_id', ArrayHelper::map(Estado::find()->select('id as estado_id,descripcion')->asArray()->all(), 'estado_id', 'descripcion'),['class'=>'form-control','prompt' => 'Estado...']),
+                     'filter' => Html::activeDropDownList($searchModel, 'estado_id', ArrayHelper::map(Estado::find()->select('id as estado_id, descripcion')->asArray()->all(), 'estado_id', 'descripcion'),['class'=>'form-control','prompt' => 'Estado...']),
                     ],
                     [
                         'label' => 'Fecha de Ingreso',
@@ -180,7 +182,7 @@ if(!empty($info))
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name == 'Viajante' && $model["estado_id"]==1 && $model["gestor_id"]==Yii::$app->user->getId())
                                 {
                                     $url =  Url::toRoute(['pedido/update', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>',Url::to($url));
@@ -196,7 +198,7 @@ if(!empty($info))
                                     $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
                                 }
-                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1)
+                                if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1 && $model["gestor_id"]==Yii::$app->user->getId())
                                 {
                                     $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
@@ -211,6 +213,7 @@ if(!empty($info))
             ]); ?>
         <?= Html::endForm();?>
         
+    </div>
     </div>
 
 </div>

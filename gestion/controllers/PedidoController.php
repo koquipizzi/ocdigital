@@ -150,6 +150,19 @@ class PedidoController extends Controller
         ]);
     }
 
+    public function actionIndex_todos_viajante()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosTodosViajante(Yii::$app->request->queryParams);
+        $titulo = "Todos los Pendientes";
+
+        return $this->render('index_todos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'titulo' => $titulo,
+        ]);
+    }
+
     public function actionIndex_aceptados()
     {
         $searchModel = new PedidoSearch();
@@ -451,20 +464,21 @@ class PedidoController extends Controller
                     $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
                 }
                 try {
-                    if ($flag = $modelPedido->save(false)) {
+                    if ($flag = $modelPedido->save()) {
                         if (!empty($deletedIDs)) {
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
                         }
                         foreach ($modelsPedidoDetalle as $modelPedidoDetalle) {
-                            if (!$modelPedidoDetalle->validate()) {
-                                throw new \Exception("Error al validar el modelo pedido detalle.");
-                            }
                             $modelPedidoDetalle->pedido_id = $modelPedido->id;
                             $producto = Producto::findOne($modelPedidoDetalle->producto_id);
                             
                              //Actualmente no calculamos el total del pedido
                             $modelPedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$modelPedidoDetalle->cantidad) ;
                             $total = $modelPedidoDetalle->precio_linea + $total;
+    
+                            if (!$modelPedidoDetalle->validate()) {
+                                throw new \Exception("Error al validar el modelo pedido detalle.");
+                            }
                             
                             if (! ($flag = $modelPedidoDetalle->save())) {
                                 $transaction->rollBack();
@@ -481,7 +495,7 @@ class PedidoController extends Controller
                         
                     }
                    
-                    if(Yii::$app->request->isAjax){
+                    if(\Yii::$app->request->isAjax){
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return ['rta'=>'ok'];
                     }
@@ -489,7 +503,7 @@ class PedidoController extends Controller
                     return $this->redirect(['view', 'id' => $modelPedido->id]);
                 } catch (\Exception $e) {
                     $transaction->rollBack();
-                    if(Yii::$app->request->isAjax){
+                    if(\Yii::$app->request->isAjax){
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return ['rta'=>'ko'];
                     }

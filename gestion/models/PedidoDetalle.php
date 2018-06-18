@@ -33,7 +33,7 @@ class PedidoDetalle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pedido_id', 'producto_id', 'cantidad', 'precio_linea', 'unidad_id'], 'required'],
+            [['pedido_id', 'producto_id', 'cantidad', 'precio_linea','precio_unitario','unidad_id'], 'required'],
             [['pedido_id', 'producto_id', 'cantidad', 'unidad_id',], 'integer'],
             [['precio_linea','precio_unitario'], 'number'],
             [['pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pedido::className(), 'targetAttribute' => ['pedido_id' => 'id']],

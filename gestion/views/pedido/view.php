@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use eleiva\noty\Noty;
 use app\models\Unidad;
+    use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pedido */
@@ -60,7 +61,7 @@ if(!empty($mensaje))
 } 
 
 $this->title = 'Pedido Nro: '.$model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index_pendientes']];
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pedido-view">
@@ -69,14 +70,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="pull-right">
                 <?php
                     $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                    if ( current($userRole)->name !='Viajante')  {
+                        $url =  Url::to(['pedido/update', 'id' => $model->id, 'proceso' => 'aceptar']);
+                        echo Html::a(Yii::t('app', 'Cambiar Estado'), $url, ['class' => 'btn btn-primary']);;
+                    }
+                ?>
+                <?php
                     if ( current($userRole)->name !='Viajante')
-                    {
                         echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
-                    }
+
                     if ( current($userRole)->name == 'Viajante' && $model->estado_id==1 && $model->gestor_id==Yii::$app->user->getId())
-                    {
                         echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
-                    }
                 ?>
             </div>
         </div>
@@ -86,8 +90,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-4">
             <div class="box box-warning with-border">
-                <div class="box-body">
+                <div class="box-header">
                     <h4>Detalles Pedido:</h4>
+                </div>
+                <div class="box-body">
                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
@@ -119,8 +125,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-8">
             <div class="box box-warning with-border">
-                <div class="box-body table-responsive">
+                <div class="box-header">
                     <h4>Productos Pedidos:</h4>
+                </div>
+                <div class="box-body table-responsive">
+                 
                     <?= GridView::widget(['dataProvider' => $dataProvider,
                         'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
@@ -152,8 +161,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-12">
             <div class="box box-warning with-border">
+                <div class="box-header">
+                    <h4>Historial de Cambios de Estado del Pedido:</h4>
+                </div>
                 <div class="box-body table-responsive">
-                    <h4>Historial de Cambios de Estado del Pedido</h4>
                     <?= GridView::widget([
                         'dataProvider' => $dataProviderWorkflow,
     

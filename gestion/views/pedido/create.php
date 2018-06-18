@@ -8,7 +8,7 @@ use eleiva\noty\Noty;
 /* @var $model app\models\Pedido */
 
 $this->title = Yii::t('app', 'Crear Pedido Manual');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pedidos'), 'url' => ['index']];
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

@@ -25,7 +25,7 @@ use app\models\ClienteRol;
  * @property string $telefono 
  * @property string $hora_reparto
  * @property string $ciudad
-
+ * @property string $viajante_id
  *
  * @property ClienteRol[] $clienteRols
  * @property Rol[] $rols
@@ -51,7 +51,7 @@ class Cliente extends \yii\db\ActiveRecord
            // [['email'], 'required'],
             [['razon_social', 'nombre', 'apellido', 'email', 'ciudad'], 'string', 'max' => 255],
             [['nombre', 'apellido','razon_social'], 'required'],
-            [['web_customer_id', 'maxirest_id','documento'], 'integer'],
+            [['web_customer_id', 'maxirest_id','documento', 'viajante_id'], 'integer'],
             [['ultima_modificacion'], 'safe'],
             [['razon_social', 'nombre', 'apellido', 'email', 'direccion', 'contacto', 'telefono', 'hora_reparto', 'codigo', 'codigo_nombre_cliente'], 'string', 'max' => 255],
             [['usuario_web', 'password_web'], 'string', 'max' => 45],
@@ -157,6 +157,16 @@ class Cliente extends \yii\db\ActiveRecord
 
       return $modelRol->id;
     }
+
+    public function getVendedor(){
+       $vendedor = User::find()->where(['id' => $this->viajante_id])->one();
+       if (empty($vendedor)) {
+           $vendedor = '';
+       }else{
+           $vendedor = $vendedor->username;
+       }
+       return $vendedor;
+   }
 
 
 }

@@ -78,6 +78,7 @@ if(!empty($info)){
         </div>
 
     <div class="box-body">
+        <div class="box-body table-responsive">
     <?php Pjax::begin(['id' => 'Productos']); ?>
          <?= GridView::widget([
           'id' => 'Productos',
@@ -99,6 +100,7 @@ if(!empty($info)){
           ],
       ]); ?>
       <?php Pjax::end(); ?>
+    </div>
     </div>
   </div>
 </div>
