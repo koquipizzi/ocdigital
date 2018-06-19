@@ -17,9 +17,9 @@ use \app\models\Unidad;
 /* @var $this yii\web\View */
 /* @var $model app\models\Pedido */
 /* @var $form yii\widgets\ActiveForm */
+    
+    $js = <<<JS
 
-$js = <<<JS
-  
   jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
     
     jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
@@ -30,34 +30,76 @@ $js = <<<JS
     var select0 = jQuery(item).find("#select2-pedidodetalle-"+linea+"-producto_id-container").html("Seleccione un Producto...");
     var begin = "pedidodetalle-"+linea;
     jQuery( "*[id^="+begin+"]" ).val( "" );
-  });
-  jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
-      jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
-          jQuery(this).html("Producto: " + (index + 1))
-      });
-  });
-  $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
+    });
+    jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
+        jQuery(".dynamicform_wrapper .panel-title-producto").each(function(index) {
+            jQuery(this).html("Producto: " + (index + 1))
+        });
+    });
+    $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
 
-  if (! confirm("Está seguro que desea eliminar el producto del pedido?")) {
-      return false;
+    if (! confirm("Está seguro que desea eliminar el producto del pedido?")) {
+        return false;
+    }
+    var n = noty({
+        text: "Se eliminó el producto.",
+        type: "success",
+        class: "animated pulse",
+        layout: "topCenter",
+        theme: "metroui",
+        timeout: 2000, // delay for closing event. Set false for sticky notifications
+        force: false, // adds notification to the beginning of queue when set to true
+        modal: false, // si pongo true me hace el efecto de pantalla gris
+    //       maxVisible  : 10
+    });
+    return true;
+    });
+
+  var formatPenerima = function (penerima) {
+      if (penerima.loading) {
+          return penerima.nombre;
+      }
+      var markup =
+      '<div class="row">' +
+          '<div class="col-sm-5">' +
+              '<b style="margin-left:5px">' + penerima.nombre + '</b>' +
+          '</div>' +
+          '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + penerima.nombre + '</div>' +
+          '<div class="col-sm-3"><i class="fa fa-star"></i> ' + penerima.id + '</div>' +
+      '</div>';
+      return '<div style="overflow:hidden;">' + markup + '</div>';
+  };
+
+  var formatPenerimaSelection = function (penerima) {
+      return penerima.nombre || penerima.id;
   }
-  var n = noty({
-      text: "Se eliminó el producto.",
-      type: "success",
-      class: "animated pulse",
-      layout: "topCenter",
-      theme: "metroui",
-      timeout: 2000, // delay for closing event. Set false for sticky notifications
-      force: false, // adds notification to the beginning of queue when set to true
-      modal: false, // si pongo true me hace el efecto de pantalla gris
-  //       maxVisible  : 10
-  });
-  return true;
-  });
-
 JS;
-
-$resultsJs = <<< JS
+    
+    $this->registerJs($js);
+    
+    $js2 = <<<JS
+  var formatPenerima = function (penerima) {
+      if (penerima.loading) {
+          return penerima.nombre;
+      }
+      var markup =
+      '<div class="row">' +
+          '<div class="col-sm-5">' +
+              '<b style="margin-left:5px">' + penerima.nombre + '</b>' +
+          '</div>' +
+          '<div class="col-sm-3"><i class="fa fa-code-fork"></i> ' + penerima.nombre + '</div>' +
+          '<div class="col-sm-3"><i class="fa fa-star"></i> ' + penerima.id + '</div>' +
+      '</div>';
+      return '<div style="overflow:hidden;">' + markup + '</div>';
+  };
+  var formatPenerimaSelection = function (penerima) {
+      return penerima.nombre || penerima.id;
+  }
+JS;
+    
+    $this->registerJs($js2, \yii\web\View::POS_HEAD);
+    
+    $resultsJs = <<< JS
   function (data, params) {
      params.page = params.page || 1;
       return {
@@ -65,21 +107,23 @@ $resultsJs = <<< JS
       };
   }
 JS;
-
-$updatePedido = <<<JS
+    
+    $updatePedido = <<<JS
   $( document ).ready(function() {
     var id = 0;
     id = $('#pedido-cliente_id').val();
     $("#clienteID").val(id);
   });
 JS;
-$this->registerJs($updatePedido);
+    
+    $this->registerJs($updatePedido);
+    
+    $this->registerJs('var ajaxurlp = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
+    $this->registerJs('var ajaxurl = "' .Url::to(['pedido/get-cliente-direccion']). '";', \yii\web\View::POS_HEAD);
+    $this->registerJs('var linea = 0;', \yii\web\View::POS_HEAD);
+    
+    $set_date = <<<JS
 
-$this->registerJs('var ajaxurl = "' .Url::to(['pedido/get-cliente-direccion']). '";', \yii\web\View::POS_HEAD);
-$this->registerJs('var ajaxurlp = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
-$this->registerJs('var linea = "' .Url::to(['producto/get-detalles']). '";', \yii\web\View::POS_HEAD);
-
-$set_date = <<<JS
  $( document ).ready(function() {
      if (!$('#pedido-fecha_entrega-disp').val()){
          if ($('#pedido-fecha_entrega').val()){
@@ -94,10 +138,9 @@ $set_date = <<<JS
          }
      }
  });
-
 JS;
-
-$this->registerJs($set_date);
+    
+    $this->registerJs($set_date);
 
 
 
