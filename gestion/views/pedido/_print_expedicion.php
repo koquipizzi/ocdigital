@@ -70,6 +70,25 @@
 
 </htmlpageheader>
 
+<htmlpagefooter name="footer">
+    <table>
+        <tr>
+            <td >
+                <strong style="margin-top: 20px" > Pedido Nro: <?= $model->id ?> - Página {PAGENO} de {nbpg} </strong>
+            </td>
+            <td  style="padding: 0px" >
+                <spam style="padding: 0px" > - Desarrollado por</spam>
+            </td>
+            <td>
+                <img style="padding-top: 3px; padding-left: 0px" src="<?php echo Yii::getAlias('@webroot').'/images/qwavee_logo.png'; ?>" width="60" alt="logo">
+            </td>
+        </tr>
+      
+    </table>
+</htmlpagefooter>
+
+<sethtmlpagefooter name="footer" page="ALL"  value="ON" show-this-page="1" />
+
 <?php $cont = 0; foreach ($model->pedidoDetalles as $detalle) {
     if ($cont == 0) {
         echo  "<table width=\"100%\" style=\"padding-top: 140px\">";
