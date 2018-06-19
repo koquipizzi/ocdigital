@@ -23,6 +23,7 @@ use Yii;
  * @property string $backgroundColor
  * @property string $borderColor
  * @property string $textColor
+ * @property int $pedido_id
  */
 class Event extends \yii\db\ActiveRecord
 {
@@ -42,6 +43,7 @@ class Event extends \yii\db\ActiveRecord
         return [
             [['start', 'end'], 'required'],
             [['start', 'end', 'entrega'], 'safe'],
+            [['pedido_id'], 'integer'],
             [['title', 'allDay', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'string', 'max' => 255],
         ];
     }
@@ -68,6 +70,7 @@ class Event extends \yii\db\ActiveRecord
             'backgroundColor' => Yii::t('app', 'Background Color'),
             'borderColor' => Yii::t('app', 'Border Color'),
             'textColor' => Yii::t('app', 'Text Color'),
+            'pedido_id' => Yii::t('app', 'Pedido ID'),
         ];
     }
 }

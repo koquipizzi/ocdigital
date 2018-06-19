@@ -18,7 +18,7 @@ class EventSearch extends Event
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'pedido_id'], 'integer'],
             [['title', 'allDay', 'start', 'end', 'entrega', 'url', 'className', 'editable', 'startEditable', 'durationEditable', 'source', 'color', 'backgroundColor', 'borderColor', 'textColor'], 'safe'],
         ];
     }
