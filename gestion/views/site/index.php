@@ -27,7 +27,7 @@ $js = 'function refresh() {
             }
         });
       //  $.pjax.reload({container:"#cant"});
-        setTimeout(refresh, 50000); // restart the function every 5 seconds
+        setTimeout(refresh, 50000); // restart the function every 50 seconds
         }
         refresh();';
 
@@ -43,6 +43,13 @@ Modal::begin([
     
 Modal::end();
 ?>
+
+<script type="text/javascript">
+		jQuery( document ).ready( function ( e ) {
+      alert('dddd');
+      $('.fc-license-message').hide();
+		});
+</script>
 
 
                     <?php 
@@ -93,7 +100,6 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
                         'navLinks'=> true,
                         'eventClick'=> 'js:function(calEvent, jsEvent, view) {
                             $("#myModalHeader").html(calEvent.title);
-                            $("#myModalHeader").header("lalala");
                             $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
                             $("#myModal").modal();
                         }',

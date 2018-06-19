@@ -1,7 +1,5 @@
 $(function () {
 
-    $('.fc-license-message').hide();
-    
     $('#modelButton').click(function () {
         $('.modal').modal('show')
             .find('#modelContent')
