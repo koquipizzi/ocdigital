@@ -110,6 +110,19 @@ class PedidoController extends Controller
         ]);
     }
     
+    public function actionPedidosRealizados()
+    {
+        $searchModel = new PedidoSearch();
+        $dataProvider = $searchModel->searchPedidosRealizados(Yii::$app->request->queryParams);
+        $titulo = "Pedidos Realizados";
+        
+        return $this->render('index_pedidos_realizados', [
+         'searchModel' => $searchModel,
+         'dataProvider' => $dataProvider,
+         'titulo' => $titulo,
+        ]);
+    }
+    
 
     public function actionIndex_pendientes_viajante()
     {

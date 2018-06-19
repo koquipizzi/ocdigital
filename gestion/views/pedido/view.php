@@ -78,7 +78,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php
                     if ( current($userRole)->name !='Viajante')
                         echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
-                    if ( current($userRole)->name == 'Viajante' && $model->estado_id==1)
+
+                    if ( current($userRole)->name == 'Viajante' && $model->estado_id==1 && $model->gestor_id==Yii::$app->user->getId())
                         echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);;
                 ?>
             </div>

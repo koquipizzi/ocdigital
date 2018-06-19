@@ -66,7 +66,7 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
   ?>
 
   <div class="row">
-    <div class="col-lg-8 col-xs-6">
+    <div class="col-lg-8 col-xs-12">
       <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">Pedidos Realizados</h3>
@@ -74,7 +74,7 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
         </div>
-        <div class="box-body">
+        <div class="box-body" style="height: auto">
       
           <?php
 
@@ -113,7 +113,7 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
       </div> 
     </div>
     
-    <div class="col-lg-4 col-xs-6">
+    <div class="col-lg-4 col-xs-12">
               <?php echo LteInfoBox::widget([
                       'bgIconColor'=>LteConst::COLOR_ORANGE,
                       'bgColor'=>'',
