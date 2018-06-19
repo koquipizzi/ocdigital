@@ -77,7 +77,7 @@ return [
     '{attribute} is not a valid email address.' => '',
     '{attribute} is not in the allowed range.' => '',
     '{attribute} must be "{requiredValue}".' => '',
-    '{attribute} must be a number.' => '',
+    '{attribute} must be a number.' => '{attribute} debe ser un número.',
     '{attribute} must be a string.' => '',
     '{attribute} must be a valid IP address.' => '',
     '{attribute} must be an IP address with specified subnet.' => '',

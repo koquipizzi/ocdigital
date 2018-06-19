@@ -10,8 +10,8 @@ use app\models\Unidad;
 /* @var $this yii\web\View */
 /* @var $model app\models\Pedido */
 -
-$mensaje = Yii::$app->getRequest()->getQueryParam('mensaje'); 
-$error = Yii::$app->getRequest()->getQueryParam('error'); 
+$mensaje = Yii::$app->getRequest()->getQueryParam('mensaje');
+$error = Yii::$app->getRequest()->getQueryParam('error');
 
 
 if(!empty($mensaje))
@@ -58,7 +58,7 @@ if(!empty($mensaje))
   ]);
   }
 
-} 
+}
 
 $this->title = 'Pedido Nro: '.$model->id;
 
@@ -117,7 +117,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'value' => function($model){
                                     return $model->getGestorPedidoName();
                                 },
-                            ]
+                            ],
+                           "cond_venta",
+                            "notas"
                         ],
                     ]) ?>
                 </div>

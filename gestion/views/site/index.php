@@ -42,10 +42,12 @@ Modal::begin([
     echo "<div id='modelContent'></div>";
     
 Modal::end();
+
 ?>
 
+
 <script type="text/javascript">
-		jQuery( document ).ready( function ( e ) {
+		$( document ).ready( function ( e ) {
       alert('dddd');
       $('.fc-license-message').hide();
 		});
