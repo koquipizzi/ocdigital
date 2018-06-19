@@ -76,7 +76,7 @@ if(!empty($info)){
         <div class="pull-right">
             <?= Html::a(Yii::t('app', 'Create Producto'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-
+    </div>
     <div class="box-body">
         <div class="box-body table-responsive">
     <?php Pjax::begin(['id' => 'Productos']); ?>

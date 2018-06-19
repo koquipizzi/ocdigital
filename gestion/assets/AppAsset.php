@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/noty/packaged/jquery.noty.packaged.js',
+        'js/admin.js',
      //   'assets/admin/js/jquery.fancybox.js',
     ];
     public $depends = [
