@@ -107,7 +107,6 @@ $urlPedidoview = Url::to(['/pedido/view','id' => $model->id]);
 $imprimir = <<<JS
 $( document ).ready(function() {
     $(".btn_imprimir").click(function(e) {
-        event.preventDefault();
         var formData = $('#dynamic-form').serialize();
         $.ajax({
             url: '{$urlPedidoUpdate}',
