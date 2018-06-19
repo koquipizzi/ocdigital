@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Event */
@@ -11,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="event-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php /* DetailView::widget([
         'model' => $model,
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])*/ ?>
 
-    <?= DetailView::widget([
+        <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
                             [
@@ -60,6 +59,41 @@ $this->params['breadcrumbs'][] = $this->title;
                                 },
                             ]
                         ],
-                    ]) ?>
+                    ]) 
+                    
+        ?>
+            </div>
+        <div class="box box-warning with-border">
+                <div class="box-header">
+                    <h3 class="box-title">Productos Pedidos:</h3>
+                </div>
+                <div class="box-body table-responsive">
+                 
+                    <?= GridView::widget(['dataProvider' => $dataProvider,
+                        'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        [   'attribute' => 'Producto',
+                            'value' => 'producto.nombre',
+                            'headerOptions' => ['style' => 'width:54%'],
+                        ],
+                        [
+                            'label' => 'Cantidad',
+                            'attribute' => 'cantidad',
+                            'contentOptions' => ['class' => 'text-right'],
+                            'headerOptions' => ['class' => 'text-right'],
+                            'headerOptions' => ['style' => 'width:23px;'],
+                        ],
+                        ['label' => 'Unidad', 'value' => 'unidad.nombre_unidad'],
+                        [
+                            'label' => 'Precio Unitario',
+                            'attribute' => 'precio_unitario',
+                            'format' => ['currency'],
+                            'contentOptions' => ['class' => 'text-right'],
+                            'headerOptions' => ['class' => 'text-right']
+                        ],
+                    ] ]);?>
+                </div>
+            </div>
+
 
 </div>

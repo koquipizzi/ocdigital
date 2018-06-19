@@ -1260,8 +1260,11 @@ class PedidoController extends Controller
     {
         $modelEvent = Event::find()->where(['id' => $id])->one();
         $modelPedido = Pedido::find()->where(['id' => $modelEvent->pedido_id])->one();
+        $searchModel = new PedidoDetalleSearch();
+        $dataProvider = $searchModel->searchDetalle($id);
         return $this->renderAjax('view_pop', [
             'model' => $modelPedido,
+            'dataProvider' => $dataProvider
         ]);
     }
     
