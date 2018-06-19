@@ -348,6 +348,7 @@ class PedidoController extends Controller
 
     }
 
+    
     /**
      * Creates a new Pedido model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -360,80 +361,82 @@ class PedidoController extends Controller
         $modelsPedidoDetalle = [new PedidoDetalle];
         $total = 0; //Cálculo de total de pedido
         $error = null;
-
+        $finalizo=false;
         if ($modelPedido->load(Yii::$app->request->post())) {
-            $modelPedido->gestor_id = Yii::$app->user->id;
-            $modelPedido->save();
             $modelWorkflow = new Workflow();
             $modelEstado   = new Estado();
-            $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
-            if (empty($rowEstado)) {
-                throw new \Exception("model Estado es vacío.");
-           }
             
-            
-            $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
-            Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
-
-            // validate all models
-            $valid = $modelPedido->validate();
-
-            if ($valid && !empty($modelsPedidoDetalle)) {
-                $transaction = \Yii::$app->db->beginTransaction();
-                try {
-                    $modelWorkflow->estado_id    = $rowEstado->id;
-                    $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
-                    $modelWorkflow->pedido_id    = $modelPedido->id;
-                    $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
-                    if (!$modelWorkflow->save()) {
-                        throw new \Exception("model Workflow error al salvar.");
-                    }
-                    if ($flag = $modelPedido->save(false)) {
-                        foreach ($modelsPedidoDetalle as $pedidoDetalle) {
-                            $pedidoDetalle->pedido_id = $modelPedido->id;
-                            $producto = Producto::findOne($pedidoDetalle->producto_id);
-                            $pedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$pedidoDetalle->cantidad) ;
-                            $total = $pedidoDetalle->precio_linea + $total;
-
-                            if (! ($flag = $pedidoDetalle->save())) {
-                                $transaction->rollBack();
-                                break;
-                            }
-                        }
-                        $modelPedido->precio_total = $total;
-                        $modelPedido->estado = Pedido::ESTADO_MANUAL;
-                        $modelPedido->estado_id=1;
-                        $modelPedido->save();
-                    }
-
-                    if ($flag) {
-                        $transaction->commit();
-                        $pedido = Pedido::findOne($modelPedido->id);
-                        $modelEvent->start = $pedido->fecha_hora;
-                        $modelEvent->end = $pedido->fecha_hora;
-                        $modelEvent->entrega = $pedido->fecha_entrega;
-                        $modelEvent->title = $pedido->cliente->nombre;
-                        $modelEvent->pedido_id = $pedido->id;
-                        
-                        if (!$modelEvent->save()) {
-                            throw new \Exception("Error al salvar el modelo event.");
-                        }
-                        return $this->redirect(['view', 'id' => $modelPedido->id]);
-                    }
-                } catch (Exception $e) {
-                    $transaction->rollBack();
+            $transaction = \Yii::$app->db->beginTransaction();
+            try {
+                $modelsPedidoDetalle = PedidoDetalle::createMultiple(PedidoDetalle::classname(), $modelsPedidoDetalle );
+                Model::loadMultiple($modelsPedidoDetalle, Yii::$app->request->post());
+                if(empty($modelsPedidoDetalle) ){
+                    throw new \Exception("No se pudo crear el pedido correctamente. El pedido debe contener al menos un producto.");
                 }
+                $modelPedido->gestor_id = Yii::$app->user->id;
+                
+                //obtiene el estado pendiente
+                $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
+                if (empty($rowEstado)) {
+                    throw new \Exception("Error no se encontro el estado Pendiente.");
+                }
+
+                if (! $modelPedido->save()) {
+                    throw new \Exception("Error al guardar el modelo Pedido.");
+                }
+                //primer estado del workflow
+                $modelWorkflow->estado_id    = $rowEstado->id;
+                $modelWorkflow->user_id      = Yii::$app->user->identity->getId();
+                $modelWorkflow->pedido_id    = $modelPedido->id;
+                $modelWorkflow->fecha_inicio = date('Y-m-d H:i:s');
+                if (!$modelWorkflow->save()) {
+                    throw new \Exception("Error al guardar el modelo Workflow.");
+                }
+                foreach ($modelsPedidoDetalle as $pedidoDetalle) {
+                    $pedidoDetalle->pedido_id = $modelPedido->id;
+                    $producto = Producto::findOne($pedidoDetalle->producto_id);
+                    $pedidoDetalle->precio_linea = (float)((double)$producto->precio_unitario * (int)$pedidoDetalle->cantidad) ;
+                    $total = $pedidoDetalle->precio_linea + $total;
+                    if (!$pedidoDetalle->save()) {
+                        throw new \Exception("Error al guardar el modelo Pedido Detalle.");
+                    }
+                }
+                $modelPedido->precio_total = $total;
+                $modelPedido->estado = Pedido::ESTADO_MANUAL;
+                $modelPedido->estado_id=1;
+                if (! $modelPedido->save()) {
+                    throw new \Exception("Error al guardar el modelo Pedido.");
+                }
+                $pedido = Pedido::findOne($modelPedido->id);
+                if (empty($pedido)) {
+                    throw new \Exception("Error la buscar el modelo pedido, cuyo id es {$modelPedido->id}. ");
+                }
+                $modelEvent->start      = $pedido->fecha_hora;
+                $modelEvent->end        = $pedido->fecha_hora;
+                $modelEvent->entrega    = $pedido->fecha_entrega;
+                $modelEvent->title      = $pedido->cliente->nombre;
+                $modelEvent->pedido_id  = $pedido->id;
+                
+                if (!$modelEvent->save()) {
+                    throw new \Exception("Error al guardar el modelo Event.");
+                }
+                $transaction->commit();
+                $finalizo=true;
+            } catch (\Exception $e) {
+                $error=$e->getMessage();
+                $transaction->rollBack();
+                $finalizo=false;
             }
-
-            $error = 'No se pudo crear el pedido correctamente. El pedido debe contener un producto al menos';
         }
-
-        return $this->render('create', [
-            'model' => $modelPedido,
-            'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
-            'error' => $error
-        ]);
-
+        if($finalizo==true)
+            return $this->redirect(['view', 'id' => $modelPedido->id]);
+        else
+            return $this->render('create', [
+             'model' => $modelPedido,
+             'modelsPedidoDetalle' => (empty($modelsPedidoDetalle)) ? [new PedidoDetalle] : $modelsPedidoDetalle,
+             'error' => $error
+            ]);
+        
     }
 
     /**
