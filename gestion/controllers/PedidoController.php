@@ -461,12 +461,11 @@ class PedidoController extends Controller
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
-            
-                if(!empty($modelPedido->estado_id) && $modelPedido->getOldAttribute("estado_id")!=$modelPedido->estado_id) {
-                    $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
-                }
-                
                 try {
+                    if(!empty($modelPedido->estado_id) && $modelPedido->getOldAttribute("estado_id")!=$modelPedido->estado_id) {
+                        $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
+                    }
+                    
                     if ($flag = $modelPedido->save()) {
                         if (!empty($deletedIDs)) {
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
@@ -1260,8 +1259,11 @@ class PedidoController extends Controller
     {
         $modelEvent = Event::find()->where(['id' => $id])->one();
         $modelPedido = Pedido::find()->where(['id' => $modelEvent->pedido_id])->one();
+        $searchModel = new PedidoDetalleSearch();
+        $dataProvider = $searchModel->searchDetalle($id);
         return $this->renderAjax('view_pop', [
             'model' => $modelPedido,
+            'dataProvider' => $dataProvider
         ]);
     }
     
