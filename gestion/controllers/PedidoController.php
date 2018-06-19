@@ -461,12 +461,11 @@ class PedidoController extends Controller
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
-            
-                if(!empty($modelPedido->estado_id) && $modelPedido->getOldAttribute("estado_id")!=$modelPedido->estado_id) {
-                    $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
-                }
-                
                 try {
+                    if(!empty($modelPedido->estado_id) && $modelPedido->getOldAttribute("estado_id")!=$modelPedido->estado_id) {
+                        $this->updateEstado($modelPedido->estado_id,$modelPedido->id);
+                    }
+                    
                     if ($flag = $modelPedido->save()) {
                         if (!empty($deletedIDs)) {
                             PedidoDetalle::deleteAll(['id' => $deletedIDs]);
