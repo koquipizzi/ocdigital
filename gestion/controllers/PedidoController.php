@@ -1226,7 +1226,6 @@ class PedidoController extends Controller
             ],
             'methods' => [
                 'SetHeader' => $this->renderPartial($header,['model' => $model]),
-                'SetFooter' => ['Pedido Nro: '.$pedido_id.' - Página {PAGENO} de {nbpg}'],
             ]
         ] );
         
