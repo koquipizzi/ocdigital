@@ -413,6 +413,7 @@ class PedidoController extends Controller
                         $modelEvent->end = $pedido->fecha_hora;
                         $modelEvent->entrega = $pedido->fecha_entrega;
                         $modelEvent->title = $pedido->cliente->nombre;
+                        $modelEvent->pedido_id = $pedido->id;
                         
                         if (!$modelEvent->save()) {
                             throw new \Exception("Error al salvar el modelo event.");
@@ -1252,6 +1253,15 @@ class PedidoController extends Controller
         $cantTodos      = Pedido::countTodosLosPedidos();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return ['pendientes' => $cantPendiente, 'aceptados' =>  $cantAceptados, 'expedicion' => $cantExpedicion , 'despachados' => $cantDespacho , 'cancelados' =>$cantCancelado,'todos'=>$cantTodos];
+    }
+
+    public function actionViewpop($id)
+    {
+        $modelEvent = Event::find()->where(['id' => $id])->one();
+        $modelPedido = Pedido::find()->where(['id' => $modelEvent->pedido_id])->one();
+        return $this->renderAjax('view_pop', [
+            'model' => $modelPedido,
+        ]);
     }
     
     

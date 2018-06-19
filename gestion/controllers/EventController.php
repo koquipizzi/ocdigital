@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Event;
+use app\models\Pedido;
 use app\models\EventSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -56,14 +57,6 @@ class EventController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
-    public function actionViewpop($id)
-    {
-        return $this->renderAjax('view_pop', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
 
     /**
      * Creates a new Event model.

@@ -13,6 +13,7 @@ use insolita\wgadminlte\LteInfoBox;
 use insolita\wgadminlte\LteSmallBox;
 use insolita\wgadminlte\LteConst;
 use yii\bootstrap\Modal;
+use yii2fullcalendar\yii2fullcalendar;
 
 $this->title = "Sistema de Gestión de Toma de Pedidos";
 
@@ -31,7 +32,31 @@ $js = 'function refresh() {
         refresh();';
 
  $this->registerJs($js, $this::POS_READY);
+
+Modal::begin([
+            'header' => '<h4>Destination</h4>',
+            'id'     => 'model',
+            'size'   => 'model-lg',
+    ]);
+    
+    echo "<div id='modelContent'></div>";
+    
+Modal::end();
 ?>
+
+
+                    <?php 
+   /*                 
+echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es'], 
+'clientOptions' =>
+ ['fixedWeekCount' => false, 'weekNumbers' => true, 'editable' => true, 'eventLimit' => true, 
+ 'eventLimitText' => 'more Events',
+  'header' => ['left' => 'prev,next today', 'center' => 'title', 'right' => 'month,agendaWeek,agendaDay'], 
+  //'eventClick' => new \yii\web\JsExpression($JSEventClick),
+ //  'eventRender' => new \yii\web\JsExpression($JsF), 
+   'contentHeight' => 380, 'timeFormat' => 'hh(:mm) A'], 'ajaxEvents' => yii\helpers\Url::toRoute(['/dashboard/events/view-events'])]);
+*/
+  ?>
 
 <?php
   $events = array();
@@ -52,17 +77,36 @@ $js = 'function refresh() {
         <div class="box-body" style="height: auto">
       
           <?php
+
+          $JSEventClick = '
+            function(event, jsEvent, view) {
+            $(".fc-event").on("click", function (e) {
+                alert("ddddd");
+          //  $(".fc-event").not(this).popover("hide");
+                });
+            }
+            ';
               echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget([
-              'events'=> $e,
-              'id' => 'calendar',
-                  'options' => [
-                      'eventLimit' => 3,
-                      'eventClick'=> 'js:function(calEvent, jsEvent, view) {
-                          $("#myModalHeader").html(calEvent.title);
-                          $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
-                          $("#myModal").modal();
-                      }',
-                  ],
+                'events'=> $e,
+                'id' => 'calendar',
+                'options' => [
+                        'navLinks'=> true,
+                        'eventClick'=> 'js:function(calEvent, jsEvent, view) {
+                            $("#myModalHeader").html(calEvent.title);
+                            $("#myModalHeader").header("lalala");
+                            $("#myModalBody").load("latihan/training/view/id/"+calEvent.id+"?asModal=true");
+                            $("#myModal").modal();
+                        }',
+                ],
+                'clientOptions' =>
+                    ['fixedWeekCount' => false, 
+                    'weekNumbers' => true, 
+                    'editable' => true, 
+                    'eventLimit' => true, 
+                    'eventLimitText' => 'pedidos más',
+                //    'eventClick' => new \yii\web\JsExpression($JSEventClick)
+                    ]
+             //   'ajaxEvents' => Url::to(['/timetrack/default/jsoncalendar'])
               ]);
           ?>
           </div>
