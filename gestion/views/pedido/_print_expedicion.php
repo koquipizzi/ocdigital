@@ -4,7 +4,6 @@
     use app\models\Pedido;
 ?>
 
-
 <htmlpageheader  name="HeaderAdministracion">
 
     <div class="pagina">
@@ -71,19 +70,14 @@
 </htmlpageheader>
 
 <htmlpagefooter name="footer">
-    <table>
+    <table width="100%">
         <tr>
-            <td >
-                <strong style="margin-top: 20px" > Pedido Nro: <?= $model->id ?> - Página {PAGENO} de {nbpg} </strong>
+            <td width="33%" style="text-align: left; display: block">
+                <img style="font-size: 10px; margin-top: 30px; padding-left: 0px" src="<?php echo Yii::getAlias('@webroot').'/images/qwavee_logo.png'; ?>" width="60"  /><br><i>www.qwavee.com</i>
             </td>
-            <td  style="padding: 0px" >
-                <spam style="padding: 0px" > - Desarrollado por</spam>
-            </td>
-            <td>
-                <img style="padding-top: 3px; padding-left: 0px" src="<?php echo Yii::getAlias('@webroot').'/images/qwavee_logo.png'; ?>" width="60" alt="logo">
-            </td>
+            <td width="33%" align="center" style="font-weight: bold; font-style: italic">Pedido Nro: <?= $model->id ?></td>
+            <td width="33%" style="margin-bottom: -5px; text-align: right; font-weight: bold; font-style: italic"><i>Página {PAGENO} de {nbpg}</i></td>
         </tr>
-      
     </table>
 </htmlpagefooter>
 
@@ -129,7 +123,7 @@
     <?php $cont = $cont + 1; if ($cont > 6) { echo "  <pagebreak style='padding-top: 140px'> " ; $cont = 0;}  } ?>
 <?php
     echo "<hr>";
-    echo "<strong style='font-size: 22px'> Notas: </strong>";
+    echo "<strong style='font-size: 18px; font-style: italic'> Notas: </strong>";
     echo "<strong> $model->notas </strong>";
 
 ?>
@@ -175,8 +169,8 @@
         </table>
         <?php $cont = $cont + 1; if ($cont > 6) { echo "  <pagebreak style='padding-top: 140px'> " ; $cont = 0;}  } ?>
     <?php
-        echo "<hr>";
-        echo "<strong style='font-size: 22px'> Notas: </strong>";
+        echo "<hr><br>";
+        echo "<strong style='font-size: 18px; font-style: italic'> Notas: </strong>";
         echo "<strong> $model->notas </strong>";
     
     ?>
@@ -245,7 +239,7 @@
                 echo $model->cond_venta;
                 echo   "<br>";
                 
-                echo "<strong style='font-size: 22px'> Notas: </strong>";
+                echo "<strong style='font-size: 18px; font-style: italic'> Notas: </strong>";
                 echo "<strong> $model->notas </strong>";
                 echo "<br>";
                 echo "</div>";
