@@ -212,9 +212,8 @@ if(!empty($info))
                              }
                              else
                                  return "";
-                             
                              if($puedeBorrar==true) {
-                                 return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
+                                 return Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', [
                                   'title' => Yii::t('app', 'Delete'),
                                   'class' => '',
                                   'onclick' =>
