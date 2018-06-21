@@ -591,7 +591,7 @@ class PedidoController extends Controller
      */
     public function actionDelete($id)
     {
-        $respuesta='ok';
+        $respuesta='true';
         $msj="";
         $transaction = \Yii::$app->db->beginTransaction();
         try {
@@ -610,11 +610,18 @@ class PedidoController extends Controller
                     $mw->delete();
                 }
             }
+    
+            $modelEvent   = Event::find()->where(["pedido_id"=>$model->id])->all();
+            if(!empty($modelEvent)){
+                foreach ($modelEvent as $arr=>$me){
+                    $me->delete();
+                }
+            }
             $model->delete();
             $transaction->commit();
         } catch (HttpClientException $e) {
             $transaction->rollBack();
-            $respuesta='ko';
+            $respuesta='false';
         }
         
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
