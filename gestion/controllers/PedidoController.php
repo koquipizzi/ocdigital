@@ -376,7 +376,7 @@ class PedidoController extends Controller
                 $modelPedido->gestor_id = Yii::$app->user->id;
                 
                 //obtiene el estado pendiente
-                $rowEstado= $modelEstado->find()->where(["id"=>1])->one();
+                $rowEstado= $modelEstado->find()->where(["estado_inicial"=>1])->one();
                 if (empty($rowEstado)) {
                     throw new \Exception("Error no se encontro el estado Pendiente.");
                 }
@@ -407,12 +407,15 @@ class PedidoController extends Controller
                 if (! $modelPedido->save()) {
                     throw new \Exception("Error al guardar el modelo Pedido.");
                 }
-                //model event(calender)
-                $modelEvent->start      = $modelPedido->fecha_hora;
-                $modelEvent->end        = $modelPedido->fecha_hora;
-                $modelEvent->entrega    = $modelPedido->fecha_entrega;
-                $modelEvent->title      = $modelPedido->cliente->nombre;
-                $modelEvent->pedido_id  = $modelPedido->id;
+                $pedido = Pedido::findOne($modelPedido->id);
+                if (empty($pedido)) {
+                    throw new \Exception("Error la buscar el modelo pedido, cuyo id es {$modelPedido->id}. ");
+                }
+                $modelEvent->start      = $pedido->fecha_hora;
+                $modelEvent->end        = $pedido->fecha_hora;
+                $modelEvent->entrega    = $pedido->fecha_entrega;
+                $modelEvent->title      = $pedido->cliente->nombre;
+                $modelEvent->pedido_id  = $pedido->id;
                 
                 if (!$modelEvent->save()) {
                     throw new \Exception("Error al guardar el modelo Event.");
