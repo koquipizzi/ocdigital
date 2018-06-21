@@ -403,19 +403,16 @@ class PedidoController extends Controller
                 }
                 $modelPedido->precio_total = $total;
                 $modelPedido->estado = Pedido::ESTADO_MANUAL;
-                $modelPedido->estado_id=1;
+                $modelPedido->estado_id=$rowEstado->id;
                 if (! $modelPedido->save()) {
                     throw new \Exception("Error al guardar el modelo Pedido.");
                 }
-                $pedido = Pedido::findOne($modelPedido->id);
-                if (empty($pedido)) {
-                    throw new \Exception("Error la buscar el modelo pedido, cuyo id es {$modelPedido->id}. ");
-                }
-                $modelEvent->start      = $pedido->fecha_hora;
-                $modelEvent->end        = $pedido->fecha_hora;
-                $modelEvent->entrega    = $pedido->fecha_entrega;
-                $modelEvent->title      = $pedido->cliente->nombre;
-                $modelEvent->pedido_id  = $pedido->id;
+                //model event(calender)
+                $modelEvent->start      = $modelPedido->fecha_hora;
+                $modelEvent->end        = $modelPedido->fecha_hora;
+                $modelEvent->entrega    = $modelPedido->fecha_entrega;
+                $modelEvent->title      = $modelPedido->cliente->nombre;
+                $modelEvent->pedido_id  = $modelPedido->id;
                 
                 if (!$modelEvent->save()) {
                     throw new \Exception("Error al guardar el modelo Event.");
