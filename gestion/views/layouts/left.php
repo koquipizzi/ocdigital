@@ -77,6 +77,7 @@ $js = 'function refresh() {
                                             ['label' => 'Mails de Alertas', 'icon' => 'envelope-o', 'url' => ['/mail/index']],
                                             ['label' => 'Auditoría', 'icon' => 'check-circle', 'url' => ['/pedido/audit']],
                                             ['label' => 'Unidades', 'icon' => 'fa fa-add', 'url' => ['/unidad/index']],
+                                            ['label' => 'Check Pedidos', 'icon' => 'check-square-o', 'url' => ['/pedido/check']],
                                         ],
                                 ],
                             ]

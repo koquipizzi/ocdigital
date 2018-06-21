@@ -163,14 +163,21 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => false,//set this property to false to send mails to real email addresses
-            //comment the following array to send mail using php's mail function
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'mail.prosperovelazco.com',
-                'username' => 'pedidos@prosperovelazco.com',
-                'password' => 'Superi1278',
-                'port' => '587',
+                'host' => 'mail.qwavee.com',
+                'username' => 'hola@qwavee.com',
+                'password' => 'Hola!321',
+                'port' => '26',
+                'encryption' => 'tls',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
             ],
         ],
         'log' => [
