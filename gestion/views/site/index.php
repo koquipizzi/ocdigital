@@ -87,12 +87,17 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
       
           <?php
 
+          
           $JSEventClick = '
             function(event, jsEvent, view) {
-            $(".fc-event").on("click", function (e) {
-                alert("ddddd");
-          //  $(".fc-event").not(this).popover("hide");
-                });
+            var id = event.id;
+            $.get("index.php?r=pedido/viewpop", { "id": id }, function (data) {
+            $("#model").find(".modal-header").html("Detalle de pedido Nro: "+ id);
+            $("#model").modal("show")
+                .find("#modelContent")
+                .html(data);
+          })
+
             }
             ';
               echo \yii2fullcalendarscheduler\yii2fullcalendarscheduler::widget([
@@ -112,7 +117,8 @@ echo \yii2fullcalendar\yii2fullcalendar::widget(['options' => ['language' => 'es
                     'editable' => true, 
                     'eventLimit' => true, 
                     'eventLimitText' => 'pedidos más',
-                //    'eventClick' => new \yii\web\JsExpression($JSEventClick)
+                    
+                  'eventClick' => new \yii\web\JsExpression($JSEventClick)
                     ]
              //   'ajaxEvents' => Url::to(['/timetrack/default/jsoncalendar'])
               ]);
