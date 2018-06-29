@@ -16,16 +16,17 @@ class m180607_132956_producto_add_columns_detalle extends Migration
             'id' =>  $this->integer()->notNull(),
             'nombre_unidad' =>  $this->string()->notNull()
         ]);
+        $this->alterColumn('unidad', 'id', $this->integer(8).' NOT NULL AUTO_INCREMENT');
+       
         $this->addColumn("producto", "unidad_id", $this->integer()->null());
         $this->addColumn("pedido_detalle", "unidad_id", $this->integer()->null());
         $this->addColumn("pedido_detalle", "precio_unitario", $this->float(2)->null());      
         
-        $this->alterColumn('unidad', 'id', $this->integer(8).' NOT NULL AUTO_INCREMENT');
-        $this->addPrimaryKey('pk_unidad_id','unidad','id');
+     //   $this->addPrimaryKey('pk_unidad_id','unidad','id');
        
         $this->createIndex('idx_unidad_id','unidad','id');
         $this->addForeignKey('fk_pedido_detalle_unidad_unidad_id','pedido_detalle','unidad_id','unidad','id');
-        $this->addForeignKey('fk_produto_unidad_id','producto','unidad_id','unidad','id');
+        $this->addForeignKey('fk_producto_unidad_id','producto','unidad_id','unidad','id');
     }
 
     /**
