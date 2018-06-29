@@ -79,6 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'label' => 'Cantidad',
                             'attribute' => 'cantidad',
+                            'enableSorting' => false,
                             'contentOptions' => ['class' => 'text-right'],
                             'headerOptions' => ['class' => 'text-right'],
                             'headerOptions' => ['style' => 'width:23px;'],
@@ -87,6 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'label' => 'Precio Unitario',
                             'attribute' => 'precio_unitario',
+                            'enableSorting' => false,
                             'format' => ['currency'],
                             'contentOptions' => ['class' => 'text-right'],
                             'headerOptions' => ['class' => 'text-right']
