@@ -1271,6 +1271,7 @@ class PedidoController extends Controller
         $modelPedido = Pedido::find()->where(['id' => $modelEvent->pedido_id])->one();
         $searchModel = new PedidoDetalleSearch();
         $dataProvider = $searchModel->searchDetalle($id);
+        $dataProvider->sort->sortParam = false;
         return $this->renderAjax('view_pop', [
             'model' => $modelPedido,
             'dataProvider' => $dataProvider
