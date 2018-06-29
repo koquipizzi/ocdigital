@@ -92,8 +92,7 @@ if(!empty($info))
 <div class="pedido-index">
     
     <div class="box box-warning with-border">
-    <div class="box-body">
-        <div class="box-body table-responsive">
+    <div class="box-body table-responsive">
         <?php
             Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
@@ -288,8 +287,6 @@ if(!empty($info))
             Pjax::end();
         ?>
     </div>
-    </div>
-
 </div>
 
 <?php

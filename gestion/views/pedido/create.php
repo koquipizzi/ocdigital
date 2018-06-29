@@ -38,7 +38,7 @@ if(!empty($error))
 
 <div class="pedido-create">
   <div class="box box-warning with-border">
-    <div class="box-body">
+        <div class="box-body table-responsive">
       <?php 
         echo $this->render('_form', [
           'model' => $model,

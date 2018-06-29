@@ -91,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-4">
             <div class="box box-warning with-border">
                 <div class="box-header">
-                    <h4>Detalles Pedido:</h4>
+                    <h3 class="box-title">Detalles Pedido:</h3>
                 </div>
                 <div class="box-body">
                     <?= DetailView::widget([
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-8">
             <div class="box box-warning with-border">
                 <div class="box-header">
-                    <h4>Productos Pedidos:</h4>
+                    <h3 class="box-title">Productos Pedidos:</h3>
                 </div>
                 <div class="box-body table-responsive">
                  
@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12">
             <div class="box box-warning with-border">
                 <div class="box-header">
-                    <h4>Historial de Cambios de Estado del Pedido:</h4>
+                    <h3 class="box-title">Historial de Cambios de Estado del Pedido:</h3>
                 </div>
                 <div class="box-body table-responsive">
                     <?= GridView::widget([
