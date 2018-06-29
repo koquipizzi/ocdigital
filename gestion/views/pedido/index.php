@@ -233,7 +233,7 @@ if(!empty($info))
                                                             datatype: JSON,
                                                             success: function (response)
                                                             {
-                                                                if(response.rta=='ok'){
+                                                                if(response.rta=='true'){
                                                                    
                                                                     var n = noty
                                                                         ({
@@ -249,7 +249,7 @@ if(!empty($info))
                                                                         });
                                                                  $.pjax.reload({container:'#pedidos'});
                                                                 }
-                                                                if(response.rta=='ko'){
+                                                                if(response.rta=='false'){
                                                                     var n = noty
                                                                         ({
                                                                             text:   'Erro no se pudo eliminar el pedido {$model["id"]}.',

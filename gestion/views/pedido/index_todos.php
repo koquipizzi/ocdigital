@@ -10,6 +10,8 @@ use eleiva\noty\Noty;
 use app\models\Pedido;
 use yii\helpers\ArrayHelper;
 use app\models\Estado;
+use xj\bootbox\BootboxAsset;
+BootboxAsset::register($this);
 $this->title = Yii::t('app', 'Todos los Pedidos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -92,6 +94,7 @@ if(!empty($info))
     <div class="box-body">
         <div class="box-body table-responsive">
         <?php
+            Pjax::begin(["id"=>"pedidos"]);
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
@@ -193,18 +196,79 @@ if(!empty($info))
                             },
                             'delete' => function ($url, $model) {
                                 $userRole = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                                $borrar=false;
                                 if ( current($userRole)->name !='Viajante')
                                 {
-                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
-                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
+                                    $borrar=true;
                                 }
                                 if ( current($userRole)->name ==='Viajante' && $model["estado_id"]==1 && $model["gestor_id"]==Yii::$app->user->getId())
                                 {
-                                    $url =  Url::toRoute(['pedido/delete', 'id' => $model["id"]]);
-                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',Url::to($url));
+                                    $borrar=true;
                                 }
-                                else
-                                    return "";
+                                if($borrar)
+                                    return Html::a('<span style="margin-left:5px;" class="glyphicon glyphicon-trash"></span>', '#', [
+                                 'title' => Yii::t('app', 'Delete'),
+                                 'class'=> '',
+                                 'onclick' =>"
+                                            bootbox.dialog({
+                                                message: '¿Confirma que desea eliminar el pedido {$model["id"]} ?',
+                                                title: 'Sistema OCDIGITAL',
+                                                // className: 'modal-info modal-center',
+                                                buttons: {
+                                                success: {
+                                                    label: 'Aceptar',
+                                                    className: 'btn-primary',
+                                                    callback: function () {
+                                                        $.ajax('{$url}', {
+                                                                type: 'POST',
+                                                                datatype: JSON,
+                                                                success: function (response)
+                                                                {
+                                                                    if(response.rta=='true'){
+                                                                       
+                                                                        var n = noty
+                                                                            ({
+                                                                                text:   'El pedido {$model["id"]} se eliminó.',
+                                                                                type:   'success',
+                                                                                class:  'animated pulse',
+                                                                                layout: 'topCenter',
+                                                                                theme:  'relax',
+                                                                                timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                                                force:  false, // adds notification to the beginning of queue when set to true
+                                                                                modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                                                // maxVisible : 10
+                                                                            });
+                                                                     $.pjax.reload({container:'#pedidos'});
+                                                                    }
+                                                                    if(response.rta=='false'){
+                                                                        var n = noty
+                                                                            ({
+                                                                                text:   'Erro no se pudo eliminar el pedido {$model["id"]}.',
+                                                                                type:   'error',
+                                                                                class:  'animated pulse',
+                                                                                layout: 'topCenter',
+                                                                                theme:  'relax',
+                                                                                timeout: 3000, // delay for closing event. Set false for sticky notifications
+                                                                                force:  false, // adds notification to the beginning of queue when set to true
+                                                                                modal:  false, // si pongo true me hace el efecto de pantalla gris
+                                                                                // maxVisible : 10
+                                                                            });
+                    
+                                                                    }
+                
+                                                            },
+                                                        });
+                                                    }
+                                                },
+                                                cancel: {
+                                                    label: 'Cancelar',
+                                                    className: 'btn-danger',
+                                                    }
+                                                }
+                                            });
+                                            return false;
+                                        "
+                                ]);
                             },
                         ]
 
@@ -212,7 +276,7 @@ if(!empty($info))
                 ],
             ]); ?>
         <?= Html::endForm();?>
-        
+        <?php Pjax::end(); ?>
     </div>
     </div>
 
