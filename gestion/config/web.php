@@ -185,7 +185,7 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
 
         'urlManager' => [
-            //'enablePrettyUrl' => true,
+            'enablePrettyUrl' => true,
             'class' => 'yii\web\UrlManager',
             'showScriptName' => false,
             'rules' => [
