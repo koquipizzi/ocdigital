@@ -1,3 +1,4 @@
 gestion/vendor
 gestion/composer.lock
 gestion/config/db.php
+.history
