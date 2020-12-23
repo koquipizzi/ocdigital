@@ -31,6 +31,7 @@ use app\models\Event;
 use app\models\Workflow;
 use app\models\WorkflowSearch;
 use app\models\Estado;
+use app\models\Mail;     
 
 use kartik\mpdf\Pdf;
 
@@ -55,6 +56,14 @@ class PedidoController extends Controller
     
     const PATH_MAXIREST_PEDIDOS_DB_FILE = '/home/superq/Escritorio/DATOS/mxape.dbf';
     const PATH_MAXIREST_DETALLE_PEDIDOS_DB_FILE = '/home/superq/Escritorio/DATOS/mxadi.dbf';
+    
+    const PEDIDOS_OLVIDADOS_ID = 2;
+    const ERROR_SISTEMA_ID = 3;
+    
+    const PEDIDO_PENDIENTE_ID = 1;
+    const PEDIDO_ACEPTADO_ID = 2;
+    
+    const DIAS_DE_OLVIDO = 2;
 
     public  $orden_entrega = array();
 
@@ -1276,6 +1285,65 @@ class PedidoController extends Controller
             'model' => $modelPedido,
             'dataProvider' => $dataProvider
         ]);
+    }
+    
+    private function getInterval($pedido){
+        $diasHabiles = ['Mon','Tue','Wed','Thu','Fri'];
+        $workflow = Workflow::find()->where(['pedido_id' => $pedido->id])->andFilterWhere(['fecha_fin' => null])->one(); //Obtengo el ultimo workflow
+        if (empty($workflow)){
+            throw new \Exception ('El pedido no tiene estado');
+        }
+        $DiaPedido = New \DateTime($workflow->fecha_inicio);
+        $DiaActual = New \DateTime();
+        $dias = 0;
+        while ($DiaPedido <= $DiaActual ){
+            $NombreDiaActual = $DiaPedido->format('D');
+            if (in_array($NombreDiaActual, $diasHabiles)){
+                $dias = $dias + 1;
+            }
+            $DiaPedido->modify('+1 Day');
+        }
+        return $dias;
+    }
+    
+    private function composeMail($from,$to,$body,$subject){
+        $mail = Yii::$app->mailer->compose()
+            ->setFrom($from)
+            ->setTo($to)
+            ->setTextBody('SGP')
+            ->setSubject($subject)
+            ->setHtmlBody($body);
+        $response = $mail->send();
+    }
+    
+    private function getMailsFromAction($id){
+        $mails = Mail::find()->where(['id' => $id])->one();
+        $mails = $mails->mails;
+        $mails = explode(";", $mails);
+        return $mails;
+    }
+    
+    public function actionCheck(){
+        $date = new \DateTime('-5 Days');
+        $pedidos = Pedido::find()->where(['>','fecha_hora',$date->format('Y-m-d h:s:i')])
+                                ->andFilterWhere(['in','estado_id', [self::PEDIDO_PENDIENTE_ID,self::PEDIDO_ACEPTADO_ID]])->all();
+        foreach ($pedidos as $pedido) {
+            try{
+                $interval = $this->getInterval($pedido);
+                if ($interval > self::DIAS_DE_OLVIDO){
+                    $nombreEstado = Estado::find()->select('descripcion')->where(['id' => $pedido->estado_id ])->one();
+                    $body = "El pedido Nro: $pedido->id lleva $interval dias en estado $nombreEstado->descripcion.";
+                    $subject = "Alerta de Pedido Pendiente";
+                    $to = $this->getMailsFromAction(self::PEDIDOS_OLVIDADOS_ID);
+                    $this->composeMail('hola@qwavee.com',$to,$body,$subject);
+                }
+            }catch (\Exception $e){
+                $subject = "Se encontro un problema en u npedidos";
+                $body = "El pedido Nro: $pedido->id tiene un problema con el workflow";
+                $to = $this->getMailsFromAction(self::ERROR_SISTEMA_ID);
+                $this->composeMail('hola@qwavee.com',$to,$body,$subject);
+            }
+        }
     }
     
     
